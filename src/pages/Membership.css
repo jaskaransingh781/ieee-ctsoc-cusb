@@ -1,0 +1,1690 @@
+/* ====================================================================
+   MEMBERSHIP PAGE
+   ==================================================================== */
+
+/* The page already stops scrolled-to sections below the navbar (base.css).
+   This one has its own top padding, so it is pulled up a little. */
+#why-ctsoc {
+  scroll-margin-top: -2.5rem;
+}
+
+/* ---------------------------------------------------------------- Hero */
+.mhero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.22fr) minmax(0, 0.78fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+  padding-top: clamp(2.5rem, 6vw, 5rem);
+  padding-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.mhero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  height: 2.25rem;
+  padding: 0 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--paper);
+  color: var(--blue-deep);
+  font-size: 0.8125rem;
+  font-weight: 640;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  box-shadow: 0 1px 2px rgba(13, 27, 42, 0.04);
+}
+
+.mhero__eyebrow-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--coral);
+}
+
+.mhero__title {
+  margin-top: clamp(1.25rem, 2.6vw, 1.875rem);
+  font-size: clamp(2.25rem, 4.7vw, 4.125rem);
+  text-wrap: initial;
+}
+
+.mhero__title span {
+  display: block;
+}
+
+.mhero__accent {
+  color: var(--blue);
+}
+
+.mhero__lead {
+  max-width: 34rem;
+  margin-top: clamp(1.125rem, 2vw, 1.5rem);
+}
+
+.mhero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+}
+
+/* Join IEEE -> Add IEEE CTSoc -> Become part of the community */
+.mhero__path {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 0.625rem;
+  margin-top: clamp(1.5rem, 3vw, 2.25rem);
+  padding-top: clamp(1.125rem, 2vw, 1.5rem);
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  font-weight: 560;
+}
+
+.mhero__path .icon {
+  width: 1rem;
+  height: 1rem;
+  color: var(--blue);
+}
+
+/* The two membership cards */
+.mart {
+  position: relative;
+  height: clamp(19rem, 34vw, 27rem);
+  isolation: isolate;
+}
+
+.mart__glow {
+  position: absolute;
+  inset: 8% 4% 4% 10%;
+  z-index: -1;
+  border-radius: 50%;
+  background:
+    radial-gradient(closest-side at 30% 35%, rgba(22, 99, 157, 0.34), transparent),
+    radial-gradient(closest-side at 72% 68%, rgba(0, 163, 204, 0.3), transparent);
+  filter: blur(1.5rem);
+}
+
+.mcard {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: min(21.5rem, 78%);
+  aspect-ratio: 1.586;
+  padding: clamp(1rem, 2vw, 1.5rem);
+  border-radius: 1.375rem;
+  color: #fff;
+  transform-origin: 50% 60%;
+}
+
+.mcard--ieee {
+  top: 4%;
+  left: 2%;
+  background:
+    radial-gradient(90% 120% at 100% 0%, rgba(120, 200, 255, 0.55), transparent 60%),
+    linear-gradient(140deg, #1d78b9 0%, var(--blue) 46%, #0c3a5e 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    0 2rem 3.5rem -2rem rgba(12, 58, 94, 0.9);
+}
+
+.mcard--ctsoc {
+  right: 0;
+  bottom: 4%;
+  background:
+    radial-gradient(90% 120% at 100% 100%, rgba(0, 163, 204, 0.5), transparent 62%),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.02) 46%),
+    rgba(7, 17, 30, 0.9);
+  -webkit-backdrop-filter: blur(1.125rem) saturate(170%);
+  backdrop-filter: blur(1.125rem) saturate(170%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 2.25rem 4rem -2rem rgba(8, 20, 34, 0.9);
+}
+
+.mcard__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mcard__step {
+  display: inline-flex;
+  align-items: center;
+  height: 1.75rem;
+  padding: 0 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.14);
+  font-size: 0.8125rem;
+  font-weight: 620;
+}
+
+/* Card chip */
+.mcard__chip {
+  width: 2.5rem;
+  height: 1.875rem;
+  border-radius: 0.4375rem;
+  background:
+    linear-gradient(90deg, transparent 31%, rgba(8, 20, 34, 0.3) 31% 35%, transparent 35% 65%, rgba(8, 20, 34, 0.3) 65% 69%, transparent 69%),
+    linear-gradient(0deg, transparent 46%, rgba(8, 20, 34, 0.3) 46% 54%, transparent 54%),
+    linear-gradient(135deg, #f4f8fb, #b9cad8);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.6);
+}
+
+.mcard__name {
+  font-size: clamp(1.375rem, 2.6vw, 1.9375rem);
+  font-weight: 680;
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+}
+
+.mcard__foot {
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 0.875rem;
+  font-weight: 540;
+}
+
+/* ------------------------------------------------------------- Pricing */
+.mplans {
+  padding-bottom: clamp(1rem, 2vw, 1.5rem);
+}
+
+.mplans__stage {
+  position: relative;
+  padding: clamp(1.125rem, 3vw, 2.75rem);
+  border: 1px solid var(--line);
+  border-radius: clamp(1.75rem, 3vw, 2.5rem);
+  background: linear-gradient(160deg, #f1f7fc 0%, #e4eff9 100%);
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.mplans__light {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+  filter: blur(3rem);
+}
+
+.mplans__light--a {
+  top: -10rem;
+  right: -6rem;
+  width: 30rem;
+  height: 30rem;
+  background: radial-gradient(circle, rgba(58, 160, 255, 0.55), transparent 68%);
+}
+
+.mplans__light--b {
+  bottom: -12rem;
+  left: -6rem;
+  width: 28rem;
+  height: 28rem;
+  background: radial-gradient(circle, rgba(0, 163, 204, 0.4), transparent 68%);
+}
+
+.mplans__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.25rem 2rem;
+  margin-bottom: clamp(1.25rem, 2.6vw, 2rem);
+}
+
+.mplans__head .muted {
+  max-width: 32rem;
+  margin-top: 0.625rem;
+}
+
+.mplans__switch {
+  display: grid;
+  justify-items: end;
+  gap: 0.5rem;
+}
+
+.mplans__rate {
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+.mplans__rate span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 450;
+}
+
+/* USD | INR switch */
+.mswitch {
+  display: inline-flex;
+  padding: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.6);
+  -webkit-backdrop-filter: blur(0.75rem);
+  backdrop-filter: blur(0.75rem);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0.5rem 1.25rem -0.75rem rgba(22, 99, 157, 0.5);
+}
+
+.mswitch__option {
+  position: relative;
+  min-width: 4.25rem;
+  height: 2.5rem;
+  padding: 0 1.125rem;
+  border-radius: var(--r-pill);
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  font-weight: 640;
+  letter-spacing: 0.04em;
+  transition: color 0.25s;
+}
+
+.mswitch__option > span:last-child {
+  position: relative;
+}
+
+.mswitch__option.is-on {
+  color: #fff;
+}
+
+.mswitch__thumb {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--ink);
+  box-shadow: 0 0.375rem 0.875rem -0.375rem rgba(13, 27, 42, 0.7);
+}
+
+.mplans__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.875rem, 2vw, 1.5rem);
+}
+
+/* A plan: frosted white glass */
+.mplan {
+  --accent: var(--blue);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.25rem, 2.8vw, 2.25rem);
+  border: 1px solid rgba(255, 255, 255, 0.95);
+  border-radius: clamp(1.375rem, 2.2vw, 1.875rem);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.94) 0%, rgba(255, 255, 255, 0.66) 100%);
+  -webkit-backdrop-filter: blur(1.25rem) saturate(165%);
+  backdrop-filter: blur(1.25rem) saturate(165%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 1.75rem 3rem -2rem rgba(22, 99, 157, 0.55);
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+.mplan--ctsoc {
+  --accent: var(--cyan-text);
+}
+
+.mplan:hover {
+  transform: translateY(-0.3125rem);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px color-mix(in srgb, var(--accent) 35%, transparent),
+    0 2.25rem 3.5rem -2rem color-mix(in srgb, var(--accent) 70%, transparent);
+}
+
+.mplan__top {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.mplan__badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.875rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, var(--accent) 12%, #fff);
+  color: var(--accent);
+  font-size: 0.75rem;
+  font-weight: 660;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.mplan__step {
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.mplan__title {
+  margin-top: clamp(0.875rem, 1.8vw, 1.25rem);
+  /* Sized so the longer name, "IEEE CTSoc Student Membership", stays on one
+     line beside the other card and the two price rows line up. */
+  font-size: clamp(1.375rem, 2.4vw, 1.75rem);
+  font-weight: 660;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.mplan__lines {
+  display: grid;
+  gap: 0.375rem;
+  margin-top: clamp(1rem, 2vw, 1.375rem);
+  padding-bottom: clamp(0.875rem, 1.8vw, 1.25rem);
+  border-bottom: 1px solid color-mix(in srgb, var(--ink) 12%, transparent);
+}
+
+.mplan__lines > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--ink-soft);
+  font-size: 1rem;
+}
+
+.mplan__lines dd {
+  color: var(--ink);
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+}
+
+/* The price itself */
+.mprice {
+  position: relative;
+  margin-top: clamp(0.875rem, 1.8vw, 1.25rem);
+}
+
+.mprice__main {
+  font-size: clamp(3rem, 6.6vw, 5rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.055em;
+  font-variant-numeric: tabular-nums;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.mprice__other {
+  margin-top: 0.375rem;
+  color: var(--muted);
+  font-size: 1.1875rem;
+  font-weight: 560;
+  font-variant-numeric: tabular-nums;
+}
+
+.mprice--light .mprice__main {
+  color: #fff;
+}
+
+.mprice--light .mprice__other {
+  color: rgba(255, 255, 255, 0.76);
+}
+
+.mplan__tag {
+  align-self: flex-start;
+  margin-top: 0.875rem;
+  padding: 0.25rem 0.625rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+  border-radius: 0.5rem;
+  color: var(--accent);
+  font-size: 0.8125rem;
+  font-weight: 620;
+}
+
+.mplan__note {
+  margin-top: 0.625rem;
+  color: var(--muted);
+  font-size: 0.9063rem;
+  line-height: 1.5;
+}
+
+.mplan__cta {
+  margin-top: auto;
+  padding-top: clamp(1.125rem, 2.2vw, 1.625rem);
+}
+
+/* -------------------------------------------- The complete membership */
+.mcomplete-wrap {
+  padding-block: clamp(1rem, 2.2vw, 1.75rem) clamp(1.5rem, 4vw, 3rem);
+}
+
+.mcomplete {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(1.5rem, 3.6vw, 3.25rem);
+  border-radius: clamp(1.75rem, 3vw, 2.5rem);
+  background:
+    radial-gradient(70% 110% at 100% 0%, rgba(22, 99, 157, 0.85), transparent 62%),
+    radial-gradient(60% 80% at 0% 100%, rgba(0, 163, 204, 0.2), transparent 60%),
+    var(--night);
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 2.25rem 4rem -2.5rem rgba(10, 22, 34, 0.9);
+}
+
+.mcomplete__rings {
+  position: absolute;
+  top: -16rem;
+  right: -12rem;
+  z-index: -1;
+  width: 40rem;
+  height: 40rem;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 4rem, rgba(255, 255, 255, 0.1) 4rem calc(4rem + 1px));
+  -webkit-mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+}
+
+.mcomplete__rows {
+  display: grid;
+  margin-top: clamp(1.125rem, 2.4vw, 1.75rem);
+}
+
+.mcomplete__rows > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.8125rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.0625rem;
+}
+
+.mcomplete__rows dd {
+  color: #fff;
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+}
+
+.mcomplete__rows .is-sum {
+  color: #fff;
+  font-weight: 620;
+}
+
+.mcomplete__right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(1.125rem, 2.4vw, 2rem);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.5rem;
+  background: linear-gradient(150deg, rgba(255, 255, 255, 0.16), rgba(255, 255, 255, 0.04));
+  -webkit-backdrop-filter: blur(1rem);
+  backdrop-filter: blur(1rem);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+
+.mcomplete__label {
+  color: #a9d8ff;
+  font-size: 0.8125rem;
+  font-weight: 640;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.mcomplete__right .mprice {
+  margin-top: 0.5rem;
+}
+
+.mcomplete__note {
+  margin-block: 0.875rem 1.375rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+.mcomplete .btn:focus-visible {
+  outline-color: #fff;
+}
+
+.mcomplete__updated {
+  margin-top: 0.875rem;
+}
+
+/* "What am I actually paying for?" */
+.mbreak {
+  margin-top: clamp(0.875rem, 2vw, 1.25rem);
+  border: 1px solid var(--line);
+  border-radius: 1.25rem;
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+}
+
+.mbreak__heading {
+  font: inherit;
+}
+
+.mbreak__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  width: 100%;
+  padding: clamp(1rem, 2vw, 1.375rem) clamp(1.125rem, 2.4vw, 1.75rem);
+  border-radius: inherit;
+  color: var(--ink);
+  font-size: clamp(1.0625rem, 1.6vw, 1.25rem);
+  font-weight: 620;
+  letter-spacing: -0.015em;
+  text-align: left;
+}
+
+.mbreak__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.25rem;
+  height: 2.25rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition:
+    transform 0.35s var(--ease),
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.mbreak.is-open .mbreak__icon {
+  transform: rotate(180deg);
+  border-color: var(--blue);
+  background: var(--blue);
+  color: #fff;
+}
+
+.mbreak__panel {
+  overflow: hidden;
+}
+
+.mbreak__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(1.25rem, 3vw, 3rem);
+  padding: 0 clamp(1.125rem, 2.4vw, 1.75rem) clamp(1.125rem, 2.4vw, 1.75rem);
+}
+
+.mbreak__rows > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6875rem 0;
+  border-top: 1px solid var(--line);
+  color: var(--ink-soft);
+}
+
+.mbreak__rows dd {
+  color: var(--ink);
+  font-weight: 620;
+  font-variant-numeric: tabular-nums;
+}
+
+.mbreak__rows .is-total {
+  color: var(--ink);
+  font-weight: 620;
+}
+
+.mbreak__notes {
+  display: grid;
+  align-content: start;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.9375rem;
+  line-height: 1.55;
+}
+
+.mbreak__notes p:first-child {
+  color: var(--ink-soft);
+  font-weight: 540;
+}
+
+/* ---------------------------------------------- How membership works */
+.msteps {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+}
+
+.mstep {
+  position: relative;
+  min-width: 0;
+}
+
+/* A node, then a line that draws itself across to the next step */
+.mstep__rail {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  /* The line reaches across the gap to the next step's node. */
+  margin-right: calc(clamp(1.25rem, 3vw, 2.5rem) * -1 + 0.75rem);
+}
+
+.mstep__node {
+  flex: none;
+  width: 0.9375rem;
+  height: 0.9375rem;
+  border: 2px solid var(--blue);
+  border-radius: 50%;
+  background: var(--paper);
+  box-shadow: 0 0 0 0.3125rem var(--blue-tint);
+}
+
+.mstep__line {
+  flex: 1;
+  height: 2px;
+  border-radius: 1px;
+  background: linear-gradient(90deg, var(--blue), var(--cyan));
+  transform-origin: left;
+}
+
+.mstep:last-child .mstep__rail {
+  margin-right: 0;
+}
+
+.mstep:last-child .mstep__line {
+  background: linear-gradient(90deg, var(--blue), transparent);
+}
+
+.mstep__num {
+  display: block;
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+  font-size: clamp(3rem, 6vw, 4.75rem);
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  color: transparent;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--blue) 50%, transparent);
+}
+
+.mstep__title {
+  margin-top: 0.875rem;
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 650;
+  letter-spacing: -0.025em;
+  line-height: 1.15;
+}
+
+.mstep p {
+  max-width: 24rem;
+  margin-top: 0.5rem;
+}
+
+.mstep__link {
+  margin-top: 0.875rem;
+}
+
+.msteps__cta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1.25rem;
+  margin-top: clamp(2rem, 4vw, 3rem);
+  padding-top: clamp(1.5rem, 3vw, 2.25rem);
+  border-top: 1px solid var(--line);
+}
+
+/* ----------------------------------------------------------- Why IEEE */
+.mwhy {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(0.875rem, 1.8vw, 1.25rem);
+}
+
+.mwhy__card {
+  padding: clamp(1.125rem, 2.2vw, 1.625rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  transition:
+    transform 0.45s var(--ease),
+    box-shadow 0.45s var(--ease),
+    border-color 0.3s;
+}
+
+.mwhy__card:hover {
+  transform: translateY(-0.25rem);
+  border-color: color-mix(in srgb, var(--blue) 35%, var(--line));
+  box-shadow: var(--shadow-lift);
+}
+
+.mwhy__icon {
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 0.875rem;
+  background: linear-gradient(150deg, #2a86c8, var(--blue));
+  color: #fff;
+  box-shadow: 0 0.75rem 1.5rem -0.875rem var(--blue);
+}
+
+.mwhy__icon .icon {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.mwhy__card .h3 {
+  margin-top: clamp(1rem, 2vw, 1.5rem);
+}
+
+.mwhy__card p {
+  margin-top: 0.4375rem;
+  font-size: 0.9688rem;
+  line-height: 1.5;
+}
+
+/* ---------------------------------------------------------- Why CTSoc */
+.mctsoc__line {
+  margin-top: 0.75rem;
+  color: var(--blue);
+  font-size: clamp(1.125rem, 1.8vw, 1.375rem);
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.mtiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-top: 1px solid var(--line);
+  border-left: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  overflow: hidden;
+}
+
+.mtile {
+  display: grid;
+  align-content: start;
+  gap: 0.875rem;
+  padding: clamp(1.125rem, 2.2vw, 1.625rem);
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--paper);
+  transition: background-color 0.3s;
+}
+
+.mtile:hover {
+  background: var(--blue-tint);
+}
+
+.mtile__icon {
+  display: grid;
+  place-items: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 0.75rem;
+  background: var(--cyan-tint);
+  color: var(--cyan-text);
+  transition:
+    background-color 0.3s,
+    color 0.3s;
+}
+
+.mtile:hover .mtile__icon {
+  background: var(--blue);
+  color: #fff;
+}
+
+.mtile__icon .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.mtile__title {
+  font-size: 1.0625rem;
+  font-weight: 630;
+  letter-spacing: -0.018em;
+  line-height: 1.25;
+}
+
+.mtile p {
+  margin-top: 0.3125rem;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+}
+
+/* --------------------------------------------------------- Comparison */
+.mtable-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.mtable {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.mtable th,
+.mtable td {
+  padding: clamp(0.75rem, 1.6vw, 1.0625rem) clamp(0.75rem, 2vw, 1.5rem);
+  border-bottom: 1px solid var(--line);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.mtable tbody tr:last-child th,
+.mtable tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.mtable thead th {
+  background: var(--mist);
+  color: var(--ink);
+  font-size: clamp(0.9375rem, 1.4vw, 1.0625rem);
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+.mtable thead td {
+  width: 40%;
+  background: var(--mist);
+}
+
+.mtable tbody th {
+  color: var(--ink);
+  font-size: 1rem;
+  font-weight: 560;
+  text-align: left;
+}
+
+/* The CTSoc column is the one this chapter is about */
+.mtable th:last-child,
+.mtable td:last-child {
+  background: color-mix(in srgb, var(--blue-tint) 70%, #fff);
+}
+
+.mtable thead th:last-child {
+  background: var(--blue);
+  color: #fff;
+}
+
+.mtable__yes,
+.mtable__no {
+  display: inline-grid;
+  place-items: center;
+  width: 1.875rem;
+  height: 1.875rem;
+  border-radius: 50%;
+}
+
+.mtable__yes {
+  background: var(--blue);
+  color: #fff;
+}
+
+.mtable__no {
+  background: var(--mist);
+  color: var(--muted);
+}
+
+.mtable__yes .icon,
+.mtable__no .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.mtable__text {
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  font-weight: 540;
+}
+
+/* -------------------------------------------------- CUIMS walkthrough */
+.mcuims {
+  display: grid;
+  gap: clamp(1rem, 2vw, 1.5rem);
+}
+
+.mcuims__step {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: clamp(1rem, 2.4vw, 2rem);
+  padding: clamp(1.125rem, 2.4vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: var(--paper);
+}
+
+.mcuims__step .mstep__num {
+  margin-top: 0;
+}
+
+.mcuims__step p {
+  margin-top: 0.375rem;
+}
+
+.mcuims__step img {
+  margin-top: 1rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+}
+
+/* ---------------------------------------------- Chapter registration */
+.cjoin {
+  display: grid;
+  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+  align-items: start;
+  gap: clamp(1.5rem, 4vw, 4rem);
+}
+
+.cjoin__head {
+  position: sticky;
+  top: calc(var(--nav-h) + 1.5rem);
+}
+
+.cjoin__head .lead {
+  margin-top: 1rem;
+}
+
+.cjoin__tag {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 1.125rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: var(--r-pill);
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.8125rem;
+  font-weight: 640;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cjoin__tag strong {
+  font-size: 1.125rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.signup-page {
+  padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 9vw, 7rem);
+}
+
+.signup-page__more {
+  margin-top: 1.5rem;
+}
+
+/* ---------------------------------------------------------- Responsive */
+@media (max-width: 1000px) {
+  .mwhy,
+  .mtiles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cjoin {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .cjoin__head {
+    position: static;
+  }
+}
+
+@media (max-width: 860px) {
+  .mhero {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mart {
+    height: clamp(20.5rem, 84vw, 27rem);
+    max-width: 30rem;
+  }
+
+  .mcomplete,
+  .mbreak__inner {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 760px) {
+  .mplans__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mplans__switch {
+    justify-items: start;
+  }
+
+  .mplans__rate {
+    text-align: left;
+  }
+
+  /* The timeline turns upright: nodes down the left, a line between them. */
+  .msteps {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .mstep {
+    display: grid;
+    grid-template-columns: 0.9375rem minmax(0, 1fr);
+    column-gap: 1.125rem;
+    padding-bottom: 2rem;
+  }
+
+  .mstep:last-child {
+    padding-bottom: 0;
+  }
+
+  .mstep__rail {
+    grid-row: 1 / span 5;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin: 0.375rem 0 -1.625rem;
+  }
+
+  .mstep__line {
+    width: 2px;
+    height: auto;
+    transform: none !important;
+    background: linear-gradient(180deg, var(--blue), var(--cyan));
+  }
+
+  .mstep:last-child .mstep__line {
+    display: none;
+  }
+
+  .mstep > :not(.mstep__rail) {
+    grid-column: 2;
+  }
+
+  .mstep__num {
+    margin-top: 0;
+  }
+
+  .msteps__cta .btn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .mhero__actions .btn,
+  .mready .cta__actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .mwhy,
+  .mtiles {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mtile {
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: start;
+  }
+
+  .mtable thead td {
+    width: 36%;
+  }
+
+  .mtable th,
+  .mtable td {
+    padding-inline: 0.5rem;
+  }
+
+  .mtable tbody th,
+  .mtable__text {
+    font-size: 0.875rem;
+  }
+
+  .mtable thead th {
+    font-size: 0.8125rem;
+  }
+}
+
+/* ====================================================================
+   THE TWO KINDS OF MEMBERSHIP
+   Part 1, paid to IEEE, is blue. Part 2, the free campus chapter, is
+   green. Everything inside .theme-chapter takes the green by itself,
+   because the brand colour variables are swapped there.
+   ==================================================================== */
+.theme-chapter {
+  --blue: #0c7a3f;
+  --blue-deep: #085c2f;
+  --blue-tint: #e3f6eb;
+  --cyan: #2bb673;
+  --cyan-text: #0c7a3f;
+  --cyan-tint: #e3f6eb;
+}
+
+/* --------------------------------------------- Chooser: two cards */
+.mkinds {
+  padding-bottom: clamp(1.25rem, 3vw, 2.25rem);
+}
+
+.mkinds__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.375rem 1rem;
+  margin-bottom: clamp(0.875rem, 2vw, 1.375rem);
+}
+
+.mkinds__grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.875rem, 1.8vw, 1.25rem);
+}
+
+.mkind {
+  --glow: 58, 160, 255;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.125rem, 2.4vw, 1.75rem);
+  border-radius: clamp(1.375rem, 2.2vw, 1.75rem);
+  background:
+    radial-gradient(85% 120% at 100% 0%, rgba(var(--glow), 0.6), transparent 62%),
+    linear-gradient(155deg, #123f66 0%, #071523 100%);
+  color: #fff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 1.75rem 3rem -2rem rgba(9, 30, 54, 0.9);
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.5s var(--ease),
+    box-shadow 0.5s var(--ease);
+}
+
+.mkind--chapter {
+  --glow: 79, 224, 143;
+  background:
+    radial-gradient(85% 120% at 100% 0%, rgba(var(--glow), 0.5), transparent 62%),
+    linear-gradient(155deg, #0c5c33 0%, #05200f 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 1.75rem 3rem -2rem rgba(5, 48, 24, 0.9);
+}
+
+.mkind:hover {
+  transform: translateY(-0.25rem);
+}
+
+/* Rings of light in the corner */
+.mkind__light {
+  position: absolute;
+  top: -9rem;
+  right: -8rem;
+  z-index: -1;
+  width: 24rem;
+  height: 24rem;
+  border-radius: 50%;
+  background: repeating-radial-gradient(circle, transparent 0 2.75rem, rgba(255, 255, 255, 0.1) 2.75rem calc(2.75rem + 1px));
+  -webkit-mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+}
+
+.mkind__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.mkind__num {
+  font-size: 2.25rem;
+  font-weight: 700;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  color: transparent;
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.6);
+}
+
+.mkind__tag {
+  display: inline-flex;
+  align-items: center;
+  height: 1.875rem;
+  padding: 0 0.8125rem;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+  font-weight: 680;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.mkind__title {
+  margin-top: clamp(0.75rem, 1.6vw, 1.125rem);
+  font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+  font-weight: 670;
+  letter-spacing: -0.032em;
+  line-height: 1.1;
+  text-wrap: balance;
+}
+
+.mkind__text {
+  max-width: 30rem;
+  margin-top: 0.5rem;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 0.9688rem;
+  line-height: 1.5;
+}
+
+.mkind__rows {
+  display: grid;
+  margin-top: clamp(0.75rem, 1.6vw, 1.125rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.mkind__rows > div {
+  display: grid;
+  grid-template-columns: 6.75rem minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  font-size: 0.9063rem;
+  line-height: 1.35;
+}
+
+.mkind__rows dt {
+  color: rgba(255, 255, 255, 0.66);
+}
+
+.mkind__rows dd {
+  font-weight: 580;
+}
+
+.mkind__rows > div:first-child dd {
+  font-size: 1.0625rem;
+  font-weight: 680;
+  letter-spacing: -0.015em;
+}
+
+.mkind__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: flex-start;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  margin-top: auto;
+  padding: 0 1.25rem;
+  border-radius: var(--r-md);
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.9375rem;
+  font-weight: 620;
+  transition: background-color 0.2s;
+}
+
+.mkind__rows + .mkind__button {
+  margin-top: clamp(0.875rem, 1.8vw, 1.25rem);
+}
+
+.mkind__button .icon {
+  width: 1rem;
+  height: 1rem;
+  transform: rotate(90deg);
+  transition: transform 0.3s var(--ease);
+}
+
+.mkind__button:hover {
+  background: rgba(255, 255, 255, 0.88);
+}
+
+.mkind__button:hover .icon {
+  transform: rotate(90deg) translateX(0.1875rem);
+}
+
+.mkind :focus-visible {
+  outline-color: #fff;
+}
+
+/* ------------------------- The switch that stays under the navbar */
+.mnav {
+  position: sticky;
+  top: calc(var(--nav-h) + 0.5rem);
+  z-index: 30;
+  display: flex;
+  justify-content: center;
+  padding-inline: var(--gutter);
+  pointer-events: none;
+}
+
+.mnav__pill {
+  display: inline-flex;
+  gap: 0.25rem;
+  max-width: 100%;
+  padding: 0.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.9);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.72);
+  -webkit-backdrop-filter: blur(1.125rem) saturate(180%);
+  backdrop-filter: blur(1.125rem) saturate(180%);
+  box-shadow:
+    inset 0 1px 0 #fff,
+    0 0 0 1px var(--line),
+    0 1rem 2rem -1.25rem rgba(13, 27, 42, 0.45);
+  pointer-events: auto;
+}
+
+.mnav__option {
+  --dot: #16639d;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: var(--r-pill);
+  color: var(--ink-soft);
+  font-size: 0.9063rem;
+  font-weight: 620;
+  white-space: nowrap;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
+}
+
+.mnav__option--chapter {
+  --dot: #0c7a3f;
+}
+
+.mnav__dot {
+  flex: none;
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--dot);
+}
+
+.mnav__tag {
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 520;
+}
+
+.mnav__option:hover {
+  color: var(--ink);
+}
+
+.mnav__option.is-on {
+  background: var(--dot);
+  color: #fff;
+}
+
+.mnav__option.is-on .mnav__dot {
+  background: #fff;
+}
+
+.mnav__option.is-on .mnav__tag {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ------------------------------------------------- The two parts */
+.mpart {
+  /* Stops below the navbar and the switch when scrolled to. */
+  scroll-margin-top: 2.75rem;
+  padding-top: clamp(2rem, 4vw, 3.25rem);
+}
+
+.mpart--chapter {
+  margin-top: clamp(1.5rem, 4vw, 3rem);
+  padding-bottom: clamp(2.5rem, 5vw, 4rem);
+  border-top: 0.25rem solid var(--blue);
+  background: linear-gradient(180deg, var(--blue-tint) 0%, #f4fbf7 32rem);
+}
+
+.mpart--chapter .mjoin {
+  background: none;
+  padding-bottom: 0;
+}
+
+.mpart__head {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: clamp(0.875rem, 2.4vw, 1.75rem);
+  padding-bottom: clamp(1.25rem, 2.8vw, 2rem);
+}
+
+.mpart__num {
+  font-size: clamp(3.25rem, 7vw, 5.5rem);
+  font-weight: 700;
+  line-height: 0.82;
+  letter-spacing: -0.06em;
+  font-variant-numeric: tabular-nums;
+  color: transparent;
+  -webkit-text-stroke: 2px color-mix(in srgb, var(--blue) 60%, transparent);
+}
+
+.mpart__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  height: 1.875rem;
+  padding: 0 0.8125rem;
+  border-radius: var(--r-pill);
+  background: var(--blue);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 680;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.mpart__tag-dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: #fff;
+}
+
+.mpart__title {
+  margin-top: 0.75rem;
+  font-size: clamp(1.875rem, 3.8vw, 3rem);
+}
+
+.mpart__text {
+  max-width: 44rem;
+  margin-top: 0.625rem;
+}
+
+/* ----------------------------------------------- Live rate, discounts */
+.mplans__live {
+  display: inline-block;
+  width: 0.4375rem;
+  height: 0.4375rem;
+  margin-right: 0.375rem;
+  border-radius: 50%;
+  background: var(--green);
+  vertical-align: 0.0625rem;
+  box-shadow: 0 0 0 0 rgba(18, 146, 78, 0.55);
+  animation: pulse-green 2.2s ease-out infinite;
+}
+
+.mplans__rate.is-live span {
+  color: var(--green-text);
+  font-weight: 560;
+}
+
+.mplan__offer {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.375rem 0.5rem;
+  margin-top: 0.625rem;
+  color: var(--green-text);
+  font-size: 0.9063rem;
+  font-weight: 600;
+}
+
+.mplan__offer span {
+  padding: 0.125rem 0.5rem;
+  border-radius: var(--r-pill);
+  background: var(--green);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.mplan__was {
+  margin-right: 0.5rem;
+  color: var(--muted);
+  font-weight: 480;
+  text-decoration-thickness: 1.5px;
+}
+
+.mcomplete__rows .is-saving {
+  color: #7fe6ad;
+}
+
+.mcomplete__rows .is-saving dd {
+  color: #7fe6ad;
+}
+
+/* --------------------------------------------- Part 2: the chapter */
+.mchapter {
+  padding-bottom: clamp(1.5rem, 3.4vw, 2.5rem);
+}
+
+.mchapter__points {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(0.75rem, 1.6vw, 1.125rem);
+}
+
+.mchapter__point {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.875rem;
+  padding: clamp(0.875rem, 1.8vw, 1.25rem);
+  border: 1px solid color-mix(in srgb, var(--blue) 22%, var(--line));
+  border-radius: var(--r-lg);
+  background: rgba(255, 255, 255, 0.82);
+  -webkit-backdrop-filter: blur(0.75rem);
+  backdrop-filter: blur(0.75rem);
+  box-shadow: inset 0 1px 0 #fff;
+}
+
+.mchapter__icon {
+  display: grid;
+  place-items: center;
+  width: 2.625rem;
+  height: 2.625rem;
+  border-radius: 0.75rem;
+  background: var(--blue);
+  color: #fff;
+}
+
+.mchapter__point-title {
+  font-size: 1.0625rem;
+  font-weight: 640;
+  letter-spacing: -0.018em;
+}
+
+.mchapter__point .muted {
+  margin-top: 0.1875rem;
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+.mchapter__reach {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem 1rem;
+  margin-top: clamp(1.25rem, 2.6vw, 2rem);
+  padding-top: clamp(1rem, 2vw, 1.375rem);
+  border-top: 1px solid color-mix(in srgb, var(--blue) 22%, transparent);
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  font-weight: 540;
+}
+
+/* The banner and success panel inside the form, in the chapter colour */
+.theme-chapter .cfree,
+.theme-chapter .cdone__brand {
+  background:
+    radial-gradient(80% 140% at 100% 0%, rgba(120, 232, 170, 0.5), transparent 60%),
+    linear-gradient(120deg, #06371f 0%, var(--blue) 100%);
+}
+
+.theme-chapter .cjoin__tag {
+  background: var(--blue);
+}
+
+@media (max-width: 860px) {
+  .mkinds__grid,
+  .mchapter__points {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .mnav__tag {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .mnav {
+    padding-inline: 0.5rem;
+  }
+
+  .mnav__pill {
+    width: 100%;
+  }
+
+  .mnav__option {
+    flex: 1 1 0;
+    justify-content: center;
+    height: 2.75rem;
+    padding: 0 0.625rem;
+    font-size: 0.8125rem;
+    white-space: normal;
+    line-height: 1.15;
+    text-align: left;
+  }
+
+  .mkind__rows > div {
+    grid-template-columns: 5.5rem minmax(0, 1fr);
+  }
+
+  .mpart__head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.5rem;
+  }
+
+  .mkind__button {
+    align-self: stretch;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mplans__live {
+    animation: none;
+  }
+}

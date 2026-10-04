@@ -1,0 +1,52 @@
+.reach-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.625rem;
+}
+
+/* Band at the end of a page */
+.reach {
+  padding-block: clamp(1.5rem, 3vw, 2.5rem) clamp(2.5rem, 5vw, 4rem);
+}
+
+.reach__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.125rem 2rem;
+  padding: clamp(1.125rem, 2.2vw, 1.625rem) clamp(1.125rem, 2.4vw, 1.875rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+  background: linear-gradient(120deg, var(--blue-tint) 0%, var(--paper) 62%);
+}
+
+.reach__title {
+  font-size: clamp(1.25rem, 2vw, 1.5rem);
+  font-weight: 650;
+  letter-spacing: -0.028em;
+  line-height: 1.15;
+}
+
+.reach__text p {
+  margin-top: 0.25rem;
+  font-size: 0.9688rem;
+}
+
+.reach__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.625rem;
+}
+
+@media (max-width: 640px) {
+  .reach__actions,
+  .reach__actions .reach-buttons {
+    width: 100%;
+  }
+
+  .reach__actions .btn {
+    flex: 1 1 100%;
+  }
+}

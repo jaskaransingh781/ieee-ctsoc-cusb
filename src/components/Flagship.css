@@ -1,0 +1,462 @@
+.flagship__eyebrow {
+  color: var(--coral-text);
+  font-size: 0.8125rem;
+  font-weight: 640;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.flagship__heading {
+  margin-top: 0.5rem;
+}
+
+/* ==================================================================
+   The stage: a dark backdrop lit by three coloured lights. The cards
+   on top are glass, so the lights show through them, blurred.
+   ================================================================== */
+.fstage {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr);
+  gap: clamp(0.75rem, 1.2vw, 1rem);
+  margin-top: clamp(1.125rem, 2.2vw, 1.75rem);
+  padding: clamp(0.75rem, 1.4vw, 1.125rem);
+  border-radius: clamp(1.5rem, 2.4vw, 2rem);
+  background: linear-gradient(150deg, #0b1b2e 0%, #060d18 55%, #0a1422 100%);
+  box-shadow:
+    0 2.5rem 4.5rem -2.75rem rgba(8, 22, 44, 0.95),
+    0 0 0 1px rgba(13, 27, 42, 0.5);
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.fstage__orb {
+  position: absolute;
+  z-index: -2;
+  border-radius: 50%;
+  filter: blur(2.75rem);
+  will-change: transform;
+}
+
+.fstage__orb--coral {
+  left: -7rem;
+  bottom: -9rem;
+  width: 30rem;
+  height: 30rem;
+  background: radial-gradient(circle at 50% 50%, #ff6a4d 0%, #d93a25 45%, rgba(217, 58, 37, 0) 72%);
+  opacity: 0.85;
+  animation: orb-a 22s ease-in-out infinite alternate;
+}
+
+.fstage__orb--blue {
+  right: -6rem;
+  top: -10rem;
+  width: 34rem;
+  height: 34rem;
+  background: radial-gradient(circle at 50% 50%, #3aa0ff 0%, #1668c2 48%, rgba(22, 104, 194, 0) 72%);
+  opacity: 0.95;
+  animation: orb-b 26s ease-in-out infinite alternate;
+}
+
+.fstage__orb--cyan {
+  left: 38%;
+  bottom: -12rem;
+  width: 24rem;
+  height: 24rem;
+  background: radial-gradient(circle at 50% 50%, #27d3f5 0%, rgba(0, 163, 204, 0.75) 45%, rgba(0, 163, 204, 0) 72%);
+  opacity: 0.6;
+  animation: orb-c 30s ease-in-out infinite alternate;
+}
+
+@keyframes orb-a {
+  to {
+    transform: translate3d(6rem, -4rem, 0) scale(1.12);
+  }
+}
+
+@keyframes orb-b {
+  to {
+    transform: translate3d(-7rem, 5rem, 0) scale(0.92);
+  }
+}
+
+@keyframes orb-c {
+  to {
+    transform: translate3d(-5rem, -3rem, 0) scale(1.18);
+  }
+}
+
+/* Fine dot grid, so there is detail for the glass to soften */
+.fstage__grid {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.2) 1px, transparent 1.4px);
+  background-size: 1.375rem 1.375rem;
+  -webkit-mask-image: linear-gradient(120deg, #000 0%, transparent 46%, transparent 62%, #000 100%);
+  mask-image: linear-gradient(120deg, #000 0%, transparent 46%, transparent 62%, #000 100%);
+  opacity: 0.6;
+}
+
+/* ==================================================================
+   Glass
+   ================================================================== */
+.glass {
+  --mx: 18%;
+  --my: 0%;
+  position: relative;
+  border-radius: clamp(1.125rem, 1.8vw, 1.5rem);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.05) 38%, rgba(255, 255, 255, 0.1) 100%),
+    rgba(9, 20, 36, 0.36);
+  -webkit-backdrop-filter: blur(1.625rem) saturate(175%);
+  backdrop-filter: blur(1.625rem) saturate(175%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 0 rgba(255, 255, 255, 0.1),
+    inset 0 -2.5rem 3rem -2.5rem rgba(255, 255, 255, 0.16),
+    0 1.75rem 3rem -1.75rem rgba(0, 0, 0, 0.7);
+  isolation: isolate;
+}
+
+/* Bright rim: strongest where the light hits (top left) and where it
+   leaves (bottom right), almost nothing in between. */
+.glass::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  padding: 1px;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.85) 0%,
+    rgba(255, 255, 255, 0.16) 26%,
+    rgba(255, 255, 255, 0.05) 60%,
+    rgba(255, 255, 255, 0.5) 100%
+  );
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#000 0 0) content-box exclude,
+    linear-gradient(#000 0 0);
+  pointer-events: none;
+}
+
+/* A soft highlight that follows the pointer across the pane */
+.glass::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(24rem circle at var(--mx) var(--my), rgba(255, 255, 255, 0.2), transparent 62%);
+  pointer-events: none;
+}
+
+/* Browsers without backdrop blur get a more solid pane, so text stays clear. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .glass {
+    background:
+      linear-gradient(145deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.04)),
+      rgba(9, 20, 36, 0.86);
+  }
+}
+
+/* ==================================================================
+   Cards
+   ================================================================== */
+.flagship__card {
+  display: flex;
+  flex-direction: column;
+  padding: clamp(1.125rem, 2vw, 1.75rem);
+}
+
+.flagship__side {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: clamp(0.75rem, 1.2vw, 1rem);
+  min-width: 0;
+}
+
+/* "Event starts in" on the left, the prize pool on the right */
+.flagship__row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem 1rem;
+}
+
+.flagship__prize {
+  font-size: clamp(1.5rem, 2.4vw, 2rem);
+  font-weight: 690;
+  letter-spacing: -0.035em;
+  line-height: 1;
+  text-align: right;
+}
+
+.flagship__prize span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.6875rem;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.flagship__chip {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 0.5rem;
+  height: 2rem;
+  padding: 0 0.8125rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: var(--r-pill);
+  background: rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.flagship__chip--plain {
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.flagship__chip--live {
+  border-color: rgba(255, 141, 120, 0.6);
+  background: rgba(226, 81, 58, 0.26);
+}
+
+.flagship__chip-dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: #ff7a61;
+}
+
+.flagship__chip-dot--pulse {
+  box-shadow: 0 0 0 0 rgba(255, 122, 97, 0.6);
+  animation: pulse 2s ease-out infinite;
+}
+
+.flagship__title {
+  margin-top: clamp(0.875rem, 1.6vw, 1.25rem);
+  font-size: clamp(2.2rem, 4vw, 3.375rem);
+  font-weight: 690;
+  line-height: 0.98;
+  letter-spacing: -0.048em;
+  text-shadow: 0 0.125rem 1.5rem rgba(0, 0, 0, 0.25);
+}
+
+.flagship__tagline {
+  margin-top: 0.625rem;
+  max-width: 30rem;
+  color: rgba(255, 255, 255, 0.84);
+  font-size: clamp(1rem, 1.3vw, 1.125rem);
+  line-height: 1.4;
+}
+
+.flagship__facts {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5625rem 0.75rem;
+  margin-top: clamp(1rem, 1.8vw, 1.375rem);
+  font-size: 1rem;
+  font-weight: 560;
+}
+
+.flagship__facts li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  line-height: 1.3;
+}
+
+.flagship__fact-icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2.125rem;
+  height: 2.125rem;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 0.625rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.flagship__organiser {
+  margin-top: clamp(0.875rem, 1.4vw, 1.125rem);
+  padding-top: clamp(0.75rem, 1.2vw, 0.9375rem);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 580;
+}
+
+.flagship__organiser span {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+  font-weight: 620;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.flagship__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: auto;
+  padding-top: clamp(1rem, 1.8vw, 1.375rem);
+}
+
+.flagship__actions .btn {
+  min-height: 3rem;
+}
+
+.flagship__actions .btn--accent {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    0 1rem 2rem -1rem rgba(226, 81, 58, 0.95);
+}
+
+/* Clear glass button, used beside the coloured one */
+.btn--glass {
+  --btn-bg: rgba(255, 255, 255, 0.12);
+  --btn-bd: rgba(255, 255, 255, 0.3);
+  --btn-fg: #fff;
+  min-height: 3.5rem;
+  -webkit-backdrop-filter: blur(0.75rem);
+  backdrop-filter: blur(0.75rem);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+.btn--glass:hover {
+  --btn-bg: rgba(255, 255, 255, 0.22);
+  --btn-bd: rgba(255, 255, 255, 0.6);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.flagship__submit {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.375rem 1.125rem;
+  margin-top: 0.75rem;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.9375rem;
+}
+
+.flagship__submit-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: underline;
+  text-decoration-color: rgba(255, 255, 255, 0.45);
+  text-underline-offset: 0.25rem;
+  transition: text-decoration-color 0.2s;
+}
+
+.flagship__submit-link:hover {
+  text-decoration-color: #fff;
+}
+
+.flagship__submit-link .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.fstage :focus-visible {
+  outline-color: #fff;
+}
+
+/* --------------------------------------------- Registration deadline */
+.flagship__card--reg {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.05) 40%, rgba(255, 170, 150, 0.14) 100%),
+    rgba(40, 14, 12, 0.3);
+}
+
+.flagship__timer {
+  margin-top: clamp(0.75rem, 1.4vw, 1rem);
+}
+
+.flagship__when {
+  display: flex;
+  align-items: center;
+  gap: 0.5625rem;
+  margin-top: clamp(0.625rem, 1.2vw, 0.875rem);
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1rem;
+  line-height: 1.35;
+}
+
+.flagship__when strong {
+  color: #fff;
+  font-weight: 660;
+}
+
+.flagship__when .icon {
+  color: #ffb3a4;
+}
+
+.flagship__closed-title {
+  margin-top: clamp(0.875rem, 1.8vw, 1.25rem);
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 680;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.flagship__card--reg.is-closed {
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.04) 40%, rgba(255, 255, 255, 0.08) 100%),
+    rgba(9, 20, 36, 0.4);
+}
+
+/* -------------------------------------------------- Event countdown */
+.flagship__note {
+  margin-top: auto;
+  padding-top: clamp(0.75rem, 1.4vw, 1rem);
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 0.9375rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 900px) {
+  .fstage {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .flagship__facts {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .flagship__actions .btn {
+    flex: 1 1 100%;
+  }
+
+  .fstage__orb--blue {
+    width: 24rem;
+    height: 24rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .fstage__orb,
+  .flagship__chip-dot--pulse {
+    animation: none;
+  }
+}

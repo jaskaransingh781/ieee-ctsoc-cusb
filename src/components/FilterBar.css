@@ -1,0 +1,122 @@
+.filterbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.875rem 1.5rem;
+}
+
+.filter {
+  display: flex;
+  gap: 0.25rem;
+  max-width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.filter::-webkit-scrollbar {
+  display: none;
+}
+
+.filter__option {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: none;
+  height: 2.5rem;
+  padding: 0 1rem;
+  border-radius: var(--r-pill);
+  color: var(--ink-soft);
+  font-size: 0.9375rem;
+  font-weight: 540;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+
+.filter__option:hover {
+  color: var(--ink);
+}
+
+.filter__label,
+.filter__count {
+  position: relative;
+  z-index: 1;
+}
+
+.filter__count {
+  min-width: 1.25rem;
+  padding: 1px 0.375rem;
+  border-radius: var(--r-pill);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.filter__highlight {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--r-pill);
+}
+
+/* Segmented: one pill-shaped track */
+.filter--segmented {
+  padding: 0.25rem;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  background: var(--mist);
+}
+
+.filter--segmented .filter__option {
+  height: 2.25rem;
+}
+
+.filter--segmented .filter__highlight {
+  background: var(--paper);
+  box-shadow: 0 1px 2px rgba(13, 27, 42, 0.1), 0 0 0 1px var(--line);
+}
+
+.filter--segmented .filter__option.is-active {
+  color: var(--ink);
+}
+
+/* Chips: separate outlined pills */
+.filter--chips {
+  gap: 0.5rem;
+}
+
+.filter--chips .filter__option {
+  border: 1px solid var(--line-strong);
+  background: var(--paper);
+  transition:
+    color 0.2s,
+    border-color 0.2s;
+}
+
+.filter--chips .filter__option:hover {
+  border-color: var(--ink);
+}
+
+.filter--chips .filter__highlight {
+  inset: -1px;
+  background: var(--blue);
+}
+
+.filter--chips .filter__option.is-active {
+  color: #fff;
+  border-color: var(--blue);
+}
+
+@media (max-width: 640px) {
+  .filterbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .filter--chips {
+    margin-inline: calc(var(--gutter) * -1);
+    padding-inline: var(--gutter);
+  }
+}

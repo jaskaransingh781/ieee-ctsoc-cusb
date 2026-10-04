@@ -1,0 +1,34 @@
+{
+  "name": "ieee-ctsoc-cusb-site",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n web,api -c blue,cyan \"vite\" \"node server/index.js\"",
+    "dev:web": "vite",
+    "dev:api": "node server/index.js",
+    "build": "vite build",
+    "preview": "vite preview",
+    "start": "node server/index.js",
+    "test": "node --test server/contact.test.js server/feeds.test.js src/lib/calendar.test.js src/lib/pulse.test.js src/data/membership.test.js"
+  },
+  "dependencies": {
+    "@fontsource-variable/geist": "^5.3.0",
+    "dotenv": "^18.0.5",
+    "express": "^5.2.1",
+    "framer-motion": "^14.0.0",
+    "nodemailer": "^10.0.13",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "react-router-dom": "^7.18.4"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^6.1.1",
+    "concurrently": "^10.0.5",
+    "vite": "^8.3.2"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "description": "IEEE CTSoc CUSB website: IEEE Consumer Technology Society, Chandigarh University Student Branch"
+}

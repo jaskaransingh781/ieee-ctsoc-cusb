@@ -1,0 +1,124 @@
+.faq {
+  border-top: 1px solid var(--line);
+}
+
+.faq__item {
+  border-bottom: 1px solid var(--line);
+}
+
+.faq__heading {
+  font: inherit;
+}
+
+.faq__button {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  width: 100%;
+  padding: 1.25rem 0;
+  text-align: left;
+  font-size: 1.0938rem;
+  font-weight: 580;
+  letter-spacing: -0.012em;
+  color: var(--ink);
+  transition: color 0.2s;
+}
+
+.faq__button:hover {
+  color: var(--blue);
+}
+
+.faq__icon {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition:
+    transform 0.35s var(--ease),
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.faq__icon .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.faq__item.is-open .faq__icon {
+  transform: rotate(45deg);
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+
+.faq__panel {
+  overflow: hidden;
+}
+
+.faq__answer {
+  max-width: 62ch;
+  padding: 0 3.25rem 1.375rem 0;
+  color: var(--ink-soft);
+}
+
+@media (max-width: 520px) {
+  .faq__answer {
+    padding-right: 0;
+  }
+}
+
+/* ------------------------------------------------ Cards variant */
+.faq--cards {
+  display: grid;
+  gap: 0.75rem;
+  border-top: 0;
+}
+
+.faq--cards .faq__item {
+  padding-inline: clamp(1.125rem, 2.4vw, 1.75rem);
+  border: 1px solid var(--line);
+  border-radius: var(--r-md);
+  background: var(--paper);
+  transition:
+    border-color 0.25s,
+    box-shadow 0.3s var(--ease);
+}
+
+.faq--cards .faq__item:hover,
+.faq--cards .faq__item.is-open {
+  border-color: var(--line-strong);
+  box-shadow: var(--shadow-card);
+}
+
+.faq--cards .faq__button {
+  padding-block: 1.5rem;
+}
+
+.faq--cards .faq__icon {
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 0;
+  color: var(--muted);
+}
+
+.faq--cards .faq__icon .icon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.faq--cards .faq__item.is-open .faq__icon {
+  transform: rotate(180deg);
+  background: none;
+  color: var(--ink);
+}
+
+.faq--cards .faq__answer {
+  padding: 1.125rem 0 1.5rem;
+  border-top: 1px solid var(--line);
+}

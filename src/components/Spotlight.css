@@ -1,0 +1,214 @@
+/* The IEEE Day band on the home page: brand blue, not the dark panels used
+   for the flagship cards, so the two never read as the same block. */
+.spot {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 19.5rem);
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  align-items: stretch;
+  padding: clamp(1.25rem, 2.6vw, 2.125rem);
+  border-radius: var(--r-lg);
+  background:
+    radial-gradient(70% 120% at 100% 0%, rgba(96, 190, 255, 0.5), transparent 60%),
+    linear-gradient(120deg, #0c3a5e 0%, var(--blue) 58%, #1d78b9 100%);
+  color: #fff;
+  overflow: hidden;
+  isolation: isolate;
+  box-shadow: 0 2rem 3.5rem -2.25rem rgba(22, 99, 157, 0.9);
+}
+
+/* Concentric rings fading out from the top right */
+.spot__rings {
+  position: absolute;
+  top: -18rem;
+  right: -12rem;
+  z-index: -1;
+  width: 44rem;
+  height: 44rem;
+  border-radius: 50%;
+  background: repeating-radial-gradient(
+    circle,
+    transparent 0 4.25rem,
+    rgba(255, 255, 255, 0.11) 4.25rem calc(4.25rem + 1px)
+  );
+  -webkit-mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+  mask-image: radial-gradient(circle, #000 30%, transparent 70%);
+  pointer-events: none;
+}
+
+.spot__main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+}
+
+.spot__brand {
+  display: flex;
+  align-items: center;
+  gap: clamp(0.875rem, 2vw, 1.375rem);
+}
+
+.spot__emblem {
+  flex: none;
+  width: clamp(4.25rem, 6.4vw, 5.25rem);
+  height: auto;
+  border-radius: 1.125rem;
+  background: #fff;
+  box-shadow: 0 1rem 2rem -1rem rgba(4, 16, 30, 0.7);
+}
+
+.spot__name {
+  font-size: clamp(1.75rem, 3.2vw, 2.5rem);
+  font-weight: 680;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.spot__date {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.625rem;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1rem;
+  font-weight: 560;
+}
+
+.spot__date .icon {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+
+.spot__theme {
+  max-width: 34rem;
+  margin-top: clamp(1rem, 1.8vw, 1.375rem);
+  font-size: clamp(1.1875rem, 1.9vw, 1.5rem);
+  font-weight: 620;
+  letter-spacing: -0.028em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+
+.spot__label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #a9d8ff;
+  font-size: 0.8125rem;
+  font-weight: 640;
+  letter-spacing: 0.09em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.spot__text {
+  max-width: 36rem;
+  margin-top: 0.875rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  line-height: 1.55;
+}
+
+.spot__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: clamp(1rem, 1.8vw, 1.375rem);
+}
+
+.spot .btn:focus-visible {
+  outline-color: #fff;
+}
+
+/* Right-hand panel: days to go and the celebration window */
+.spot__side {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1.25rem;
+  padding: clamp(1.125rem, 2vw, 1.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 1.125rem;
+  background: rgba(6, 28, 48, 0.34);
+  -webkit-backdrop-filter: blur(0.5rem);
+  backdrop-filter: blur(0.5rem);
+}
+
+.spot__count {
+  display: grid;
+  gap: 0.25rem;
+  color: #fff;
+}
+
+.spot__count strong {
+  font-size: clamp(3rem, 5.4vw, 4.25rem);
+  font-weight: 700;
+  letter-spacing: -0.055em;
+  line-height: 0.9;
+  font-variant-numeric: tabular-nums;
+}
+
+.spot__count span {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1rem;
+  font-weight: 560;
+}
+
+.spot__facts {
+  display: grid;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.spot__facts dt {
+  color: rgba(255, 255, 255, 0.66);
+  font-size: 0.8125rem;
+  font-weight: 560;
+}
+
+.spot__facts dd {
+  margin-top: 2px;
+  font-size: 1rem;
+  font-weight: 620;
+  letter-spacing: -0.012em;
+}
+
+@media (max-width: 860px) {
+  .spot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .spot__side {
+    flex-direction: row;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .spot__facts {
+    flex: 1;
+    min-width: 12rem;
+    padding-top: 0;
+    padding-left: 1.25rem;
+    border-top: 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.18);
+  }
+}
+
+@media (max-width: 520px) {
+  .spot__side {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .spot__facts {
+    padding-top: 1rem;
+    padding-left: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+    border-left: 0;
+  }
+
+  .spot__actions .btn {
+    width: 100%;
+  }
+}

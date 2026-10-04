@@ -1,0 +1,217 @@
+.gallery__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.375rem 1.25rem;
+  margin-bottom: 1.125rem;
+}
+
+.gallery__title {
+  font-size: 1.5rem;
+  font-weight: 640;
+  letter-spacing: -0.025em;
+}
+
+.gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.gallery__grid--1 {
+  grid-template-columns: minmax(0, 32.5rem);
+}
+
+.gallery__grid--2 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gallery__grid--3 {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.gallery__tile {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: var(--mist);
+}
+
+.gallery__tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.7s var(--ease);
+}
+
+.gallery__tile:hover img,
+.gallery__tile:focus-visible img {
+  transform: scale(1.045);
+}
+
+.gallery__caption {
+  position: absolute;
+  inset: auto 0 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 1.75rem 0.875rem 0.75rem;
+  background: linear-gradient(to top, rgba(8, 20, 33, 0.78), rgba(8, 20, 33, 0));
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: 560;
+  text-align: left;
+  opacity: 0;
+  transform: translateY(0.375rem);
+  transition:
+    opacity 0.3s,
+    transform 0.35s var(--ease);
+}
+
+.gallery__caption .icon {
+  width: 1rem;
+  height: 1rem;
+}
+
+.gallery__tile:hover .gallery__caption,
+.gallery__tile:focus-visible .gallery__caption {
+  opacity: 1;
+  transform: none;
+}
+
+@media (hover: none) {
+  .gallery__caption {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (max-width: 860px) {
+  .gallery__grid,
+  .gallery__grid--3 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .gallery__grid {
+    gap: 0.5rem;
+  }
+}
+
+/* -------------------------------------------------------------- Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: flex;
+  flex-direction: column;
+  background: rgba(8, 20, 33, 0.94);
+  color: #fff;
+  -webkit-backdrop-filter: blur(0.375rem);
+  backdrop-filter: blur(0.375rem);
+}
+
+.lightbox__bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.875rem clamp(0.875rem, 3vw, 1.75rem);
+}
+
+.lightbox__count {
+  font-size: 0.875rem;
+  font-variant-numeric: tabular-nums;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.lightbox__btn {
+  display: grid;
+  place-items: center;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  color: #fff;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+}
+
+.lightbox__btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.lightbox__btn:focus-visible {
+  outline-color: #fff;
+}
+
+.lightbox__stage {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  min-height: 0;
+  gap: clamp(0.5rem, 2vw, 1.5rem);
+  padding: 0 clamp(0.875rem, 3vw, 1.75rem) clamp(1.125rem, 3vw, 2rem);
+}
+
+.lightbox__figure {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
+  max-height: 100%;
+}
+
+.lightbox__figure img {
+  max-width: min(100%, 73.75rem);
+  max-height: calc(100dvh - 11.875rem);
+  border-radius: var(--r-md);
+  object-fit: contain;
+}
+
+.lightbox__figure figcaption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.25rem 0.75rem;
+  margin-top: 0.875rem;
+  font-size: 0.9375rem;
+  text-align: center;
+}
+
+.lightbox__figure figcaption span {
+  color: rgba(255, 255, 255, 0.68);
+}
+
+.lightbox__nav {
+  flex: none;
+}
+
+@media (max-width: 640px) {
+  .lightbox__nav {
+    position: absolute;
+    bottom: 1.125rem;
+    background: rgba(8, 20, 33, 0.6);
+  }
+
+  .lightbox__nav--prev {
+    left: 0.875rem;
+  }
+
+  .lightbox__nav--next {
+    right: 0.875rem;
+  }
+
+  .lightbox__stage {
+    padding-bottom: 4.875rem;
+  }
+}
