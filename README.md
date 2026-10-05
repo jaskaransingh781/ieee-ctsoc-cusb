@@ -268,7 +268,7 @@ An event only gets a "View details" link when its `description` has at least one
 
 `registrationCloses` drives the "Registration closes in" countdown. When it passes, the site
 switches to "Registration closed" on its own and removes the Register buttons. For Zinnovatio 4.O
-it is 4 October 2026, 11:59 pm IST, from the official poster. The PPT submission link hides itself
+it is 7 October 2026, 11:59 pm IST, from the official poster. The PPT submission link hides itself
 the same way after its deadline. To extend either, change the date in `events.js`.
 
 ### Sign-up

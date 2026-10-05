@@ -80,7 +80,7 @@ export const events = [
     endDate: '2026-10-31',
     startsAt: '2026-10-30T09:00:00+05:30', // check-in time on zinnovatio.in
     endsAt: '2026-10-31T17:00:00+05:30',
-    registrationCloses: '2026-10-04T23:59:00+05:30', // last date to register, per the official poster
+    registrationCloses: '2026-10-07T23:59:00+05:30', // last date to register, per the official poster
     venue: 'Chandigarh University, Mohali, Punjab',
     venueShort: 'Chandigarh University',
     venueNote: 'Hall to be announced',
@@ -92,7 +92,7 @@ export const events = [
     submission: {
       label: 'PPT / idea submission',
       url: 'https://forms.gle/brFVe8g8QZYw4QdK8',
-      deadline: '2026-10-04',
+      deadline: '2026-10-07',
     },
     summaryLine: '36 hours on campus. Teams of 3 to 5. Online screening first, then the finale.',
     duration: '36 hours',
@@ -119,7 +119,7 @@ export const events = [
       { label: 'Format', value: 'Online round, then on-campus finale' },
       { label: 'Entry', value: 'Free. ₹500 per team if shortlisted' },
     ],
-    deadline: { label: 'PPT / idea submission', date: '2026-10-04' },
+    deadline: { label: 'PPT / idea submission', date: '2026-10-07' },
     registrationUrl:
       'https://unstop.com/hackathons/zinnovatio-40-chandigarh-university-cu-ajitgarh-punjab-1749579',
     registrationLabel: 'Register on Unstop',
