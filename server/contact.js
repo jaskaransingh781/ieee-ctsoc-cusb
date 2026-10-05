@@ -7,6 +7,7 @@
 // function (api/contact.js) so both behave identically.
 // ---------------------------------------------------------------------------
 import nodemailer from 'nodemailer';
+import { site } from '../src/data/site.js';
 
 const LIMITS = { name: 80, email: 120, phone: 20, subject: 120, message: 3000, sourcePage: 300 };
 
@@ -57,7 +58,7 @@ export function validateContact(body = {}) {
 }
 
 // ------------------------------------------------- chapter registration
-// The free "Join IEEE CTSoc | CUSB" form. The same rules are applied in the
+// The chapter interest form. The same rules are applied in the
 // browser (src/data/registration.js); they are repeated here because the
 // server never trusts what the browser sends.
 
@@ -235,6 +236,54 @@ export function buildEmail(data, { env = process.env, now = new Date() } = {}) {
   };
 }
 
+/** A visitor confirmation sent only after the chapter inbox accepts a query. */
+export function buildQueryAutoReply(data, { env = process.env } = {}) {
+  const socials = [
+    ['Instagram', site.social.instagram],
+    ['LinkedIn', site.social.linkedin],
+    ['Website', 'https://ieee-ctsoc-cusb.co.in'],
+    ['WhatsApp Community', site.social.whatsapp],
+  ].filter(([, url]) => url);
+  const linksText = socials.map(([label, url]) => `${label}: ${url}`).join('\n');
+  const linksHtml = socials
+    .map(([label, url]) => `<a href="${escapeHtml(url)}" style="color:#16639d;text-decoration:none">${escapeHtml(label)}</a>`)
+    .join('<br>');
+  const hello = `Hello ${data.name},`;
+  const text = [
+    hello,
+    '',
+    'Thank you for contacting IEEE CTSoc CUSB.',
+    'We have received your message and our team will get back to you as soon as possible.',
+    '',
+    'Stay connected with us:',
+    linksText,
+    '',
+    'Regards,',
+    'IEEE CTSoc CUSB',
+    'Chandigarh University Chapter',
+  ].join('\n');
+  const html = `
+<div style="font-family:Arial,Helvetica,sans-serif;font-size:15px;line-height:1.65;color:#15283a;background:#f5f9fc;padding:24px">
+  <div style="max-width:560px;margin:0 auto;padding:28px;border:1px solid #dce8f1;border-radius:14px;background:#fff;box-shadow:0 12px 32px rgba(20,67,102,.08)">
+    <p style="margin:0 0 18px;color:#16639d;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase">IEEE CTSoc CUSB</p>
+    <p style="margin:0 0 12px">${escapeHtml(hello)}</p>
+    <p style="margin:0 0 12px">Thank you for contacting IEEE CTSoc CUSB.</p>
+    <p style="margin:0 0 20px">We have received your message and our team will get back to you as soon as possible.</p>
+    <p style="margin:0 0 8px;font-weight:700">Stay connected with us</p>
+    <p style="margin:0 0 22px">${linksHtml}</p>
+    <p style="margin:0">Regards,<br><strong>IEEE CTSoc CUSB</strong><br>Chandigarh University Chapter</p>
+  </div>
+</div>`.trim();
+
+  return {
+    from: { name: 'IEEE CTSoc CUSB', address: env.GMAIL_USER },
+    to: data.email,
+    subject: 'Thank you for contacting IEEE CTSoc CUSB',
+    text,
+    html,
+  };
+}
+
 /**
  * Handles one submission: a contact query, or a chapter registration when
  * the body says `type: 'chapter'`. Returns { status, payload } for the caller.
@@ -242,9 +291,10 @@ export function buildEmail(data, { env = process.env, now = new Date() } = {}) {
  * the environment.
  */
 export async function handleContact(body, { ip = 'unknown', env = process.env, transport, now = new Date() } = {}) {
+  console.info('[contact] request received');
   // Honeypot: real visitors never see or fill this field.
   if (typeof body?.company === 'string' && body.company.trim() !== '') {
-    return { status: 200, payload: { ok: true } };
+    return { status: 400, payload: { ok: false, error: 'The request could not be processed.' } };
   }
 
   const { data, fields, valid } = body?.type === 'chapter' ? validateRegistration(body) : validateContact(body);
@@ -254,6 +304,7 @@ export async function handleContact(body, { ip = 'unknown', env = process.env, t
       payload: { ok: false, error: 'Some fields need attention. Fix them and send again.', fields },
     };
   }
+  console.info('[contact] email validation passed');
 
   const mailer = transport ?? createTransport(env);
   if (!mailer) {
@@ -272,10 +323,40 @@ export async function handleContact(body, { ip = 'unknown', env = process.env, t
   }
 
   try {
+    console.info('[contact] sendMail started');
     const info = await mailer.sendMail(buildEmail(data, { env, now }));
-    return { status: 200, payload: { ok: true, id: info?.messageId ?? null } };
+    console.info('[contact] sendMail succeeded', { messageId: info?.messageId ?? null });
+    let confirmationSent = null;
+    if (data.kind === 'query') {
+      try {
+        console.info('[contact] confirmation sendMail started');
+        const confirmation = await mailer.sendMail(buildQueryAutoReply(data, { env }));
+        confirmationSent = true;
+        console.info('[contact] confirmation sendMail succeeded', { messageId: confirmation?.messageId ?? null });
+      } catch (replyError) {
+        confirmationSent = false;
+        let message = String(replyError?.message ?? 'Unknown SMTP error');
+        for (const secret of [env.GMAIL_APP_PASSWORD, env.GMAIL_USER, env.CONTACT_TO]) {
+          if (typeof secret === 'string' && secret.length > 0) message = message.split(secret).join('[redacted]');
+        }
+        console.error('[contact] confirmation sendMail failed', {
+          code: replyError?.code ?? null,
+          responseCode: replyError?.responseCode ?? null,
+          message: message.slice(0, 300),
+        });
+      }
+    }
+    return { status: 200, payload: { ok: true, id: info?.messageId ?? null, confirmationSent } };
   } catch (error) {
-    console.error('[contact] sendMail failed:', error?.message ?? error);
+    let message = String(error?.message ?? 'Unknown SMTP error');
+    for (const secret of [env.GMAIL_APP_PASSWORD, env.GMAIL_USER, env.CONTACT_TO]) {
+      if (typeof secret === 'string' && secret.length > 0) message = message.split(secret).join('[redacted]');
+    }
+    console.error('[contact] sendMail failed', {
+      code: error?.code ?? null,
+      responseCode: error?.responseCode ?? null,
+      message: message.slice(0, 300),
+    });
     return {
       status: 502,
       payload: { ok: false, error: 'The mail service rejected the message. It has not been delivered.' },

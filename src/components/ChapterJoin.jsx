@@ -1,24 +1,23 @@
-import { registrationCopy as copy } from '../data/registration';
-import ChapterForm from './ChapterForm';
+import Button from './Button';
 
 /**
- * Heading plus the free chapter registration form. Used as a section of the
- * Membership page and as the whole of the Sign up page.
- *   as : 'h1' on its own page, 'h3' inside the Membership page
+ * Invitation to contact the chapter about getting involved.
+ * `as` selects the heading level for the page section that contains it.
  */
 export default function ChapterJoin({ as: Heading = 'h2', id = 'join' }) {
   return (
     <div className="cjoin" id={id}>
       <div className="cjoin__head">
-        <p className="cjoin__tag">
-          <strong>{copy.free.price}</strong> {copy.free.label}
-        </p>
         <Heading className={Heading === 'h1' ? 'h1' : 'h2'} id={`${id}-title`}>
-          {copy.title}
+          Want to be a part of the IEEE CTSoc CUSB Chapter?
         </Heading>
-        <p className="lead">{copy.subtitle}</p>
+        <p className="lead">
+          Interested in being part of our chapter? Sign up and our team will reach out to you with the next steps.
+        </p>
       </div>
-      <ChapterForm />
+      <Button to="/signup" icon="arrow">
+        Sign up
+      </Button>
     </div>
   );
 }

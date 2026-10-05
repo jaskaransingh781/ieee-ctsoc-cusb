@@ -333,6 +333,7 @@ button {
   --btn-bg: var(--blue-deep);
   --btn-bd: var(--blue-deep);
   box-shadow: 0 0.625rem 1.375rem -0.75rem rgba(15, 76, 122, 0.7);
+  transform: translateY(-1px) scale(1.01);
 }
 
 .btn:active {

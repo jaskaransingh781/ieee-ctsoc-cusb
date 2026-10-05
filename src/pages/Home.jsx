@@ -1,15 +1,14 @@
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import Button from '../components/Button';
 import EventCalendar from '../components/EventCalendar';
-import EventCard from '../components/EventCard';
 import EventCarousel from '../components/EventCarousel';
-import { Segmented } from '../components/FilterBar';
 import Flagship from '../components/Flagship';
 import HeroField from '../components/HeroField';
 import Icon from '../components/Icon';
 import ImpactCard from '../components/ImpactCard';
+import IeeeDayTeaser from '../components/IeeeDayTeaser';
 import Newsletter from '../components/Newsletter';
 import { ReachButtons } from '../components/Reach';
 import Reveal from '../components/Reveal';
@@ -19,10 +18,10 @@ import Ticker from '../components/Ticker';
 import {
   eventTypes,
   getCurrentEvents,
+  getEvent,
   getFeaturedEvent,
   getPastEvents,
   getSpotlightEvents,
-  getUsedTypes,
   hasDetails,
 } from '../data/events';
 import { getSocialLinks, site } from '../data/site';
@@ -72,7 +71,7 @@ function Hero() {
           <Button to="/events" icon="arrow">
             Browse events
           </Button>
-          <Button to="/team" variant="secondary">
+          <Button to="/team" variant="secondary" icon="arrow">
             Meet the team
           </Button>
         </motion.div>
@@ -82,22 +81,21 @@ function Hero() {
 }
 
 /**
- * Upcoming events other than the flagship and anything that has its own
- * band (IEEE Day). Hidden when there are none.
+ * Upcoming featured events, with the nearest date receiving emphasis.
  */
 function Upcoming() {
   const live = useLiveEvents();
-  const current = useMemo(
-    () => getCurrentEvents().filter((event) => !event.featured && !event.spotlight),
-    [live],
-  );
-  const [type, setType] = useState('all');
-  const types = getUsedTypes(current);
-  const options = [
-    { value: 'all', label: 'All' },
-    ...types.map((value) => ({ value, label: eventTypes[value].plural })),
-  ];
-  const visible = current.filter((event) => type === 'all' || event.type === type).slice(0, 4);
+  const current = useMemo(() => getCurrentEvents()
+    .filter((event) => event.featured || event.spotlight)
+    .map((event) => ({
+      ...event,
+      homeDate: event.localCelebration?.startsAt
+        ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' }).format(new Date(event.localCelebration.startsAt))
+        : formatEventDate(event),
+      homeVenue: event.localCelebration?.venue ?? event.venueShort ?? event.venue,
+      homeStart: new Date(event.localCelebration?.startsAt ?? event.startsAt ?? `${event.date}T00:00:00+05:30`).getTime(),
+    }))
+    .sort((a, b) => a.homeStart - b.homeStart), [live]);
 
   if (!current.length) return null;
 
@@ -117,18 +115,22 @@ function Upcoming() {
           </Link>
         </div>
 
-        {options.length > 2 ? (
-          <div className="home-filter">
-            <Segmented label="Filter by category" options={options} value={type} onChange={setType} variant="chips" />
-          </div>
-        ) : null}
-
-        <motion.div layout className="event-grid event-grid--four">
-          <AnimatePresence mode="popLayout" initial={false}>
-            {visible.map((event) => (
-              <EventCard key={event.slug} event={event} />
-            ))}
-          </AnimatePresence>
+        <motion.div layout className="home-upcoming-grid">
+          {current.map((event, index) => (
+            <Link
+              key={event.slug}
+              to={`/events/${event.slug}`}
+              className={`home-upcoming-card ${index === 0 ? 'home-upcoming-card--next' : ''}`}
+            >
+              <span className="home-upcoming-card__status">
+                {event.localCelebration ? 'Local chapter celebration' : index === 0 ? 'Next up' : 'Upcoming'}
+              </span>
+              <h3>{event.title.replace('4.O', '4.0')}</h3>
+              <p>{event.homeDate}</p>
+              <p className="home-upcoming-card__venue">{event.homeVenue}</p>
+              <span className="home-upcoming-card__link">Event details <Icon name="arrow" /></span>
+            </Link>
+          ))}
         </motion.div>
       </div>
     </section>
@@ -263,7 +265,7 @@ function CallToAction() {
             {hasWhatsapp ? ' For announcements as they happen, join the WhatsApp community.' : ''}
           </p>
           <div className="cta__actions">
-            <Button to="/contact" icon="arrow">
+            <Button to="/signup#contact" icon="arrow">
               Contact the chapter
             </Button>
             <ReachButtons />
@@ -278,10 +280,20 @@ export default function Home() {
   usePageTitle(null);
 
   // Upcoming events first, then the archive, so the strip always has variety.
-  const tickerItems = [...getCurrentEvents(), ...getPastEvents().slice().reverse()].map((event) => ({
+  const now = Date.now();
+  const campusEvent = getEvent('ieee-day-2026')?.localCelebration;
+  const localDayStart = Date.parse(campusEvent?.startsAt ?? '');
+  const localDayEnd = localDayStart + 86_399_000;
+  const localDayStatus = now < localDayStart ? 'upcoming' : now <= localDayEnd ? 'ongoing' : 'past';
+  const tickerItems = [...getCurrentEvents().filter((event) => event.slug !== 'ieee-day-2026'), { slug: 'ieee-day-campus', title: 'IEEE Day 2026', date: null, localCelebration: campusEvent, status: localDayStatus }, ...getPastEvents().slice().reverse()].map((event) => ({
     key: event.slug,
     title: event.title,
-    detail: event.date || event.dateLabel ? formatEventDate(event) : eventTypes[event.type]?.label,
+    detail:
+      event.slug === 'ieee-day-campus'
+        ? new Intl.DateTimeFormat('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata' }).format(new Date(event.localCelebration.startsAt))
+        : event.date || event.dateLabel
+          ? formatEventDate(event)
+          : eventTypes[event.type]?.label,
     status: event.status,
   }));
 
@@ -293,6 +305,7 @@ export default function Home() {
       {getSpotlightEvents().map((event) => (
         <Spotlight key={event.slug} event={event} />
       ))}
+      <IeeeDayTeaser />
       <Flagship event={getFeaturedEvent()} />
       <Upcoming />
       <PreviousEvents />

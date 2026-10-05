@@ -1,6 +1,6 @@
-// ---------------------------------------------------------------------------
+﻿// ---------------------------------------------------------------------------
 // CHAPTER REGISTRATION FORM
-// The free "Join IEEE CTSoc | CUSB" form. Every field, option and message
+// The IEEE CTSoc CUSB Chapter interest form. Every field, option and message
 // is defined here; the form component only draws what this file describes.
 // To add a department, an interest or a field, edit the lists below.
 //
@@ -9,24 +9,18 @@
 // ---------------------------------------------------------------------------
 
 export const registrationCopy = {
-  title: 'Join IEEE CTSoc | CUSB',
+  title: 'Get involved with IEEE CTSoc CUSB',
   subtitle:
-    'Become a part of the IEEE CTSoc Chandigarh University chapter. It is free for Chandigarh University students.',
-  formName: 'Free IEEE CTSoc | CUSB Chapter Registration',
-  free: {
-    price: '₹0',
-    label: 'Free to join',
-    text: 'IEEE CTSoc | CUSB chapter membership through CUIMS is free for Chandigarh University students.',
-    note: 'This is the chapter registration. IEEE membership dues are separate and are paid to IEEE.',
-  },
-  submit: 'Join IEEE CTSoc | CUSB',
+    'Share your student details and interests. The IEEE CTSoc CUSB Chapter team will reach out with next steps.',
+  formName: 'IEEE CTSoc CUSB Chapter interest form',
+  submit: 'Send details',
   consent:
     'By submitting this form, you confirm that the information provided is accurate and that you are a Chandigarh University student.',
   handling: 'Your registration is emailed to the chapter team. It is not stored on this website.',
   success: {
-    title: 'Welcome to IEEE CTSoc | CUSB',
-    text: 'Your chapter registration has been submitted successfully.',
-    brand: 'IEEE CTSoc | CUSB',
+    title: 'Thanks for getting in touch',
+    text: 'Your details have been shared with the IEEE CTSoc CUSB Chapter team.',
+    brand: 'IEEE CTSoc CUSB Chapter',
     tagline: 'Where Technology Meets Innovation.',
     eventsLabel: 'Explore upcoming events',
   },
@@ -191,7 +185,7 @@ export const steps = [
     id: 'interests',
     label: 'Interests',
     title: 'What are you interested in?',
-    text: 'Tell us what kind of activities you would like to take part in through IEEE CTSoc | CUSB. Pick as many as you like.',
+    text: 'Tell us what kind of activities you would like to take part in through the IEEE CTSoc CUSB Chapter. Pick as many as you like.',
     fields: ['interests'],
   },
 ];

@@ -156,7 +156,7 @@ export default function About() {
                 <Button to={`/events/${flagship.slug}`} icon="arrow">
                   About {flagship.title}
                 </Button>
-                <Button to="/contact" variant="secondary">
+                <Button to="/signup#contact" variant="secondary">
                   Contact the chapter
                 </Button>
               </div>

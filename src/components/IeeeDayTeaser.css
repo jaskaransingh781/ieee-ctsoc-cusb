@@ -1,0 +1,294 @@
+.ieee-teaser {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(15rem, 18rem);
+  align-items: center;
+  gap: clamp(1.25rem, 3vw, 2.5rem);
+  padding: clamp(1.25rem, 3vw, 2rem);
+  border: 1px solid color-mix(in srgb, var(--blue) 16%, var(--line));
+  border-radius: var(--r-lg);
+  background:
+    repeating-linear-gradient(0deg, rgba(22, 99, 157, 0.018) 0 1px, transparent 1px 1.125rem),
+    repeating-linear-gradient(90deg, rgba(22, 99, 157, 0.018) 0 1px, transparent 1px 1.125rem),
+    radial-gradient(45% 90% at 100% 0%, rgba(81, 158, 218, 0.12), transparent 72%),
+    linear-gradient(115deg, #fff 12%, #f8fbff 100%);
+  box-shadow: 0 1.25rem 2.75rem -2.125rem rgba(15, 76, 122, 0.36), inset 0 1px 0 #fff;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.ieee-teaser::before {
+  position: absolute;
+  z-index: -1;
+  top: -6rem;
+  right: 11rem;
+  width: 19rem;
+  height: 19rem;
+  border-radius: 50%;
+  background: rgba(56, 139, 202, 0.075);
+  content: '';
+  filter: blur(3rem);
+  pointer-events: none;
+}
+
+.ieee-teaser__trace {
+  position: absolute;
+  top: 50%;
+  right: 11rem;
+  z-index: 0;
+  width: 16.25rem;
+  height: 11.25rem;
+  overflow: visible;
+  opacity: 0.52;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.ieee-teaser__trace path {
+  fill: none;
+  stroke: color-mix(in srgb, var(--blue) 46%, #fff);
+  stroke-width: 1.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-dasharray: 3 7;
+  animation: teaser-trail 18s linear infinite;
+}
+
+.ieee-teaser__trace .ieee-teaser__trail {
+  stroke: color-mix(in srgb, var(--blue) 52%, #fff);
+  stroke-dasharray: 28 12;
+  animation-duration: 11s;
+}
+
+.ieee-teaser__trace circle {
+  fill: #fff;
+  stroke: color-mix(in srgb, var(--blue) 42%, #fff);
+  stroke-width: 1.2;
+}
+
+.ieee-teaser__trace .ieee-teaser__waypoint {
+  fill: #f8fcff;
+  stroke: var(--blue);
+  filter: drop-shadow(0 0 4px rgba(22, 99, 157, 0.3));
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: teaser-waypoint 3.2s ease-in-out infinite;
+}
+
+.ieee-teaser__trace .ieee-teaser__halo {
+  fill: none;
+  stroke: color-mix(in srgb, var(--blue) 32%, #fff);
+  opacity: 0.7;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: teaser-halo 3.2s ease-out infinite;
+}
+
+@keyframes teaser-trail {
+  to { stroke-dashoffset: -80; }
+}
+
+@keyframes teaser-waypoint {
+  50% { opacity: 0.68; transform: scale(1.18); }
+}
+
+@keyframes teaser-halo {
+  100% { opacity: 0; transform: scale(1.55); }
+}
+
+.ieee-teaser__story {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+}
+
+.ieee-teaser__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--blue-deep);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ieee-teaser__dot {
+  width: 0.4375rem;
+  height: 0.4375rem;
+  border-radius: 50%;
+  background: var(--blue);
+  box-shadow: 0 0 0 0.25rem var(--blue-tint);
+}
+
+.ieee-teaser__date {
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  font-variant-numeric: tabular-nums;
+}
+
+.ieee-teaser__date span {
+  padding-inline: 0.25rem;
+  color: color-mix(in srgb, var(--blue) 55%, var(--muted));
+}
+
+.ieee-teaser__title {
+  max-width: 38rem;
+  margin-top: 0.75rem;
+  color: var(--ink);
+  font-size: clamp(1.5rem, 3.3vw, 2.375rem);
+  font-weight: 680;
+  letter-spacing: -0.04em;
+  line-height: 1.08;
+  text-wrap: balance;
+}
+
+.ieee-teaser__venue {
+  margin-top: 0.375rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+  font-weight: 620;
+}
+
+.ieee-teaser-wrap.is-highlighted .ieee-teaser {
+  border-color: color-mix(in srgb, var(--blue) 42%, #fff);
+  box-shadow: 0 0 0 4px rgba(22, 99, 157, 0.08), 0 1.25rem 2.75rem -2rem rgba(15, 76, 122, 0.48), inset 0 1px 0 #fff;
+  transition: border-color 0.35s, box-shadow 0.35s;
+}
+
+.ieee-teaser__copy {
+  margin-top: 0.625rem;
+  color: var(--ink-soft);
+  font-size: 1rem;
+  line-height: 1.45;
+}
+
+.ieee-teaser__hint {
+  margin-top: 0.625rem;
+  color: var(--blue-deep);
+  font-size: 0.875rem;
+  font-weight: 560;
+}
+
+.ieee-teaser__reveal {
+  margin-top: 1.125rem;
+  color: var(--blue);
+  font-size: 0.8125rem;
+  font-weight: 720;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ieee-teaser__status {
+  margin-top: 0.5rem;
+  color: var(--muted);
+  font-size: 0.625rem;
+  font-weight: 670;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ieee-teaser__countdown {
+  position: relative;
+  z-index: 1;
+  padding: 1rem;
+  border: 1px solid rgba(22, 99, 157, 0.12);
+  border-radius: 1.125rem;
+  background: rgba(255, 255, 255, 0.68);
+  box-shadow: inset 0 1px 0 #fff;
+  -webkit-backdrop-filter: blur(0.75rem);
+  backdrop-filter: blur(0.75rem);
+}
+
+.ieee-teaser__count-label {
+  margin-bottom: 0.625rem;
+  color: var(--muted);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.ieee-teaser__tiles {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.375rem;
+}
+
+.ieee-teaser__tile {
+  display: grid;
+  justify-items: center;
+  min-width: 0;
+  padding: 0.625rem 0.25rem 0.5rem;
+  border: 1px solid rgba(22, 99, 157, 0.1);
+  border-radius: 0.75rem;
+  background: linear-gradient(160deg, #fff, #f4f8fc);
+  font-variant-numeric: tabular-nums;
+}
+
+.ieee-teaser__tile strong {
+  color: var(--ink);
+  font-size: clamp(1.125rem, 2.2vw, 1.5rem);
+  font-weight: 680;
+  letter-spacing: -0.04em;
+  line-height: 1;
+}
+
+.ieee-teaser__tile small {
+  margin-top: 0.375rem;
+  color: var(--muted);
+  font-size: 0.5625rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+@media (max-width: 760px) {
+  .ieee-teaser {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ieee-teaser__countdown {
+    max-width: 23rem;
+    width: 100%;
+  }
+
+  .ieee-teaser__trace {
+    right: -3rem;
+    opacity: 0.23;
+  }
+}
+
+@media (max-width: 390px) {
+  .ieee-teaser {
+    padding: 1rem;
+  }
+
+  .ieee-teaser__countdown {
+    padding: 0.75rem;
+  }
+
+  .ieee-teaser__tiles {
+    gap: 0.25rem;
+  }
+
+  .ieee-teaser__tile {
+    padding-inline: 0.125rem;
+  }
+
+  .ieee-teaser__tile small {
+    font-size: 0.5rem;
+    letter-spacing: 0.04em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ieee-teaser__trace path,
+  .ieee-teaser__trace .ieee-teaser__waypoint,
+  .ieee-teaser__trace .ieee-teaser__halo {
+    animation: none;
+  }
+}

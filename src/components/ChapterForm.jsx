@@ -1,4 +1,4 @@
-import { useId, useRef, useState } from 'react';
+﻿import { useId, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import {
@@ -25,7 +25,7 @@ const ease = [0.22, 1, 0.36, 1];
 const number = (index) => String(index + 1).padStart(2, '0');
 
 /**
- * Free chapter registration ("Join IEEE CTSoc | CUSB"), in three parts.
+ * Chapter interest form, in three parts.
  * Every field and message comes from src/data/registration.js. Success is
  * shown only after the server confirms the email was accepted.
  */
@@ -400,16 +400,10 @@ export default function ChapterForm() {
         </div>
 
         {last ? (
-          <div className="cfree">
-            <p className="cfree__price">
-              <strong>{copy.free.price}</strong>
-              <span>{copy.free.label}</span>
-            </p>
-            <div>
-              <p className="cfree__text">{copy.free.text}</p>
-              <p className="cfree__note">{copy.free.note}</p>
-            </div>
-          </div>
+          <aside className="cform__invite">
+            <strong>What happens next?</strong>
+            <p>Share your student details and interests. The IEEE CTSoc CUSB Chapter team will contact you about next steps.</p>
+          </aside>
         ) : null}
 
         {state === 'failed' ? (

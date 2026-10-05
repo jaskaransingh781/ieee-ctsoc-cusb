@@ -16,6 +16,8 @@ const hackathon = {
   registrationCloses: '2026-10-04T23:59:00+05:30',
 };
 const ieeeDay = { slug: 'ieee-day-2026', title: 'IEEE Day 2026', date: '2026-10-06', endDate: '2026-10-20' };
+const ieeeDayTeaser = { ...ieeeDay, teaserAt: '2026-10-09T00:00:00+05:30' };
+const ieeeDayLocalEvent = { ...ieeeDay, localCelebration: { startsAt: '2026-10-09T00:00:00+05:30', venue: 'Chandigarh University' } };
 const archive = { slug: 'code-relay', title: 'Code Relay', date: null };
 const all = [hackathon, ieeeDay, archive];
 const kinds = (items) => items.map((item) => `${item.event.slug}:${item.kind}`);
@@ -27,6 +29,22 @@ test('more than three days out, the pop-up has nothing to say', () => {
 test('the countdown begins exactly three days before', () => {
   assert.deepEqual(kinds(getPulseItems([ieeeDay], at('2026-10-02T23:59:00+05:30'))), []);
   assert.deepEqual(kinds(getPulseItems([ieeeDay], at('2026-10-03T00:00:30+05:30'))), ['ieee-day-2026:soon']);
+});
+
+test('the IEEE Day teaser takes priority until the 9 October reveal', () => {
+  const beforeReveal = getPulseItems([ieeeDayTeaser], at('2026-10-05T12:00:00+05:30'));
+  assert.deepEqual(kinds(beforeReveal), ['ieee-day-2026:teaser']);
+  assert.equal(beforeReveal[0].target, at('2026-10-09T00:00:00+05:30'));
+  assert.equal(beforeReveal[0].to, '/#ieee-day-teaser');
+
+  assert.deepEqual(kinds(getPulseItems([ieeeDayTeaser], at('2026-10-09T00:00:00+05:30'))), ['ieee-day-2026:live']);
+});
+
+test('the local campus date is the Dynamic Island teaser target, not the worldwide date', () => {
+  const items = getPulseItems([ieeeDayLocalEvent], at('2026-10-05T12:00:00+05:30'));
+  assert.equal(items[0].target, at('2026-10-09T00:00:00+05:30'));
+  assert.equal(ieeeDayLocalEvent.date, '2026-10-06');
+  assert.equal(ieeeDayLocalEvent.localCelebration.venue, 'Chandigarh University');
 });
 
 test('4 October: registration closes tonight, IEEE Day is two days away', () => {

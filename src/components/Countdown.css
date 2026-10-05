@@ -18,6 +18,7 @@
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.36),
     0 0.75rem 1.5rem -1rem rgba(0, 0, 0, 0.6);
+  overflow: hidden;
 }
 
 .ctiles--lg .ctiles__tile {
@@ -30,6 +31,7 @@
 }
 
 .ctiles__num {
+  display: block;
   font-size: clamp(1.625rem, 2.6vw, 2.125rem);
   font-weight: 680;
   line-height: 1;

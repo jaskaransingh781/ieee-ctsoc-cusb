@@ -4,7 +4,7 @@
 import assert from 'node:assert/strict';
 import { test } from 'node:test';
 import nodemailer from 'nodemailer';
-import { handleContact, validateContact, validateRegistration } from './contact.js';
+import { buildQueryAutoReply, handleContact, validateContact, validateRegistration } from './contact.js';
 
 const env = { GMAIL_USER: 'sender@example.com', GMAIL_APP_PASSWORD: 'x', CONTACT_TO: 'inbox@example.com' };
 const good = {
@@ -49,6 +49,48 @@ test('a valid query is sent with every required detail', async () => {
   ]) {
     assert.ok(mail.text.includes(expected), `email text should include "${expected}"`);
   }
+});
+
+test('a query gets a branded confirmation only after the inbox message succeeds', async () => {
+  const sent = [];
+  const transport = { sendMail: async (mail) => (sent.push(mail), { messageId: `mail-${sent.length}` }) };
+  const { status, payload } = await handleContact(good, { env, transport, ip: ip() });
+  assert.equal(status, 200);
+  assert.equal(payload.ok, true);
+  assert.equal(payload.confirmationSent, true);
+  assert.equal(sent.length, 2);
+  assert.equal(sent[0].to, 'inbox@example.com');
+  assert.equal(sent[1].to, good.email);
+  assert.equal(sent[1].subject, 'Thank you for contacting IEEE CTSoc CUSB');
+  assert.match(sent[1].text, /Hello Asha Rao/);
+  assert.match(sent[1].html, /https:\/\/www\.instagram\.com\/ctsoc_cusb/);
+  assert.match(sent[1].html, /https:\/\/www\.linkedin\.com\/company\/ieee-ctsoc-cusb\//);
+  assert.match(sent[1].html, /https:\/\/chat\.whatsapp\.com\/Bj4GiFRkPDx9bfB9qZfwjp/);
+  assert.match(sent[1].html, /https:\/\/ieee-ctsoc-cusb\.co\.in/);
+});
+
+test('a confirmation failure does not turn successful query delivery into a failure', async () => {
+  let sends = 0;
+  const transport = {
+    sendMail: async () => {
+      sends += 1;
+      if (sends === 2) throw Object.assign(new Error('confirmation SMTP failed'), { code: 'ECONNECTION' });
+      return { messageId: 'inbox-delivered' };
+    },
+  };
+  const { status, payload } = await handleContact(good, { env, transport, ip: ip() });
+  assert.equal(status, 200);
+  assert.equal(payload.ok, true);
+  assert.equal(payload.id, 'inbox-delivered');
+  assert.equal(payload.confirmationSent, false);
+});
+
+test('automatic reply safely escapes the visitor name and uses actual project URLs', () => {
+  const mail = buildQueryAutoReply({ ...validateContact({ ...good, name: '<Asha & Co>' }).data }, { env });
+  assert.equal(mail.to, good.email);
+  assert.match(mail.text, /Hello <Asha & Co>/);
+  assert.match(mail.html, /Hello &lt;Asha &amp; Co&gt;/);
+  assert.ok(!mail.html.includes('<Asha & Co>'));
 });
 
 const student = {
@@ -186,11 +228,12 @@ test('html in the message is escaped in the html body', async () => {
   assert.ok(sent[0].html.includes('&lt;script&gt;'));
 });
 
-test('the honeypot swallows bot submissions without sending', async () => {
+test('the honeypot rejects bot submissions without claiming success or sending', async () => {
   let calls = 0;
   const transport = { sendMail: async () => ((calls += 1), { messageId: 'x' }) };
-  const { status } = await handleContact({ ...good, company: 'Acme Bots' }, { env, transport, ip: ip() });
-  assert.equal(status, 200);
+  const { status, payload } = await handleContact({ ...good, company: 'Acme Bots' }, { env, transport, ip: ip() });
+  assert.equal(status, 400);
+  assert.equal(payload.ok, false);
   assert.equal(calls, 0);
 });
 

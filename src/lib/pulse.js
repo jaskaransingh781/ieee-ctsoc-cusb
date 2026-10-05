@@ -27,8 +27,19 @@ export function getPulseItems(events, now = Date.now(), days = 3) {
   for (const event of events) {
     const to = `/events/${event.slug}`;
     const span = spanOf(event);
+    const localStart = event.localCelebration?.startsAt ?? event.teaserAt;
+    const teaserAt = localStart ? new Date(localStart).getTime() : NaN;
 
-    if (span && now >= span.start && now <= span.end) {
+    if (Number.isFinite(teaserAt) && now < teaserAt) {
+      items.push({
+        id: `${event.slug}:teaser`,
+        kind: 'teaser',
+        title: event.title,
+        target: teaserAt,
+        to: '/#ieee-day-teaser',
+        event,
+      });
+    } else if (span && now >= span.start && now <= span.end) {
       items.push({ id: `${event.slug}:live`, kind: 'live', title: event.title, until: span.end, to, event });
     } else if (span && now < span.start && span.start - now <= within) {
       items.push({ id: `${event.slug}:soon`, kind: 'soon', title: event.title, target: span.start, to, event });
@@ -51,7 +62,7 @@ export function getPulseItems(events, now = Date.now(), days = 3) {
     }
   }
 
-  const rank = { live: 0, deadline: 1, soon: 1 };
+  const rank = { live: 0, teaser: 1, deadline: 2, soon: 2 };
   return items.sort((a, b) => rank[a.kind] - rank[b.kind] || (a.target ?? a.until) - (b.target ?? b.until));
 }
 

@@ -2,8 +2,10 @@ import { Suspense, lazy } from 'react';
 import { Navigate, Route, Routes, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'framer-motion';
 import Footer from './components/Footer';
+import AnnouncementBar from './components/AnnouncementBar';
 import Navbar from './components/Navbar';
 import LivePulse from './components/LivePulse';
+import IeeeDayWelcome from './components/IeeeDayWelcome';
 import { useEventClock, useLiveEvents } from './lib/hooks';
 import Home from './pages/Home';
 
@@ -14,7 +16,6 @@ const EventDetail = lazy(() => import('./pages/EventDetail'));
 const Journey = lazy(() => import('./pages/Journey'));
 const Team = lazy(() => import('./pages/Team'));
 const Membership = lazy(() => import('./pages/Membership'));
-const Contact = lazy(() => import('./pages/Contact'));
 const Signup = lazy(() => import('./pages/Signup'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -39,11 +40,16 @@ export default function App() {
       <a className="skip-link" href="#main">
         Skip to content
       </a>
+      <AnnouncementBar />
       <Navbar />
+      <LivePulse />
+      <IeeeDayWelcome />
       <AnimatePresence
         mode="wait"
         initial={false}
-        onExitComplete={() => window.scrollTo({ top: 0, left: 0, behavior: 'instant' })}
+        onExitComplete={() => {
+          if (!window.location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+        }}
       >
         <motion.main
           id="main"
@@ -63,16 +69,15 @@ export default function App() {
               <Route path="/journey" element={<Journey />} />
               <Route path="/team" element={<Team />} />
               <Route path="/membership" element={<Membership />} />
-              <Route path="/contact" element={<Contact />} />
               <Route path="/signup" element={<Signup />} />
-              <Route path="/signin" element={<Navigate to="/signup" replace />} />
+              <Route path="/contact" element={<Navigate to="/signup#contact" replace />} />
+              <Route path="/signin" element={<Navigate to="/signup#contact" replace />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
         </motion.main>
       </AnimatePresence>
       <Footer />
-      <LivePulse />
     </>
   );
 }

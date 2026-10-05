@@ -100,6 +100,16 @@ function InfoCard({ event }) {
             <dd>{row.value}</dd>
           </div>
         ))}
+        {event.localCelebration ? (
+          <div>
+            <dt className="infocard__label">Local chapter celebration</dt>
+            <dd>
+              {new Intl.DateTimeFormat('en-GB', {
+                day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Kolkata',
+              }).format(new Date(event.localCelebration.startsAt))} at {event.localCelebration.venue}
+            </dd>
+          </div>
+        ) : null}
         {event.organisedBy ? (
           <div>
             <dt className="infocard__label">Organised by</dt>
@@ -369,7 +379,7 @@ export default function EventDetail() {
                           , or{' '}
                         </>
                       ) : null}
-                      <Link className="text-link" to="/contact">
+                      <Link className="text-link" to="/signup#contact">
                         send us a query
                       </Link>
                       .

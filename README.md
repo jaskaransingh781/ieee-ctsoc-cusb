@@ -29,9 +29,11 @@ npm test           # checks the email handler, live-data helpers, calendar, pop-
 | `/events/:slug` | One page per event, e.g. `/events/zinnovatio-4o` |
 | `/journey` | Timeline of past events |
 | `/team` | Team |
-| `/membership` | Two parts: (1) paid IEEE and IEEE CTSoc student membership, with prices in USD / INR and how it works; (2) free IEEE CTSoc CUSB chapter membership through CUIMS, with the registration form |
-| `/contact` | Contact details and query form |
-| `/signup` | The free chapter registration form on its own page (the navbar button). `/signin` redirects here |
+| `/membership` | IEEE and IEEE CTSoc student membership information, plus an invitation to contact the chapter |
+| `/signup` | Chapter interest form with contact details and official links |
+| `/signup#contact` | Contact details on the Sign-up page |
+| `/contact` | Redirects to `/signup#contact` for older links |
+| `/signin` | Redirects to `/signup#contact` |
 | anything else | 404 page (unknown event slugs get "Event not found") |
 
 ## Changing content
@@ -45,8 +47,8 @@ Everything editable lives in `src/data/`. Components never hard-code names, date
 | `src/data/team.js` | Team members: name, role, photo, LinkedIn / Instagram links, who gets the large cards |
 | `src/data/gallery.js` | Photographs for event pages and the Journey page |
 | `src/data/membership.js` | Membership dues, tax rate, fallback USD to INR rate, dated discounts, official IEEE links, and the wording of the Membership page |
+| `src/data/registration.js` | Fields, validation, steps and wording for the separate chapter interest form |
 | `src/data/newsletter.js` | The two IEEE CTSoc publications in the "From IEEE CTSoc" section, and that section's wording |
-| `src/data/registration.js` | The chapter registration form: fields, departments, interests, messages |
 
 Set any link to `null` and it disappears from the site. Set an event's `poster` or a member's
 `image` to `null` and a typographic visual or neutral placeholder is shown instead.
@@ -94,8 +96,7 @@ To add a LinkedIn link to someone who has none, add the braces:
 
 The three links are `social.instagram`, `social.linkedin` and `social.whatsapp` in `site.js`. They
 always appear together, as "Follow on Instagram", "Follow on LinkedIn" and "Join the WhatsApp
-community": in the block at the bottom of the home page, on the Team, Contact and Sign up pages, in
-the chapter part of the Membership page, after a registration is sent, and in a "Stay connected"
+community": in the block at the bottom of the home page, on the Team and Sign-up pages, and in a "Stay connected"
 strip at the end of the About, Events, Journey and event pages. The footer and mobile menu list them
 too. Change a link in that one place and every button follows; set one to `null` and it drops out
 everywhere. The buttons themselves are `src/components/Reach.jsx`.
@@ -150,33 +151,11 @@ numbers and `lastUpdated`.
 The buttons use `membershipLinks` in the same file (IEEE's join page and the IEEE Consumer Technology
 Society page in the IEEE membership catalog).
 
-### The two kinds of membership
+### Contacting the chapter
 
-The Membership page keeps the two apart. A chooser at the top sets them side by side, a switch under
-the navbar moves between them, and each has its own numbered part:
-
-1. **IEEE and IEEE CTSoc membership** (blue): paid to IEEE on ieee.org. Prices, steps, benefits.
-2. **IEEE CTSoc CUSB chapter membership** (green): free, through CUIMS. The registration form.
-
-The wording of the chooser and its comparison rows is `membershipKinds` in `membership.js`; the
-three tiles in the chapter part are `chapterPoints`.
-
-### Chapter registration form
-
-The free "Join IEEE CTSoc | CUSB" form is on `/membership` and on `/signup`. Its fields, the list of
-departments and courses it suggests, the interests, and every message are in
-`src/data/registration.js`. The UID, CUCHD Outlook ID (`@cuchd.in`) and mobile number are checked in
-the browser and again on the server (`server/contact.js`); if you change a rule, change it in both.
-
-Each registration is emailed to the chapter inbox with every answer, through the same server route
-as the contact form. It is not saved anywhere else: there is no database. Until the Gmail app
-password is set up (see below) the form says the registration was not sent.
-
-### CUIMS walkthrough
-
-`cuimsWalkthrough.steps` in `src/data/membership.js` is empty, so the Membership page does not show
-that section yet. Add one entry per step (a title, a line of text and, if you like, a screenshot in
-`src/assets/membership/`) and the section appears above the registration form.
+The Membership page invites prospective chapter participants to use the contact section on `/signup`.
+The navbar action always reads “Sign up”. The Sign-up page combines the chapter interest form with
+the chapter's contact details and official links.
 
 ### Home page pieces and where their content lives
 
@@ -271,19 +250,13 @@ switches to "Registration closed" on its own and removes the Register buttons. F
 it is 7 October 2026, 11:59 pm IST, from the official poster. The PPT submission link hides itself
 the same way after its deadline. To extend either, change the date in `events.js`.
 
-### Sign-up
-
-The Sign up button opens the chapter registration form (see "Chapter registration form" above). It
-does not create accounts and never asks for a password. Real member sign-in needs an auth provider
-and a database, which this project does not have yet.
-
 ### Still to fill in
 
 - After the site is live, open the home page once and look at "From IEEE CTSoc". If it says the
   latest issues could not be checked, ctsoc.ieee.org is refusing the server's requests; the section
   still works with its two cards, and nothing else needs doing.
-- `membership.js`: the CUIMS walkthrough steps. Also check the two dues once against IEEE's own
-  checkout, signed in as a student in India, and correct them here if they differ.
+- `membership.js`: check the two dues once against IEEE's own checkout, signed in as a student in
+  India, and correct them here if they differ.
 - `site.js`: the "Check-ins processed" figure, and the chapter's own "Students registered" number
   if it differs from the one entered.
 - `team.js`: photographs, and LinkedIn links for the nine people who do not have one yet.
@@ -299,7 +272,7 @@ and a database, which this project does not have yet.
 
 | Route | What it does |
 | --- | --- |
-| `POST /api/contact` | The contact form and the chapter registration form: checks the answers and emails them |
+| `POST /api/contact` | Checks contact requests and emails them to the chapter inbox. The handler retains its legacy chapter payload for compatibility. |
 | `GET /api/rates` | The day's USD to INR rate, kept for twelve hours |
 | `GET /api/newsletter` | The IEEE CTSoc newsletter issues found online, kept for twelve hours |
 | `GET /api/health` | Says whether email is set up |
@@ -307,10 +280,10 @@ and a database, which this project does not have yet.
 The last three need no keys. When a lookup fails they answer `{ "ok": false }` and the page falls
 back to what is saved in `src/data/`.
 
-## Contact form and registration email
+## Contact form email
 
-Both forms post to `/api/contact`. The server validates the query and emails it to the chapter inbox
-with the sender as reply-to. Credentials stay on the server and never reach the browser.
+The chapter interest form posts to `/api/contact`. The server validates the answers and emails them
+to the chapter inbox with the sender as reply-to. Credentials stay on the server and never reach the browser.
 
 1. Copy `.env.example` to `.env`.
 2. In the Google account for `ieeectsoc.cu@gmail.com`, turn on 2-Step Verification and create an
@@ -336,7 +309,7 @@ Add `GMAIL_USER`, `GMAIL_APP_PASSWORD` and `CONTACT_TO` under Project Settings, 
 
 **Static-only hosts (GitHub Pages, plain Netlify):** the pages work, but the contact form needs the
 API. Host `server/` separately, set `ALLOWED_ORIGIN` to the site's address, and point `ENDPOINT` in
-`src/components/ContactForm.jsx` at it. Without the server the Membership page uses the saved
+`src/components/ChapterForm.jsx` at it. Without the server the Membership page uses the saved
 exchange rate and the newsletter section shows its two cards.
 
 ## Design tokens and overall size

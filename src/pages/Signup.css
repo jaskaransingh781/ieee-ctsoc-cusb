@@ -1,0 +1,115 @@
+.signup-page {
+  padding-block: clamp(2.25rem, 6vw, 5rem);
+}
+
+.signup-page__layout {
+  display: grid;
+  grid-template-columns: minmax(16rem, 0.82fr) minmax(0, 1.4fr);
+  align-items: start;
+  gap: clamp(2rem, 5vw, 4.5rem);
+}
+
+.signup-page__aside {
+  min-width: 0;
+}
+
+.signup-page__head {
+  width: 100%;
+  margin: 0 0 clamp(1.75rem, 3vw, 2.5rem);
+  text-align: left;
+}
+
+.signup-page__eyebrow {
+  margin-bottom: 0.75rem;
+  color: var(--blue-deep);
+  font-size: 0.75rem;
+  font-weight: 720;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+}
+
+.signup-page__head .lead {
+  max-width: 42rem;
+  margin: 0.875rem 0 0;
+}
+
+.signup-contact {
+  scroll-margin-top: calc(var(--nav-h) + 1.5rem);
+  outline: none;
+}
+
+.signup-contact__title {
+  margin-bottom: 0.75rem;
+  color: var(--ink);
+  font-size: 1.25rem;
+  font-weight: 650;
+  letter-spacing: -0.025em;
+}
+
+.signup-page .contact__item {
+  padding-block: 0.875rem;
+}
+
+.signup-page .contact__item dd {
+  overflow-wrap: anywhere;
+}
+
+.signup-page .contact__reach {
+  gap: 0.4375rem;
+}
+
+.signup-page .contact__reach .btn {
+  min-height: 2.25rem;
+  padding-inline: 0.6875rem;
+  font-size: 0.8125rem;
+}
+
+.signup-page__form {
+  min-width: 0;
+}
+
+.signup-page .cform {
+  width: 100%;
+  margin: 0;
+  border: 1px solid var(--line);
+  background: var(--paper);
+  box-shadow: 0 1.5rem 3rem -2.25rem rgba(13, 45, 72, 0.28);
+}
+
+.signup-page__membership-note {
+  margin-top: 1.5rem;
+  text-align: right;
+}
+
+@media (max-width: 860px) {
+  .signup-page__layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: clamp(2rem, 5vw, 3rem);
+  }
+
+  .signup-page__aside {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    align-items: start;
+  }
+
+  .signup-page__head {
+    margin-bottom: 0;
+  }
+}
+
+@media (max-width: 620px) {
+  .signup-page__aside {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1.75rem;
+  }
+
+  .signup-page__head {
+    margin-bottom: 0;
+  }
+
+  .signup-page__membership-note {
+    text-align: left;
+  }
+}

@@ -238,7 +238,7 @@ export const events = [
       },
       {
         q: 'Who do we contact with a question about the hackathon?',
-        a: 'Write to zinnovatio@cumail.in or events.cse2@cumail.in. For anything about IEEE CTSoc CUSB itself, use the contact page on this site.',
+        a: 'Write to zinnovatio@cumail.in or events.cse2@cumail.in. For anything about IEEE CTSoc CUSB itself, use the contact section on the Sign-up page.',
       },
     ],
     contacts: ['zinnovatio@cumail.in', 'events.cse2@cumail.in'],
@@ -261,6 +261,10 @@ export const events = [
     dateLabel: 'Tuesday, 6 October 2026',
     startsAt: '2026-10-06T00:00:00+05:30',
     endsAt: '2026-10-20T23:59:59+05:30',
+    localCelebration: {
+      startsAt: '2026-10-09T00:00:00+05:30',
+      venue: 'Chandigarh University',
+    },
     venue: 'IEEE communities worldwide',
     venueShort: 'Worldwide',
     short: 'IEEE Day',

@@ -47,7 +47,7 @@ export default function ReachStrip({ title = 'Stay connected', text }) {
         </div>
         <div className="reach__actions">
           <ReachButtons size="sm" />
-          <Button to="/contact" size="sm" icon="arrow">
+          <Button to="/signup#contact" size="sm" icon="arrow">
             Contact the chapter
           </Button>
         </div>

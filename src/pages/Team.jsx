@@ -67,7 +67,7 @@ export default function Team() {
             <p className="muted">Tell us what you would like to help with and we will get back to you.</p>
           </div>
           <div className="team-join__actions">
-            <Button to="/contact" icon="arrow">
+            <Button to="/signup#contact" icon="arrow">
               Send a query
             </Button>
             <ReachButtons />

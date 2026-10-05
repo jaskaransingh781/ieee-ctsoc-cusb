@@ -1,15 +1,54 @@
-/* The pop-up at the corner of the screen: a pane of dark glass that
-   blooms in when something is live or about to start. */
+/* The Dynamic Island: a dark glass pane that blooms when expanded. */
 .pulse {
-  --tone: #e8648c;
-  --tone-glow: 214, 72, 116;
+  --tone: #4b9bd2;
+  --tone-glow: 22, 99, 157;
   position: fixed;
-  right: clamp(0.75rem, 2vw, 1.5rem);
-  bottom: clamp(0.75rem, 2vw, 1.5rem);
-  z-index: 60;
+  top: calc(var(--pulse-header-bottom, var(--nav-h)) + env(safe-area-inset-top, 0px) + 0.75rem);
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  z-index: 120;
   width: min(23.5rem, calc(100vw - 1.5rem));
+  max-height: calc(100dvh - var(--pulse-header-bottom, var(--nav-h)) - env(safe-area-inset-top, 0px) - 1.5rem);
   color: #fff;
-  transform-origin: 100% 100%;
+  isolation: isolate;
+  translate: -50% 0;
+  transform-origin: top center;
+  transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1), right 0.45s cubic-bezier(0.22, 1, 0.36, 1), top 0.45s cubic-bezier(0.22, 1, 0.36, 1), translate 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pulse--scrolled {
+  left: auto;
+  right: clamp(0.75rem, 2vw, 1.5rem);
+  translate: 0 0;
+  transform-origin: top right;
+}
+
+.pulse--avoids {
+  top: auto;
+  bottom: max(1rem, env(safe-area-inset-bottom, 0px));
+  transform-origin: bottom right;
+}
+
+.pulse--obscured {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.pulse-slot {
+  height: 3.5rem;
+  overflow-anchor: none;
+  transition: height 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pulse-slot--expanded {
+  height: calc(min(28rem, 58dvh) + 0.75rem);
+}
+
+.pulse--top {
+  left: 50%;
+  right: auto;
+  translate: -50% 0;
 }
 
 .pulse--live {
@@ -20,6 +59,53 @@
 .pulse--deadline {
   --tone: #ff7a61;
   --tone-glow: 255, 122, 97;
+}
+
+.pulse--teaser {
+  --tone: #4b9bd2;
+  --tone-glow: 22, 99, 157;
+}
+
+.pulse--teaser .pulse__bloom {
+  background: radial-gradient(circle, rgba(var(--tone-glow), 0.32) 0%, rgba(var(--tone-glow), 0.12) 38%, transparent 68%);
+  filter: blur(1.125rem);
+}
+
+.pulse--teaser .pulse__ring {
+  width: 48%;
+  margin: -24% 0 0 -24%;
+  border: 1px solid rgba(var(--tone-glow), 0.3);
+  animation: pulse-ring-ambient 2.3s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+.pulse--teaser:not(.pulse--pill)::before {
+  position: absolute;
+  inset: -1.75rem -1.25rem;
+  z-index: -1;
+  border-radius: 2.5rem;
+  background: radial-gradient(ellipse, rgba(var(--tone-glow), 0.24), rgba(var(--tone-glow), 0.1) 48%, transparent 74%);
+  content: '';
+  filter: blur(1.125rem);
+  pointer-events: none;
+  animation: pulse-island-halo 1.25s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes pulse-island-halo {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 0.72; transform: scale(1); }
+}
+
+@keyframes pulse-ring-ambient {
+  0% { transform: scale(0.4); opacity: 0.38; }
+  100% { transform: scale(1.9); opacity: 0; }
+}
+
+.pulse--teaser .pulse__glass {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.14),
+    0 0 2rem -0.65rem rgba(var(--tone-glow), 0.46),
+    0 1.5rem 2.5rem -1.5rem rgba(4, 12, 24, 0.84);
 }
 
 /* Sits above the Register bar that phones show on an event page. */
@@ -85,20 +171,23 @@ body.has-registerbar .pulse {
 /* ------------------------------------------------------------ The glass */
 .pulse__glass {
   position: relative;
+  max-height: inherit;
+  overflow-y: auto;
   padding: 0.875rem 1rem 1rem;
   border-radius: 1.5rem;
   background:
-    linear-gradient(150deg, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.03) 42%, rgba(var(--tone-glow), 0.3) 100%),
-    rgba(7, 16, 29, 0.88);
+    linear-gradient(150deg, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.04) 42%, rgba(var(--tone-glow), 0.24) 100%),
+    rgba(9, 27, 45, 0.82);
   -webkit-backdrop-filter: blur(1.5rem) saturate(180%);
   backdrop-filter: blur(1.5rem) saturate(180%);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.5),
     inset 0 0 0 1px rgba(255, 255, 255, 0.14),
-    0 0 2.5rem -0.5rem rgba(var(--tone-glow), 0.6),
+    0 0 2rem -0.5rem rgba(var(--tone-glow), 0.48),
     0 1.75rem 3rem -1.5rem rgba(4, 12, 24, 0.9);
-  overflow: hidden;
 }
+
+.pulse__expanded { max-height: inherit; }
 
 /* Bright rim, strongest where the light catches */
 .pulse__glass::before {
@@ -257,9 +346,11 @@ body.has-registerbar .pulse {
   border-radius: 0.875rem;
   background: linear-gradient(160deg, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0.04));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.36);
+  overflow: hidden;
 }
 
 .pulse__tile strong {
+  display: block;
   font-size: 1.5rem;
   font-weight: 680;
   line-height: 1.05;
@@ -394,13 +485,7 @@ body.has-registerbar .pulse {
 
 /* Phones: one compact strip, so it never covers the page. */
 @media (max-width: 640px) {
-  .pulse {
-    left: 0.625rem;
-    right: 0.625rem;
-    bottom: 0.625rem;
-    width: auto;
-    transform-origin: 50% 100%;
-  }
+  .pulse--scrolled { right: 0.625rem; }
 
   .pulse__glass {
     padding: 0.625rem 0.75rem 0.75rem;
@@ -446,6 +531,14 @@ body.has-registerbar .pulse {
     display: none;
   }
 
+  .pulse--teaser .pulse__line {
+    display: block;
+    grid-column: 1 / -1;
+    margin-top: 0;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+  }
+
   .pulse--live .pulse__line {
     display: block;
     margin-top: 0;
@@ -460,10 +553,6 @@ body.has-registerbar .pulse {
 
   .pulse__btn {
     min-height: 2.375rem;
-  }
-
-  .pulse--pill {
-    left: auto;
   }
 
   .pulse__pill-state {
@@ -521,9 +610,74 @@ body.has-registerbar .pulse {
     display: none;
   }
 
+  .pulse--teaser:not(.pulse--pill)::before {
+    animation: none;
+    opacity: 0.35;
+  }
+
   .pulse__bloom {
     opacity: 0.3;
   }
+}
+
+/* Light frosted-glass finish to match the site's white and IEEE-blue palette. */
+.pulse {
+  color: #17344d;
+  transition: left 0.45s cubic-bezier(0.22, 1, 0.36, 1), right 0.45s cubic-bezier(0.22, 1, 0.36, 1), top 0.45s cubic-bezier(0.22, 1, 0.36, 1), bottom 0.45s cubic-bezier(0.22, 1, 0.36, 1), translate 0.45s cubic-bezier(0.22, 1, 0.36, 1), width 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.pulse__glass {
+  border: 1px solid rgba(30, 91, 136, 0.14);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(246, 251, 255, 0.9) 62%, rgba(227, 241, 251, 0.82)),
+    rgba(255, 255, 255, 0.92);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.98), 0 1rem 2.5rem -1.25rem rgba(21, 70, 108, 0.34), 0 0 1.75rem -0.75rem rgba(var(--tone-glow), 0.32);
+}
+
+.pulse__glass::before {
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.28) 38%, rgba(var(--tone-glow), 0.3));
+}
+
+.pulse__state {
+  border-color: rgba(var(--tone-glow), 0.2);
+  background: rgba(var(--tone-glow), 0.08);
+  color: #315672;
+}
+
+.pulse__close {
+  border-color: rgba(28, 73, 107, 0.12);
+  background: rgba(255, 255, 255, 0.74);
+  color: #315672;
+}
+
+.pulse__close:hover { background: #fff; }
+.pulse :focus-visible { outline-color: var(--blue); }
+.pulse__lead, .pulse__tile small { color: #577086; }
+.pulse__tile { border-color: rgba(33, 93, 138, 0.1); background: linear-gradient(160deg, rgba(255,255,255,.96), rgba(239,247,252,.86)); box-shadow: inset 0 1px 0 #fff; }
+.pulse__tile strong, .pulse__line strong { color: #17344d; }
+.pulse__line { color: #45627a; }
+.pulse__btn { border-color: rgba(32, 87, 127, 0.16); background: rgba(255, 255, 255, 0.82); box-shadow: inset 0 1px 0 #fff; color: #315672; }
+.pulse__btn:hover { border-color: rgba(22, 99, 157, 0.34); background: #f4f9fd; }
+.pulse__btn--main { border-color: #1e6b9f; background: #1e6b9f; color: #fff; box-shadow: 0 0.4rem 1rem -0.5rem rgba(22, 99, 157, 0.48); }
+.pulse__btn--main:hover { border-color: #155987; background: #155987; color: #fff; }
+.pulse__pip::before { background: rgba(40, 83, 115, 0.2); }
+.pulse__pip.is-on::before { background: var(--blue); }
+
+.pulse__pill {
+  border: 1px solid rgba(27, 82, 125, 0.16);
+  background: linear-gradient(145deg, rgba(255, 255, 255, 0.95), rgba(235, 246, 253, 0.9));
+  box-shadow: inset 0 1px 0 #fff, 0 0.75rem 1.75rem -1rem rgba(17, 72, 113, 0.4), 0 0 1.25rem -0.75rem rgba(var(--tone-glow), 0.32);
+  color: #17344d;
+}
+
+.pulse__pill-state { color: #48677f; }
+.pulse__pill-time { border-color: rgba(30, 91, 136, 0.18); }
+.pulse--teaser .pulse__pill-state { display: inline; }
+.pulse--teaser .pulse__pill-state::after { content: '·'; margin-left: 0.45rem; }
+.pulse--teaser .pulse__glass { box-shadow: inset 0 1px 0 #fff, 0 1rem 2.5rem -1.25rem rgba(21, 70, 108, 0.34), 0 0 1.75rem -0.75rem rgba(var(--tone-glow), 0.32); }
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse, .pulse__pill { transition-duration: 0.01ms; }
 }
 
 @media print {

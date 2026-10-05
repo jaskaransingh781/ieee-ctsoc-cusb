@@ -3,16 +3,16 @@
   overflow: hidden;
   border-block: 1px solid var(--line);
   background: linear-gradient(180deg, var(--paper), var(--mist));
-  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
-  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
 }
 
 .ticker__track {
   display: flex;
   align-items: center;
   width: max-content;
-  padding-block: 1.125rem;
-  animation: ticker 70s linear infinite;
+  padding-block: 1rem;
+  animation: ticker 72s linear infinite;
 }
 
 .ticker:hover .ticker__track {
@@ -31,7 +31,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
-  height: 3.25rem;
+  height: 3rem;
   padding: 0 1.375rem;
   border: 1px solid transparent;
   border-radius: var(--r-pill);

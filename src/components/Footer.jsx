@@ -42,7 +42,7 @@ export default function Footer() {
           </div>
 
           <div className="footer__actions">
-            <Button to="/contact" icon="arrow" className="btn--light">
+            <Button to="/signup#contact" icon="arrow" className="btn--light">
               Contact the chapter
             </Button>
             {site.navCta ? (

@@ -39,7 +39,7 @@ export const site = {
     website: null,
   },
 
-  // Extra official links shown on the Contact and About pages.
+  // Extra official links shown in the Sign-up contact information and About page.
   otherLinks: [
     { label: 'IEEE Consumer Technology Society', url: 'https://ctsoc.ieee.org' },
     { label: 'Chandigarh University', url: 'https://www.cuchd.in' },
@@ -53,16 +53,10 @@ export const site = {
     { label: 'Journey', to: '/journey' },
     { label: 'Team', to: '/team' },
     { label: 'Membership', to: '/membership' },
-    { label: 'Contact', to: '/contact' },
   ],
 
-  // The button on the right of the navbar.
+  // The recurring primary sign-up action shown in the footer and navbar.
   navCta: { label: 'Sign up', to: '/signup' },
-
-  // Member accounts. Sign-up sends a request to the chapter inbox. There is
-  // no password sign-in yet, so the site never asks for one. Set this to
-  // true only once real sign-in exists.
-  signInEnabled: false,
 
   // The impact strip on the home page.
   //   value : a number, or 'auto:past-events' / 'auto:events' / 'auto:team'

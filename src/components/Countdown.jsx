@@ -1,4 +1,5 @@
 import { useCountdown } from '../lib/countdown';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import './Countdown.css';
 
 /**
@@ -8,6 +9,7 @@ import './Countdown.css';
  */
 export function CountdownTiles({ target, doneLabel = 'Under way now', size, hideZeroDays = false }) {
   const left = useCountdown(target);
+  const reduce = useReducedMotion();
   if (!left) return null;
   if (left.done) return <p className="ctiles__done">{doneLabel}</p>;
 
@@ -32,7 +34,18 @@ export function CountdownTiles({ target, doneLabel = 'Under way now', size, hide
     >
       {parts.map(([label, value]) => (
         <div className="ctiles__tile" key={label} aria-hidden="true">
-          <span className="ctiles__num">{value}</span>
+          <AnimatePresence mode="wait" initial={false}>
+            <motion.span
+              key={value}
+              className="ctiles__num"
+              initial={{ opacity: 0, y: 6, filter: 'blur(3px)' }}
+              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
+              exit={{ opacity: 0, y: -6, filter: 'blur(3px)' }}
+              transition={{ duration: reduce ? 0.08 : 0.22, ease: [0.22, 1, 0.36, 1] }}
+            >
+              {value}
+            </motion.span>
+          </AnimatePresence>
           <span className="ctiles__label">{label}</span>
         </div>
       ))}

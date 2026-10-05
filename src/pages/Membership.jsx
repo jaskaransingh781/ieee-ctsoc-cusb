@@ -1,26 +1,21 @@
-import { useEffect, useId, useState } from 'react';
+import { useId, useState } from 'react';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import Button, { ExternalLink } from '../components/Button';
 import ChapterJoin from '../components/ChapterJoin';
 import Icon from '../components/Icon';
-import { ReachButtons } from '../components/Reach';
 import Reveal from '../components/Reveal';
 import {
-  chapterPoints,
-  cuimsWalkthrough,
   formatInr,
   formatPercent,
   formatUsd,
   getMembershipTotals,
   membershipComparison,
-  membershipKinds,
   membershipLinks,
   membershipPricing,
   membershipSteps,
   whyCtsoc,
   whyIeee,
 } from '../data/membership';
-import { resolveImage } from '../lib/assets';
 import { useNow } from '../lib/countdown';
 import { formatDate } from '../lib/format';
 import { usePageTitle } from '../lib/hooks';
@@ -38,27 +33,12 @@ function scrollToId(id) {
   target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
 }
 
-/** Which of the two parts of the page is on screen: 'paid' or 'chapter'. */
-function useVisiblePart(ids) {
-  const [visible, setVisible] = useState(null);
-  useEffect(() => {
-    if (typeof IntersectionObserver === 'undefined') return undefined;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) if (entry.isIntersecting) setVisible(entry.target.id);
-      },
-      { rootMargin: '-45% 0px -50% 0px' },
-    );
-    ids.forEach((id) => {
-      const element = document.getElementById(id);
-      if (element) observer.observe(element);
-    });
-    return () => observer.disconnect();
-  }, [ids]);
-  return visible;
-}
-
-const PARTS = ['paid', 'chapter'];
+const paidMembership = {
+  id: 'paid',
+  tag: 'Paid to IEEE',
+  title: 'IEEE and IEEE CTSoc membership',
+  text: 'Membership of IEEE itself and its Consumer Technology Society. Join through IEEE’s own website.',
+};
 
 /** The band that opens each of the two parts of the page. */
 function PartHead({ kind, index }) {
@@ -313,12 +293,8 @@ export default function Membership() {
   const rate = liveRate?.ok && Number.isFinite(liveRate.rate) ? liveRate : null;
   const totals = getMembershipTotals(membershipPricing, { usdToInr: rate?.rate, now });
   const { ieee, ctsoc, combined, usdToInr } = totals;
-  const walkthrough = cuimsWalkthrough.steps;
-  const visiblePart = useVisiblePart(PARTS);
-  const { paid, chapter } = membershipKinds;
   const discount = ieee.discount ?? ctsoc.discount;
   const saving = Math.round((combined.listSubtotal - combined.subtotal) * 100) / 100;
-  const costOf = { paidCost: `≈ ${formatInr(combined.totalInr)} (${formatUsd(combined.totalUsd)}) a year for both, with tax` };
 
   return (
     <>
@@ -327,7 +303,7 @@ export default function Membership() {
         <div className="mhero__text">
           <p className="mhero__eyebrow">
             <span className="mhero__eyebrow-dot" aria-hidden="true" />
-            IEEE CTSoc | CUSB
+            IEEE CTSoc CUSB Chapter
           </p>
           <h1 className="display mhero__title">
             <span>Become a Member.</span> <span className="mhero__accent">Build What’s Next.</span>
@@ -355,67 +331,11 @@ export default function Membership() {
         <HeroCards />
       </header>
 
-      {/* --------------------------------------- The two kinds, side by side */}
-      <section className="container mkinds" aria-labelledby="kinds-title">
-        <div className="mkinds__head">
-          <h2 className="h2" id="kinds-title">
-            Two kinds of membership
-          </h2>
-          <p className="muted">They are separate. You can hold one, or both.</p>
-        </div>
-        <div className="mkinds__grid">
-          {[paid, chapter].map((kind, index) => (
-            <Reveal as="article" className={`mkind mkind--${kind.id}`} key={kind.id} delay={index * 0.08}>
-              <span className="mkind__light" aria-hidden="true" />
-              <div className="mkind__top">
-                <span className="mkind__num" aria-hidden="true">
-                  {number(index)}
-                </span>
-                <span className="mkind__tag">{kind.tag}</span>
-              </div>
-              <h3 className="mkind__title">{kind.title}</h3>
-              <p className="mkind__text">{kind.text}</p>
-              <dl className="mkind__rows">
-                {membershipKinds.rows.map((row) => (
-                  <div key={row.label}>
-                    <dt>{row.label}</dt>
-                    <dd>{costOf[row[kind.id]] ?? row[kind.id]}</dd>
-                  </div>
-                ))}
-              </dl>
-              <button type="button" className="mkind__button" onClick={() => scrollToId(kind.id)}>
-                <span>{kind.button}</span>
-                <Icon name="arrow" />
-              </button>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
-      {/* Stays under the navbar while either part is on screen */}
-      <nav className="mnav" aria-label="Kinds of membership">
-        <div className="mnav__pill">
-          {[paid, chapter].map((kind) => (
-            <button
-              key={kind.id}
-              type="button"
-              className={`mnav__option mnav__option--${kind.id} ${visiblePart === kind.id ? 'is-on' : ''}`}
-              aria-current={visiblePart === kind.id ? 'true' : undefined}
-              onClick={() => scrollToId(kind.id)}
-            >
-              <span className="mnav__dot" aria-hidden="true" />
-              <span className="mnav__label">{kind.label}</span>
-              <span className="mnav__tag">{kind.tag}</span>
-            </button>
-          ))}
-        </div>
-      </nav>
-
       {/* ============================================================
-          PART 1: IEEE and IEEE CTSoc membership (paid to IEEE)
+          IEEE and IEEE CTSoc membership (paid to IEEE)
           ============================================================ */}
       <div className="mpart mpart--paid" id="paid" role="region" aria-labelledby="paid-title">
-      <PartHead kind={paid} index={0} />
+      <PartHead kind={paidMembership} index={0} />
 
       {/* -------------------------------------------------------- Pricing */}
       <section className="container mplans" aria-labelledby="plans-title">
@@ -766,73 +686,11 @@ export default function Membership() {
       </section>
       </div>
 
-      {/* ============================================================
-          PART 2: IEEE CTSoc CUSB chapter membership (free, through CUIMS)
-          ============================================================ */}
-      <div className="mpart mpart--chapter theme-chapter" id="chapter" role="region" aria-labelledby="chapter-title">
-        <PartHead kind={chapter} index={1} />
-
-        <section className="container mchapter" aria-label="What chapter membership is for">
-          <Reveal as="ul" className="mchapter__points">
-            {chapterPoints.map((point) => (
-              <li className="mchapter__point" key={point.title}>
-                <span className="mchapter__icon">
-                  <Icon name={point.icon} />
-                </span>
-                <div>
-                  <h3 className="mchapter__point-title">{point.title}</h3>
-                  <p className="muted">{point.text}</p>
-                </div>
-              </li>
-            ))}
-          </Reveal>
-        </section>
-
-      {/* ----------------------------------------------- CUIMS walkthrough */}
-      {walkthrough.length ? (
-        <section className="section section--tight" aria-labelledby="cuims-title">
-          <div className="container">
-            <div className="section-head">
-              <div className="section-head__text">
-                <h3 className="h2" id="cuims-title">
-                  {cuimsWalkthrough.title}
-                </h3>
-                <p className="muted">{cuimsWalkthrough.intro}</p>
-              </div>
-            </div>
-            <ol className="mcuims">
-              {walkthrough.map((step, index) => {
-                const image = resolveImage(step.image);
-                return (
-                  <li className="mcuims__step" key={step.title}>
-                    <span className="mstep__num" aria-hidden="true">
-                      {number(index)}
-                    </span>
-                    <div>
-                      <h3 className="h3">{step.title}</h3>
-                      {step.text ? <p className="muted">{step.text}</p> : null}
-                      {image ? <img src={image} alt={`Screenshot: ${step.title}`} loading="lazy" /> : null}
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
-        </section>
-      ) : null}
-
-      {/* ------------------------------------------- Chapter registration */}
-      <section className="section section--tint mjoin" aria-labelledby="join-title">
+      <section className="mpart mpart--chapter theme-chapter" aria-labelledby="join-title">
         <div className="container">
-          <ChapterJoin as="h3" />
-          <div className="mchapter__reach">
-            <p>Follow the chapter and join the community:</p>
-            <ReachButtons size="sm" />
-          </div>
+          <ChapterJoin as="h2" />
         </div>
       </section>
-
-      </div>
     </>
   );
 }

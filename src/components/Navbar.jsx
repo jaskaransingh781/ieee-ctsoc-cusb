@@ -9,12 +9,12 @@ import Icon from './Icon';
 import './Navbar.css';
 
 const ease = [0.22, 1, 0.36, 1];
-
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const scrolled = useScrolled(8);
   const location = useLocation();
   const logo = resolveImage(site.logo);
+  const navCta = { label: 'Sign up', to: '/signup' };
 
   useScrollLock(open);
 
@@ -48,7 +48,12 @@ export default function Navbar() {
 
         <nav className="nav__links" aria-label="Main">
           {site.nav.map((item) => (
-            <NavLink key={item.to} to={item.to} end={item.to === '/'} className="nav__link">
+            <NavLink
+              key={item.to}
+              to={item.to}
+              end={item.to === '/'}
+              className={({ isActive }) => `nav__link ${isActive ? 'active' : ''}`}
+            >
               {({ isActive }) => (
                 <>
                   {isActive ? (
@@ -66,11 +71,9 @@ export default function Navbar() {
         </nav>
 
         <div className="nav__end">
-          {site.navCta ? (
-            <Button to={site.navCta.to} size="sm" icon="arrow" className="nav__cta">
-              {site.navCta.label}
-            </Button>
-          ) : null}
+          <Button to={navCta.to} size="sm" icon="arrow" className="nav__cta">
+            {navCta.label}
+          </Button>
           <button
             type="button"
             className="nav__toggle"
@@ -109,7 +112,7 @@ export default function Navbar() {
                     <NavLink
                       to={item.to}
                       end={item.to === '/'}
-                      className="nav__sheet-link"
+                      className={({ isActive }) => `nav__sheet-link ${isActive ? 'active' : ''}`}
                       onClick={() => setOpen(false)}
                     >
                       <span>{item.label}</span>
@@ -125,11 +128,9 @@ export default function Navbar() {
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.28 }}
               >
-                {site.navCta ? (
-                  <Button to={site.navCta.to} block icon="arrow" onClick={() => setOpen(false)}>
-                    {site.navCta.label}
-                  </Button>
-                ) : null}
+                <Button to={navCta.to} block icon="arrow" onClick={() => setOpen(false)}>
+                  {navCta.label}
+                </Button>
                 <div className="nav__sheet-meta">
                   <ExternalLink href={`mailto:${site.email}`}>{site.email}</ExternalLink>
                   {getSocialLinks().map((link) => (

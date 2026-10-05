@@ -954,80 +954,26 @@
   font-weight: 540;
 }
 
-/* -------------------------------------------------- CUIMS walkthrough */
-.mcuims {
-  display: grid;
-  gap: clamp(1rem, 2vw, 1.5rem);
-}
-
-.mcuims__step {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: clamp(1rem, 2.4vw, 2rem);
-  padding: clamp(1.125rem, 2.4vw, 1.75rem);
-  border: 1px solid var(--line);
-  border-radius: var(--r-lg);
-  background: var(--paper);
-}
-
-.mcuims__step .mstep__num {
-  margin-top: 0;
-}
-
-.mcuims__step p {
-  margin-top: 0.375rem;
-}
-
-.mcuims__step img {
-  margin-top: 1rem;
-  border: 1px solid var(--line);
-  border-radius: var(--r-md);
-}
-
-/* ---------------------------------------------- Chapter registration */
+/* ------------------------------------------ Chapter contact invitation */
 .cjoin {
   display: grid;
-  grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
-  align-items: start;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: clamp(1.5rem, 4vw, 4rem);
+  max-width: 64rem;
+  margin-inline: auto;
 }
 
 .cjoin__head {
-  position: sticky;
-  top: calc(var(--nav-h) + 1.5rem);
+  max-width: 46rem;
 }
 
 .cjoin__head .lead {
   margin-top: 1rem;
 }
 
-.cjoin__tag {
-  display: inline-flex;
-  align-items: baseline;
-  gap: 0.5rem;
-  margin-bottom: 1.125rem;
-  padding: 0.375rem 0.875rem;
-  border-radius: var(--r-pill);
-  background: var(--blue);
-  color: #fff;
-  font-size: 0.8125rem;
-  font-weight: 640;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.cjoin__tag strong {
-  font-size: 1.125rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-}
-
-.signup-page {
-  padding-block: clamp(2.5rem, 6vw, 5rem) clamp(4rem, 9vw, 7rem);
-}
-
-.signup-page__more {
-  margin-top: 1.5rem;
+.cjoin > .btn {
+  min-width: 9rem;
 }
 
 /* ---------------------------------------------------------- Responsive */
@@ -1041,8 +987,8 @@
     grid-template-columns: minmax(0, 1fr);
   }
 
-  .cjoin__head {
-    position: static;
+  .cjoin > .btn {
+    justify-self: start;
   }
 }
 
@@ -1212,17 +1158,6 @@
   transition:
     transform 0.5s var(--ease),
     box-shadow 0.5s var(--ease);
-}
-
-.mkind--chapter {
-  --glow: 79, 224, 143;
-  background:
-    radial-gradient(85% 120% at 100% 0%, rgba(var(--glow), 0.5), transparent 62%),
-    linear-gradient(155deg, #0c5c33 0%, #05200f 100%);
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.34),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08),
-    0 1.75rem 3rem -2rem rgba(5, 48, 24, 0.9);
 }
 
 .mkind:hover {
@@ -1457,11 +1392,6 @@
   background: linear-gradient(180deg, var(--blue-tint) 0%, #f4fbf7 32rem);
 }
 
-.mpart--chapter .mjoin {
-  background: none;
-  padding-bottom: 0;
-}
-
 .mpart__head {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
@@ -1567,80 +1497,8 @@
   color: #7fe6ad;
 }
 
-/* --------------------------------------------- Part 2: the chapter */
-.mchapter {
-  padding-bottom: clamp(1.5rem, 3.4vw, 2.5rem);
-}
-
-.mchapter__points {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(0.75rem, 1.6vw, 1.125rem);
-}
-
-.mchapter__point {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.875rem;
-  padding: clamp(0.875rem, 1.8vw, 1.25rem);
-  border: 1px solid color-mix(in srgb, var(--blue) 22%, var(--line));
-  border-radius: var(--r-lg);
-  background: rgba(255, 255, 255, 0.82);
-  -webkit-backdrop-filter: blur(0.75rem);
-  backdrop-filter: blur(0.75rem);
-  box-shadow: inset 0 1px 0 #fff;
-}
-
-.mchapter__icon {
-  display: grid;
-  place-items: center;
-  width: 2.625rem;
-  height: 2.625rem;
-  border-radius: 0.75rem;
-  background: var(--blue);
-  color: #fff;
-}
-
-.mchapter__point-title {
-  font-size: 1.0625rem;
-  font-weight: 640;
-  letter-spacing: -0.018em;
-}
-
-.mchapter__point .muted {
-  margin-top: 0.1875rem;
-  font-size: 0.9375rem;
-  line-height: 1.45;
-}
-
-.mchapter__reach {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.625rem 1rem;
-  margin-top: clamp(1.25rem, 2.6vw, 2rem);
-  padding-top: clamp(1rem, 2vw, 1.375rem);
-  border-top: 1px solid color-mix(in srgb, var(--blue) 22%, transparent);
-  color: var(--ink-soft);
-  font-size: 0.9375rem;
-  font-weight: 540;
-}
-
-/* The banner and success panel inside the form, in the chapter colour */
-.theme-chapter .cfree,
-.theme-chapter .cdone__brand {
-  background:
-    radial-gradient(80% 140% at 100% 0%, rgba(120, 232, 170, 0.5), transparent 60%),
-    linear-gradient(120deg, #06371f 0%, var(--blue) 100%);
-}
-
-.theme-chapter .cjoin__tag {
-  background: var(--blue);
-}
-
 @media (max-width: 860px) {
-  .mkinds__grid,
-  .mchapter__points {
+  .mkinds__grid {
     grid-template-columns: minmax(0, 1fr);
   }
 
