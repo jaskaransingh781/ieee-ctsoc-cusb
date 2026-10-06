@@ -4,7 +4,7 @@ import { site } from '../data/site';
 import { resolveImage } from '../lib/assets';
 import './IeeeDayWelcome.css';
 
-const SESSION_KEY = 'ctsoc-ieee-day-2026-welcome';
+const SESSION_KEY = 'ctsoc-ieee-day-2026-welcome-v2';
 const ease = [0.22, 1, 0.36, 1];
 const sequence = {
   hidden: { opacity: 0 },

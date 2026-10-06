@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { COUNTDOWN_DAYS, events } from '../data/events';
@@ -68,6 +68,11 @@ function Countdown({ target, now }) {
   );
 }
 
+const PulseCountdown = memo(function PulseCountdown({ target }) {
+  const now = useNow(1000);
+  return <Countdown target={target} now={now} />;
+});
+
 /** "2d 14:41:08", or "14:41:08" on the last day. */
 function shortCountdown(target, now) {
   const left = countdownParts(target, now);
@@ -88,16 +93,17 @@ export default function LivePulse() {
   const navigate = useNavigate();
   const location = useLocation();
   const reduce = useReducedMotion();
-  const now = useNow(1000);
+  // Event selection only needs to refresh periodically. The visible timer
+  // below owns its own one-second clock so it does not redraw the island tree.
+  const now = useNow(30_000);
   useLiveEvents();
   const [dismissed, setDismissed] = useState(readDismissed);
   const [ready, setReady] = useState(false);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const [open, setOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
-  const [avoidContent, setAvoidContent] = useState(false);
-  const [hideForContent, setHideForContent] = useState(false);
+  const [scrollMode, setScrollMode] = useState('TOP');
+  const scrollModeRef = useRef(scrollMode);
 
   const items = getPulseItems(events, now, COUNTDOWN_DAYS).filter((item) => !dismissed.includes(item.id));
   const count = items.length;
@@ -109,8 +115,8 @@ export default function LivePulse() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Measure the real header stack. The announcement scrolls away while the
-  // navbar sticks, so its visible bottom is the island's safe top in either state.
+  // Measure the header stack on mount and size changes. Its original height
+  // leaves a stable safe gap under the sticky navbar after the announcement scrolls away.
   useEffect(() => {
     const announcement = document.querySelector('.announcement');
     const navbar = document.querySelector('.nav');
@@ -128,37 +134,47 @@ export default function LivePulse() {
     const observer = new ResizeObserver(measure);
     if (announcement) observer.observe(announcement);
     if (navbar) observer.observe(navbar);
-    window.addEventListener('scroll', measure, { passive: true });
     window.addEventListener('resize', measure);
     measure();
 
     return () => {
       observer.disconnect();
       window.cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', measure);
       window.removeEventListener('resize', measure);
       document.documentElement.style.removeProperty('--pulse-header-bottom');
     };
   }, []);
 
-  // Center the compact island at the top; tuck it to the right while
-  // scrolling down and return it to center when the visitor scrolls up.
+  // One passive listener, coalesced to one animation-frame read. State only
+  // changes when crossing a semantic mode, never for individual scroll pixels.
   useEffect(() => {
     let previous = window.scrollY;
-    setScrolled(previous >= 24);
+    let frame = 0;
+    const narrow = window.matchMedia('(max-width: 640px)');
     const onScroll = () => {
-      const current = window.scrollY;
-      if (current < 24) {
-        setScrolled(false);
-      } else if (current > previous + 2) {
-        setScrolled(true);
-      } else if (current < previous - 2) {
-        setScrolled(false);
-      }
-      previous = current;
+      if (frame) return;
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        const current = window.scrollY;
+        let next = 'TOP';
+        if (current >= 24) {
+          if (current > previous + 2) next = narrow.matches ? 'SCROLLING' : 'COMPACT_RIGHT';
+          else if (current < previous - 2) next = 'TOP';
+          else next = scrollModeRef.current;
+        }
+        previous = current;
+        scrollModeRef.current = next;
+        setScrollMode((mode) => (mode === next ? mode : next));
+      });
     };
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
+    const initial = window.scrollY >= 24 ? (narrow.matches ? 'SCROLLING' : 'COMPACT_RIGHT') : 'TOP';
+    scrollModeRef.current = initial;
+    setScrollMode(initial);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   // Collapse on an intentional scroll gesture. DOM changes inside the island
@@ -202,7 +218,6 @@ export default function LivePulse() {
 
   const viewTeaser = (event) => {
     event.preventDefault();
-    setOpen(false);
     const revealTeaser = () => {
       const section = document.getElementById('ieee-day-teaser');
       if (!section) return;
@@ -210,73 +225,15 @@ export default function LivePulse() {
       section.classList.add('is-highlighted');
       window.setTimeout(() => section.classList.remove('is-highlighted'), 2200);
     };
+    setOpen(true);
     if (location.pathname !== '/') {
       navigate('/#ieee-day-teaser');
-      window.setTimeout(revealTeaser, 520);
+      window.setTimeout(revealTeaser, reduce ? 0 : 360);
     } else {
       window.history.replaceState(window.history.state, '', '/#ieee-day-teaser');
-      revealTeaser();
+      window.setTimeout(revealTeaser, reduce ? 0 : 220);
     }
   };
-
-  // Prefer the right-side position while scrolling, but tuck the island to
-  // the lower edge if it would sit over a page heading, lead, or hero control.
-  useEffect(() => {
-    const targets = [
-      '.hero__badge', '.hero__title', '.hero__lead', '.hero__actions',
-      '.signup-page__head', '.signup-page__form', '.signup-contact',
-      '.section-head', '.previous__head', '.flagship', '.ieee-teaser', '.cjoin',
-    ];
-    let frame = 0;
-    const measureCollision = () => {
-      window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(() => {
-        const island = document.querySelector('.pulse');
-        if (!show || !scrolled || open || !island) {
-          setAvoidContent(false);
-          setHideForContent(false);
-          return;
-        }
-
-        const current = island.getBoundingClientRect();
-        const top = Math.max(
-          document.querySelector('.nav')?.getBoundingClientRect().bottom ?? 0,
-          Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--pulse-header-bottom')) || 0,
-        ) + 12;
-        const right = window.innerWidth - Math.max(12, Number.parseFloat(getComputedStyle(island).right) || 12);
-        const candidate = { left: right - current.width, right, top, bottom: top + current.height };
-        const bottomCandidate = {
-          ...candidate,
-          top: window.innerHeight - current.height - Math.max(16, window.visualViewport?.offsetTop ?? 0),
-          bottom: window.innerHeight - Math.max(16, window.visualViewport?.offsetTop ?? 0),
-        };
-        const intersects = (a, b) => a.left < b.right && a.right > b.left && a.top < b.bottom && a.bottom > b.top;
-        const overlapsImportant = (box) => targets.some((selector) =>
-          [...document.querySelectorAll(selector)].some((target) => {
-            const rect = target.getBoundingClientRect();
-            return intersects(box, { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom });
-          }),
-        );
-        const topCollision = overlapsImportant(candidate);
-        const bottomCollision = overlapsImportant(bottomCandidate);
-        setAvoidContent(topCollision && !bottomCollision);
-        setHideForContent(topCollision && bottomCollision);
-      });
-    };
-
-    const observer = new ResizeObserver(measureCollision);
-    const main = document.querySelector('#main');
-    if (main) observer.observe(main);
-    window.addEventListener('scroll', measureCollision, { passive: true });
-    window.addEventListener('resize', measureCollision);
-    measureCollision();
-    return () => {
-      observer.disconnect();
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener('scroll', measureCollision);
-      window.removeEventListener('resize', measureCollision);
-    };
-  }, [show, scrolled, open, item?.id]);
 
   const safeSlot = item ? (
     <div className={`pulse-slot ${open && !scrolled ? 'pulse-slot--expanded' : ''}`} aria-hidden="true" />
@@ -288,9 +245,8 @@ export default function LivePulse() {
       <AnimatePresence>
         {show ? (
           <motion.aside
-            layout
             key="island"
-            className={`pulse pulse--${item.kind} ${open ? 'pulse--open' : 'pulse--pill'} ${scrolled ? 'pulse--scrolled' : 'pulse--top'} ${avoidContent ? 'pulse--avoids' : ''} ${hideForContent ? 'pulse--obscured' : ''}`}
+            className={`pulse pulse--${item.kind} ${open ? 'pulse--open' : 'pulse--pill'} pulse--${scrollMode.toLowerCase()}`}
             aria-label="Happening now and coming up"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.92 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -365,7 +321,7 @@ export default function LivePulse() {
                 ) : (
                   <>
                     <p className="pulse__lead">{text.lead}</p>
-                    <Countdown target={item.target} now={now} />
+                    <PulseCountdown target={item.target} />
                     {item.kind === 'teaser' ? (
                       <p className="pulse__line">
                         <strong>{teaserDate.format(new Date(item.target))}</strong> · Something is waiting on campus.
@@ -408,15 +364,17 @@ export default function LivePulse() {
                 type="button"
                 className="pulse__pill"
                 onClick={() => setOpen(true)}
-                aria-expanded="false"
+                aria-expanded={open}
                 initial={reduce ? { opacity: 0 } : { opacity: 0, y: -3 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: reduce ? 0.1 : 0.18, ease }}
               >
                 <span className="pulse__dot" aria-hidden="true" />
-                <span className="pulse__pill-state">{item.kind === 'teaser' ? 'Get ready' : text.state}</span>
-                <span className="pulse__pill-title">{item.title}</span>
+                {item.kind === 'teaser' ? <span className="pulse__pill-star" aria-hidden="true">✦</span> : null}
+                <span className="pulse__pill-title">{item.kind === 'teaser' ? 'IEEE DAY 2026' : item.title}</span>
+                <span className="pulse__pill-state">{item.kind === 'teaser' ? 'Upcoming' : text.state}</span>
+                {item.kind === 'teaser' ? <span className="pulse__pill-date">09 OCT</span> : null}
                 {item.kind === 'live' || item.kind === 'teaser' ? null : (
                   <span className="pulse__pill-time" aria-hidden="true">
                     {shortCountdown(item.target, now)}

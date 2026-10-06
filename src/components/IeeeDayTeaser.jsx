@@ -61,7 +61,7 @@ export default function IeeeDayTeaser() {
         <div className="ieee-teaser__story">
           <motion.p className="ieee-teaser__eyebrow" custom={0} variants={reveal}>
             <span className="ieee-teaser__dot" aria-hidden="true" />
-            Upcoming
+            Upcoming · Treasure Hunt
           </motion.p>
           <motion.p className="ieee-teaser__date" custom={1} variants={reveal}>
             {localDateParts.day} <span aria-hidden="true">&#8226;</span> {localDateParts.month} <span aria-hidden="true">&#8226;</span> {localDateParts.year}
@@ -70,10 +70,10 @@ export default function IeeeDayTeaser() {
             IEEE Day 2026
           </motion.h2>
           <motion.p className="ieee-teaser__venue" custom={3} variants={reveal}>
-            Local chapter celebration at {event.localCelebration.venue}.
+            IEEE Day 2026 Treasure Hunt at {event.localCelebration.venue}.
           </motion.p>
           <motion.p className="ieee-teaser__copy" custom={3} variants={reveal}>
-            Every trail starts with a clue. Clues are hidden. The trail starts soon.
+            Follow the clues. Find the trail. The IEEE Day Treasure Hunt begins soon.
           </motion.p>
           <motion.p className="ieee-teaser__hint" custom={4} variants={reveal}>
             Something is waiting on campus.
