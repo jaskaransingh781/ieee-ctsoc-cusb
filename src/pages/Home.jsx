@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 import Button from '../components/Button';
 import EventCalendar from '../components/EventCalendar';
 import EventCarousel from '../components/EventCarousel';
@@ -25,7 +25,9 @@ import {
   hasDetails,
 } from '../data/events';
 import { getSocialLinks, site } from '../data/site';
+import { CURRENT_COUNT } from '../data/registrationCount';
 import { getFeaturedTeam, getTeamLeads, hasNamedTeam, team } from '../data/team';
+import { useCountdown } from '../lib/countdown';
 import { formatEventDate } from '../lib/format';
 import { useLiveEvents, usePageTitle } from '../lib/hooks';
 
@@ -198,6 +200,257 @@ function OurCalendar() {
   );
 }
 
+function DashboardCountdown({ target }) {
+  const left = useCountdown(target);
+  const reduceMotion = useReducedMotion();
+
+  if (!left) return null;
+  if (left.done) {
+    return (
+      <div className="home-dashboard__countdown home-dashboard__countdown--done">
+        <p className="home-dashboard__countdown-status">REGISTRATION CLOSED</p>
+      </div>
+    );
+  }
+
+  const units = [
+    { label: 'DAY', value: left.days.toString().padStart(2, '0') },
+    { label: 'HOURS', value: left.hh },
+    { label: 'MIN', value: left.mm },
+    { label: 'SEC', value: left.ss },
+  ];
+
+  return (
+    <div
+      className="home-dashboard__countdown"
+      role="timer"
+      aria-live="polite"
+      aria-label={`${left.days} days, ${left.hours} hours, ${left.minutes} minutes, ${left.seconds} seconds until registration closes`}
+    >
+      {units.map(({ label, value }) => (
+        <div className="home-dashboard__time" key={label}>
+          <motion.span
+            className="home-dashboard__time-value"
+            key={value}
+            initial={reduceMotion ? false : { opacity: 0, y: 6, filter: 'blur(3px)' }}
+            animate={reduceMotion ? { opacity: 1 } : { opacity: 1, y: 0, filter: 'blur(0px)' }}
+            transition={{ duration: reduceMotion ? 0 : 0.2, ease: [0.22, 1, 0.36, 1] }}
+          >
+            {value}
+          </motion.span>
+          <span className="home-dashboard__time-label">{label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function AchievementIsland() {
+  const reduceMotion = useReducedMotion();
+  const event = getEvent('zinnovatio-4o');
+
+  if (!event) return null;
+  const exactCount = new Intl.NumberFormat('en-IN').format(CURRENT_COUNT);
+  const milestone = CURRENT_COUNT >= 1000
+    ? `${Math.floor(CURRENT_COUNT / 1000) * 1000}+`
+    : exactCount;
+
+  return (
+    <motion.div
+      className="home-dashboard__achievement"
+      initial={reduceMotion ? false : { opacity: 0, y: 18, scale: 0.97 }}
+      whileInView={reduceMotion ? undefined : { opacity: 1, y: 0, scale: 1 }}
+      viewport={{ once: true, margin: '0px 0px -10% 0px' }}
+      transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <Link to={`/events/${event.slug}`} className="home-dashboard__achievement-link" aria-label="Open Zinnovatio 4.0 event details">
+        <div className="home-dashboard__achievement-head">
+          <span className="home-dashboard__achievement-icon" aria-hidden="true">
+            <Icon name="trophy" />
+          </span>
+          <span>NEW ACHIEVEMENT UNLOCKED</span>
+        </div>
+        <div className="home-dashboard__achievement-metric">
+          <strong>{milestone}</strong>
+          <span>REGISTRATIONS</span>
+        </div>
+        <div className="home-dashboard__achievement-event">
+          <span>Zinnovatio 4.0</span>
+          <strong>{exactCount} REGISTERED</strong>
+        </div>
+        <p>{milestone} innovators have joined the journey.</p>
+      </Link>
+    </motion.div>
+  );
+}
+
+function DashboardPreview() {
+  useLiveEvents();
+  const zinnovatio = getEvent('zinnovatio-4o');
+  const codex = getEvent('codex');
+  const registrationCountdown = useCountdown(zinnovatio?.registrationCloses);
+  const deadlineDateTime = zinnovatio?.registrationCloses
+    ? new Date(zinnovatio.registrationCloses)
+    : null;
+  const deadlineDate = deadlineDateTime
+    ? new Intl.DateTimeFormat('en-GB', {
+        day: 'numeric',
+        month: 'long',
+        timeZone: 'Asia/Kolkata',
+      }).format(deadlineDateTime).toUpperCase()
+    : null;
+  const deadlineTime = deadlineDateTime
+    ? new Intl.DateTimeFormat('en-GB', {
+        hour: 'numeric',
+        minute: '2-digit',
+        hour12: true,
+        timeZone: 'Asia/Kolkata',
+      }).format(deadlineDateTime).toUpperCase()
+    : null;
+  const exactCount = new Intl.NumberFormat('en-IN').format(CURRENT_COUNT);
+  const milestone = CURRENT_COUNT >= 1000
+    ? `${Math.floor(CURRENT_COUNT / 1000) * 1000}+`
+    : exactCount;
+  const daysLeftLabel = registrationCountdown?.done
+    ? 'REGISTRATION CLOSED'
+    : `${String(registrationCountdown?.days ?? 0).padStart(2, '0')} DAY${(registrationCountdown?.days ?? 0) === 1 ? '' : 'S'} LEFT`;
+
+  return (
+    <section className="section home-dashboard" aria-labelledby="home-dashboard-title">
+      <div className="container">
+        <div className="home-dashboard__intro">
+          <div className="home-dashboard__copy">
+            <p className="home-dashboard__eyebrow"><span aria-hidden="true" /> CHAPTER OVERVIEW</p>
+            <h2 id="home-dashboard-title" className="h2">The chapter, at a glance.</h2>
+            <p className="muted">A snapshot of current events, the Zinnovatio registration milestone and what’s coming next.</p>
+          </div>
+
+          <div className="home-dashboard__overview">
+            <div className="home-dashboard__overview-head">
+              <span>CHAPTER OVERVIEW</span>
+              <span className="home-dashboard__count-source">LATEST VERIFIED COUNT</span>
+            </div>
+            <div className="home-dashboard__top-cards">
+              <article className="home-dashboard__top-card home-dashboard__top-card--events">
+                <span className="home-dashboard__top-label">UPCOMING EVENTS</span>
+                {zinnovatio ? (
+                  <div className="home-dashboard__top-event">
+                    <strong>Zinnovatio 4.0</strong>
+                    <small>{formatEventDate(zinnovatio)}</small>
+                    <small>
+                      {registrationCountdown?.done
+                        ? 'Registration closed'
+                        : 'Registration deadline approaching'}
+                    </small>
+                  </div>
+                ) : null}
+                {codex ? (
+                  <div className="home-dashboard__top-event">
+                    <strong>{codex.title}</strong>
+                    <small>{codex.dateLabel}</small>
+                  </div>
+                ) : null}
+              </article>
+
+              <article className="home-dashboard__top-card home-dashboard__top-card--registration">
+                <span className="home-dashboard__top-label">ZINNOVATIO REGISTRATION</span>
+                <strong className="home-dashboard__top-milestone">{milestone}</strong>
+                <span className="home-dashboard__top-registered">{exactCount} REGISTERED</span>
+                <span className="home-dashboard__top-source">Latest verified</span>
+              </article>
+
+              {codex ? (
+                <Link to={`/events/${codex.slug}`} className="home-dashboard__top-card home-dashboard__top-card--codex">
+                  <span className="home-dashboard__top-label">UPCOMING HIGHLIGHT</span>
+                  <strong>{codex.title}</strong>
+                  <small>{codex.dateLabel}</small>
+                  <small>
+                    {codex.venueShort} · {codex.registrationOpen ? 'Registration open' : 'Coming soon'}
+                  </small>
+                </Link>
+              ) : null}
+            </div>
+          </div>
+        </div>
+
+        <div className="home-dashboard__lower">
+          {zinnovatio ? (
+            <article className="home-dashboard__milestone-panel">
+              <div className="home-dashboard__milestone-heading">
+                <div>
+                  <span className="home-dashboard__card-label">ZINNOVATIO 4.0</span>
+                  <h3>{formatEventDate(zinnovatio)}</h3>
+                </div>
+                <span className="home-dashboard__milestone-mark" aria-hidden="true">
+                  <Icon name="spark" />
+                </span>
+              </div>
+              <div className="home-dashboard__milestone-content">
+                <AchievementIsland />
+                <div className="home-dashboard__registration-info">
+                  <div className="home-dashboard__registration-count">
+                    <strong>{milestone}</strong>
+                    <span>REGISTERED</span>
+                  </div>
+                  <p>{exactCount} REGISTERED</p>
+                  <p className="home-dashboard__deadline-pill">⚡ {daysLeftLabel}</p>
+                  <p className="home-dashboard__deadline-copy">
+                    REGISTRATIONS CLOSE<br />
+                    {deadlineDate} • {deadlineTime} IST
+                  </p>
+                  <Button
+                    href={zinnovatio.registrationUrl}
+                    icon="arrow"
+                    className="home-dashboard__button"
+                  >
+                    Register now
+                  </Button>
+                </div>
+              </div>
+            </article>
+          ) : null}
+
+          <aside className="home-dashboard__side">
+            {zinnovatio?.registrationCloses ? (
+              <article className="home-dashboard__countdown-card">
+                <span className="home-dashboard__card-label">REGISTRATION DEADLINE</span>
+                <p className="home-dashboard__countdown-date">
+                  {deadlineDate} • {deadlineTime} IST
+                </p>
+                <DashboardCountdown target={zinnovatio.registrationCloses} />
+              </article>
+            ) : null}
+
+            <article className="home-dashboard__activity-card">
+              <span className="home-dashboard__card-label">CHAPTER ACTIVITY</span>
+              <ul className="home-dashboard__activity-list">
+                <li className="home-dashboard__activity-item home-dashboard__activity-item--zinnovatio">
+                  <span className="home-dashboard__activity-dot" aria-hidden="true" />
+                  <div>
+                    <strong>Zinnovatio 4.0</strong>
+                    <small>{milestone} registration milestone reached</small>
+                    <small>Registration deadline approaching</small>
+                  </div>
+                </li>
+                {codex ? (
+                  <li className="home-dashboard__activity-item home-dashboard__activity-item--codex">
+                    <span className="home-dashboard__activity-dot" aria-hidden="true" />
+                    <div>
+                      <strong>CODEX</strong>
+                      <small>Upcoming technical treasure hunt</small>
+                      <small>Access opens soon</small>
+                    </div>
+                  </li>
+                ) : null}
+              </ul>
+            </article>
+          </aside>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function TeamPreview() {
   // The large cards are the people marked `featured` in team.js. If nobody
   // is marked, the first two people listed take that place.
@@ -309,6 +562,7 @@ export default function Home() {
       <Flagship event={getFeaturedEvent()} />
       <Upcoming />
       <PreviousEvents />
+      <DashboardPreview />
       <OurCalendar />
       <TeamPreview />
       <Newsletter />
