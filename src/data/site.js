@@ -10,6 +10,7 @@ export const site = {
   society: 'IEEE Consumer Technology Society',
   branch: 'Chandigarh University Student Branch',
   university: 'Chandigarh University',
+  websiteUrl: 'https://ieee-ctsoc-cusb.co.in/',
 
   // Images live in src/assets/. Paths here are relative to that folder.
   logo: 'branding/ieee-ctsoc-cusb.webp',
@@ -50,13 +51,13 @@ export const site = {
     { label: 'Home', to: '/' },
     { label: 'About', to: '/about' },
     { label: 'Events', to: '/events' },
-    { label: 'Journey', to: '/journey' },
     { label: 'Team', to: '/team' },
-    { label: 'Membership', to: '/membership' },
+    { label: 'Gallery', to: '/journey#gallery' },
+    { label: 'Resources', to: '/about#resources' },
   ],
 
   // The recurring primary sign-up action shown in the footer and navbar.
-  navCta: { label: 'Sign up', to: '/signup' },
+  navCta: { label: 'Join CTSoc', to: '/membership' },
 
   // The impact strip on the home page.
   //   value : a number, or 'auto:past-events' / 'auto:events' / 'auto:team'

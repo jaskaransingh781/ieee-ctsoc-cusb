@@ -106,6 +106,12 @@ export default function Footer() {
           <div>
             <h2 className="footer__title">Official links</h2>
             <ul className="footer__list">
+              <li>
+                <ExternalLink href={site.websiteUrl} className="footer__link footer__link--out">
+                  Website
+                  <Icon name="out" />
+                </ExternalLink>
+              </li>
               {site.otherLinks.map((link) => (
                 <li key={link.url}>
                   <ExternalLink href={link.url} className="footer__link footer__link--out">

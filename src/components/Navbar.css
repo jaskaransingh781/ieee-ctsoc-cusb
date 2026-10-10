@@ -22,10 +22,10 @@
 
 .nav__bar {
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: auto 1fr auto;
   align-items: center;
   height: 100%;
-  gap: 1.5rem;
+  gap: clamp(1rem, 2vw, 2rem);
 }
 
 .nav__brand {
@@ -48,7 +48,8 @@
 .nav__links {
   display: flex;
   align-items: center;
-  gap: 0.2rem;
+  justify-self: center;
+  gap: 0.125rem;
 }
 
 .nav__link {
@@ -56,10 +57,10 @@
   display: inline-flex;
   align-items: center;
   height: 2.375rem;
-  padding: 0 0.875rem;
+  padding: 0 0.7rem;
   border-radius: var(--r-pill);
   color: var(--ink-soft);
-  font-size: 0.9688rem;
+  font-size: 0.9rem;
   font-weight: 520;
   transition: color 0.2s, background-color 0.2s, transform 0.22s var(--ease);
 }
@@ -220,7 +221,7 @@
   font-size: 0.9375rem;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 1080px) {
   :root {
     --nav-h: 4.25rem;
   }
@@ -243,7 +244,7 @@
   }
 }
 
-@media (min-width: 961px) {
+@media (min-width: 1081px) {
   .nav__sheet {
     display: none;
   }

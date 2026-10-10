@@ -14,7 +14,7 @@ export default function Navbar() {
   const scrolled = useScrolled(8);
   const location = useLocation();
   const logo = resolveImage(site.logo);
-  const navCta = { label: 'Sign up', to: '/signup' };
+  const navCta = site.navCta;
 
   useScrollLock(open);
 
@@ -26,7 +26,7 @@ export default function Navbar() {
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (event) => event.key === 'Escape' && setOpen(false);
-    const onResize = () => window.innerWidth > 960 && setOpen(false);
+    const onResize = () => window.innerWidth > 1080 && setOpen(false);
     window.addEventListener('keydown', onKey);
     window.addEventListener('resize', onResize);
     return () => {

@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { COUNTDOWN_DAYS, events } from '../data/events';
@@ -12,6 +12,7 @@ import './LivePulse.css';
 
 const STORE = 'ctsoc-pulse-dismissed';
 const ROTATE_EVERY = 7000;
+const TUCK_AWAY_AFTER = 10_000;
 const ease = [0.22, 1, 0.36, 1];
 
 const untilDay = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', timeZone: 'Asia/Kolkata' });
@@ -50,28 +51,13 @@ function Countdown({ target, now }) {
     >
       {parts.map(([label, value]) => (
         <span className="pulse__tile" key={label} aria-hidden="true">
-          <AnimatePresence mode="wait" initial={false}>
-            <motion.strong
-              key={value}
-              initial={{ opacity: 0, y: 4, filter: 'blur(2px)' }}
-              animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
-              exit={{ opacity: 0, y: -4, filter: 'blur(2px)' }}
-              transition={{ duration: 0.18, ease }}
-            >
-              {value}
-            </motion.strong>
-          </AnimatePresence>
+          <strong>{value}</strong>
           <small>{label}</small>
         </span>
       ))}
     </div>
   );
 }
-
-const PulseCountdown = memo(function PulseCountdown({ target }) {
-  const now = useNow(1000);
-  return <Countdown target={target} now={now} />;
-});
 
 /** "2d 14:41:08", or "14:41:08" on the last day. */
 function shortCountdown(target, now) {
@@ -80,8 +66,8 @@ function shortCountdown(target, now) {
 }
 
 /**
- * The Dynamic Island stays compact at the top center and expands on click
- * when there is an active notice. Scrolling down tucks it to the right.
+ * The notice blooms in at the bottom corner, then tucks into a pill after
+ * ten seconds. Clicking the pill opens it again.
  * Notices are selected when
  *   - an event is happening now,
  *   - an event starts within COUNTDOWN_DAYS days ("Get ready"), or
@@ -93,17 +79,13 @@ export default function LivePulse() {
   const navigate = useNavigate();
   const location = useLocation();
   const reduce = useReducedMotion();
-  // Event selection only needs to refresh periodically. The visible timer
-  // below owns its own one-second clock so it does not redraw the island tree.
-  const now = useNow(30_000);
+  const now = useNow(1000);
   useLiveEvents();
   const [dismissed, setDismissed] = useState(readDismissed);
   const [ready, setReady] = useState(false);
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [open, setOpen] = useState(false);
-  const [scrollMode, setScrollMode] = useState('TOP');
-  const scrollModeRef = useRef(scrollMode);
+  const [open, setOpen] = useState(true);
 
   const items = getPulseItems(events, now, COUNTDOWN_DAYS).filter((item) => !dismissed.includes(item.id));
   const count = items.length;
@@ -115,80 +97,18 @@ export default function LivePulse() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Measure the header stack on mount and size changes. Its original height
-  // leaves a stable safe gap under the sticky navbar after the announcement scrolls away.
+  // A new set of notices blooms in, then tucks away unless the visitor is
+  // interacting with it.
+  const signature = items.map((entry) => entry.id).join('|');
   useEffect(() => {
-    const announcement = document.querySelector('.announcement');
-    const navbar = document.querySelector('.nav');
-    let frame = 0;
-    const measure = () => {
-      window.cancelAnimationFrame(frame);
-      frame = window.requestAnimationFrame(() => {
-        const announcementBottom = announcement?.getBoundingClientRect().bottom ?? 0;
-        const navbarBottom = navbar?.getBoundingClientRect().bottom ?? 0;
-        const bottom = Math.max(0, announcementBottom, navbarBottom);
-        document.documentElement.style.setProperty('--pulse-header-bottom', `${Math.ceil(bottom)}px`);
-      });
-    };
+    if (signature) setOpen(true);
+  }, [signature]);
 
-    const observer = new ResizeObserver(measure);
-    if (announcement) observer.observe(announcement);
-    if (navbar) observer.observe(navbar);
-    window.addEventListener('resize', measure);
-    measure();
-
-    return () => {
-      observer.disconnect();
-      window.cancelAnimationFrame(frame);
-      window.removeEventListener('resize', measure);
-      document.documentElement.style.removeProperty('--pulse-header-bottom');
-    };
-  }, []);
-
-  // One passive listener, coalesced to one animation-frame read. State only
-  // changes when crossing a semantic mode, never for individual scroll pixels.
   useEffect(() => {
-    let previous = window.scrollY;
-    let frame = 0;
-    const narrow = window.matchMedia('(max-width: 640px)');
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        frame = 0;
-        const current = window.scrollY;
-        let next = 'TOP';
-        if (current >= 24) {
-          if (current > previous + 2) next = narrow.matches ? 'SCROLLING' : 'COMPACT_RIGHT';
-          else if (current < previous - 2) next = 'TOP';
-          else next = scrollModeRef.current;
-        }
-        previous = current;
-        scrollModeRef.current = next;
-        setScrollMode((mode) => (mode === next ? mode : next));
-      });
-    };
-    window.addEventListener('scroll', onScroll, { passive: true });
-    const initial = window.scrollY >= 24 ? (narrow.matches ? 'SCROLLING' : 'COMPACT_RIGHT') : 'TOP';
-    scrollModeRef.current = initial;
-    setScrollMode(initial);
-    return () => {
-      window.removeEventListener('scroll', onScroll);
-      window.cancelAnimationFrame(frame);
-    };
-  }, []);
-
-  // Collapse on an intentional scroll gesture. DOM changes inside the island
-  // can adjust scroll anchoring, so the scroll position alone is not intent.
-  useEffect(() => {
-    if (!open) return undefined;
-    const close = () => setOpen(false);
-    window.addEventListener('wheel', close, { passive: true });
-    window.addEventListener('touchmove', close, { passive: true });
-    return () => {
-      window.removeEventListener('wheel', close);
-      window.removeEventListener('touchmove', close);
-    };
-  }, [open]);
+    if (!ready || !open || paused || !signature) return undefined;
+    const timer = setTimeout(() => setOpen(false), TUCK_AWAY_AFTER);
+    return () => clearTimeout(timer);
+  }, [ready, open, paused, signature]);
 
   // With more than one notice, show each in turn.
   useEffect(() => {
@@ -218,6 +138,7 @@ export default function LivePulse() {
 
   const viewTeaser = (event) => {
     event.preventDefault();
+    setOpen(false);
     const revealTeaser = () => {
       const section = document.getElementById('ieee-day-teaser');
       if (!section) return;
@@ -225,7 +146,6 @@ export default function LivePulse() {
       section.classList.add('is-highlighted');
       window.setTimeout(() => section.classList.remove('is-highlighted'), 2200);
     };
-    setOpen(true);
     if (location.pathname !== '/') {
       navigate('/#ieee-day-teaser');
       window.setTimeout(revealTeaser, reduce ? 0 : 360);
@@ -235,23 +155,17 @@ export default function LivePulse() {
     }
   };
 
-  const safeSlot = item ? (
-    <div className={`pulse-slot ${open && !scrolled ? 'pulse-slot--expanded' : ''}`} aria-hidden="true" />
-  ) : null;
-
   return (
-    <>
-      {safeSlot}
       <AnimatePresence>
         {show ? (
           <motion.aside
-            key="island"
-            className={`pulse pulse--${item.kind} ${open ? 'pulse--open' : 'pulse--pill'} pulse--${scrollMode.toLowerCase()}`}
+            key={open ? 'card' : 'pill'}
+            className={`pulse pulse--${item.kind} ${open ? '' : 'pulse--pill'}`}
             aria-label="Happening now and coming up"
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.92 }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: open ? 36 : 0, scale: open ? 0.86 : 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 10, scale: 0.96 }}
-            transition={reduce ? { duration: 0.16 } : { type: 'spring', stiffness: 280, damping: 27, mass: 0.8 }}
+            exit={reduce ? { opacity: 0 } : { opacity: 0, y: 20, scale: 0.94 }}
+            transition={reduce ? { duration: 0.2 } : { type: 'spring', stiffness: 260, damping: 22 }}
             onMouseEnter={() => setPaused(true)}
             onMouseLeave={() => setPaused(false)}
             onFocus={() => setPaused(true)}
@@ -321,7 +235,7 @@ export default function LivePulse() {
                 ) : (
                   <>
                     <p className="pulse__lead">{text.lead}</p>
-                    <PulseCountdown target={item.target} />
+                    <Countdown target={item.target} now={now} />
                     {item.kind === 'teaser' ? (
                       <p className="pulse__line">
                         <strong>{teaserDate.format(new Date(item.target))}</strong> · Something is waiting on campus.
@@ -386,6 +300,5 @@ export default function LivePulse() {
           </motion.aside>
         ) : null}
       </AnimatePresence>
-    </>
   );
 }

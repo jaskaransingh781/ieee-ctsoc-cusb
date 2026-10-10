@@ -1,21 +1,21 @@
 import ReachStrip from '../components/Reach';
-import { useRef } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { motion, useScroll, useSpring } from 'framer-motion';
 import Button from '../components/Button';
 import { TypeChip } from '../components/EventBits';
 import EventVisual from '../components/EventVisual';
-import Gallery from '../components/Gallery';
 import Icon from '../components/Icon';
 import Reveal from '../components/Reveal';
 import { getFeaturedEvent, getPastEvents, getRegistrationState, hasDetails } from '../data/events';
-import { getGallery } from '../data/gallery';
 import { site } from '../data/site';
 import { formatEventDate } from '../lib/format';
 import { usePageTitle } from '../lib/hooks';
+import { GalleryArchive } from './Gallery';
 
 export default function Journey() {
   usePageTitle('Journey');
+  const location = useLocation();
   const past = getPastEvents();
   const next = getFeaturedEvent();
   const lineRef = useRef(null);
@@ -24,7 +24,10 @@ export default function Journey() {
   const { scrollYProgress } = useScroll({ target: lineRef, offset: ['start 65%', 'end 65%'] });
   const progress = useSpring(scrollYProgress, { stiffness: 120, damping: 28, mass: 0.4 });
 
-  const photos = getGallery(past.map((event) => event.slug).reverse());
+  useEffect(() => {
+    if (location.hash !== '#gallery') return;
+    window.requestAnimationFrame(() => document.getElementById('gallery')?.scrollIntoView());
+  }, [location.hash]);
 
   return (
     <>
@@ -116,8 +119,8 @@ export default function Journey() {
         </div>
       </section>
 
-      <section className="container journey-gallery">
-        <Gallery photos={photos} title="From the Zinnovatio archive" />
+      <section id="gallery" className="journey-gallery" aria-label="Photo archive">
+        <GalleryArchive />
       </section>
 
       <section className="container journey-note">

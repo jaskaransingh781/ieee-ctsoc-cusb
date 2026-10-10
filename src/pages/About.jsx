@@ -1,11 +1,13 @@
+import { useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import ReachStrip from '../components/Reach';
-import { Link } from 'react-router-dom';
 import Button from '../components/Button';
 import Icon from '../components/Icon';
 import Reveal from '../components/Reveal';
 import { eventTypes, getFeaturedEvent, getUsedTypes, listedEvents as events } from '../data/events';
 import { site } from '../data/site';
 import { usePageTitle } from '../lib/hooks';
+import { ResourcesContent } from './Resources';
 
 // How the chapter fits into the larger organisation, widest first.
 const lineage = [
@@ -37,8 +39,14 @@ const typeBlurb = {
 
 export default function About() {
   usePageTitle('About');
+  const location = useLocation();
   const flagship = getFeaturedEvent();
   const types = getUsedTypes();
+
+  useEffect(() => {
+    if (location.hash !== '#resources') return;
+    window.requestAnimationFrame(() => document.getElementById('resources')?.scrollIntoView());
+  }, [location.hash]);
 
   return (
     <>
@@ -67,6 +75,31 @@ export default function About() {
               You will find us at {site.location.block}, {site.location.campus}, {site.location.city}.
             </p>
           </Reveal>
+        </div>
+      </section>
+
+      <section className="section about-pillars" aria-labelledby="about-pillars-title">
+        <div className="container">
+          <div className="section-head">
+            <div className="section-head__text">
+              <h2 className="h2" id="about-pillars-title">Learn, build, compete, lead.</h2>
+              <p className="muted">A student chapter shaped by doing the work together.</p>
+            </div>
+          </div>
+          <div className="about-pillars__grid">
+            {[
+              ['01', 'Learn', 'Pick up tools and techniques through guided workshops and sessions.'],
+              ['02', 'Build', 'Take ideas from a problem statement to working prototypes.'],
+              ['03', 'Compete', 'Test your skills in hackathons, contests and focused challenges.'],
+              ['04', 'Lead', 'Plan chapter activities and collaborate across campus.'],
+            ].map(([number, title, text]) => (
+              <article className="about-pillar" key={title}>
+                <span>{number}</span>
+                <h3 className="h3">{title}</h3>
+                <p className="muted">{text}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -164,6 +197,10 @@ export default function About() {
           </div>
         </section>
       ) : null}
+
+      <div id="resources">
+        <ResourcesContent />
+      </div>
 
       <ReachStrip />
     </>

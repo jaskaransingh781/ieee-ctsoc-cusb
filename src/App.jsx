@@ -17,6 +17,7 @@ const Journey = lazy(() => import('./pages/Journey'));
 const Team = lazy(() => import('./pages/Team'));
 const Membership = lazy(() => import('./pages/Membership'));
 const Signup = lazy(() => import('./pages/Signup'));
+const Cyberhunt = lazy(() => import('./pages/Cyberhunt'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
 function RouteLoader() {
@@ -65,6 +66,7 @@ export default function App() {
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
               <Route path="/events" element={<Events />} />
+              <Route path="/events/cyberhunt/*" element={<Cyberhunt />} />
               <Route path="/events/:slug" element={<EventDetail />} />
               <Route path="/journey" element={<Journey />} />
               <Route path="/team" element={<Team />} />

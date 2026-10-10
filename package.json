@@ -10,17 +10,21 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "node server/index.js",
-    "test": "node --test server/contact.test.js server/feeds.test.js src/lib/calendar.test.js src/lib/pulse.test.js src/data/membership.test.js"
+    "test": "node --test server/contact.test.js server/feeds.test.js server/cyberhunt.test.js src/lib/calendar.test.js src/lib/pulse.test.js src/data/membership.test.js scripts/cleanup-codex-mongodb.test.js",
+    "cleanup:codex": "node scripts/cleanup-codex-mongodb.js"
   },
   "dependencies": {
     "@fontsource-variable/geist": "^5.3.0",
     "dotenv": "^18.0.5",
     "express": "^5.2.1",
     "framer-motion": "^14.0.0",
+    "mongoose": "^9.11.0",
     "nodemailer": "^10.0.13",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
-    "react-router-dom": "^7.18.4"
+    "react-router-dom": "^7.18.4",
+    "socket.io": "^4.8.4",
+    "socket.io-client": "^4.8.4"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^6.1.1",

@@ -1,8 +1,8 @@
 # IEEE CTSoc CUSB website
 
 Multi-page site for the IEEE Consumer Technology Society, Chandigarh University Student Branch.
-React + Vite + React Router + Framer Motion, with a small Node server for the forms, the exchange
-rate and the newsletter list.
+React + Vite + React Router + Framer Motion, with a small Node server for the forms, exchange rates,
+newsletter list and the separate CYBERHUNT: DEAD INTERNET event.
 
 ## Run it
 
@@ -16,8 +16,57 @@ npm run dev        # site on http://localhost:5173, the server on :8787
 ```bash
 npm run build      # production build into dist/
 npm start          # serves dist/ and the server routes from one Node process
-npm test           # checks the email handler, live-data helpers, calendar, pop-up and prices
+npm test           # checks server flows, live-data helpers, calendar, pop-up and prices
 ```
+
+## CYBERHUNT: DEAD INTERNET
+
+The fictional puzzle investigation is available at `/events/cyberhunt`; its team briefing, archive
+stages, recovery flow and organizer console are served under that route. Team progress, answers,
+hints, scores and final submissions are kept on the server. Socket.IO uses its own `/cyberhunt`
+namespace, separate from the other event pages.
+
+Without `MONGODB_URI`, Cyberhunt stores its state in `server/data/cyberhunt.json` (or
+`CYBERHUNT_DB_FILE`). When MongoDB is configured, it stores state in its own `CyberhuntState`
+collection. Development uses the local demo credentials `admin` / `cyberhunt2026`; do not use them
+for a live event. Production requires `CYBERHUNT_ADMIN_USER`, `CYBERHUNT_ADMIN_PASSWORD` and
+`CYBERHUNT_AUTH_SECRET`. `CYBERHUNT_DURATION_SECONDS` configures the event timer (default 10800
+seconds). The API and synchronized Socket.IO event controls require a persistent Node
+host; they are not provided by the current Vercel serverless setup.
+
+### One-time retired CODEX MongoDB cleanup
+
+The historical CODEX backend used six dedicated Mongoose models and collections:
+`CodexTeam` (`codexteams`), `CodexChallenge` (`codexchallenges`),
+`CodexSubmission` (`codexsubmissions`), `CodexScoreEvent` (`codexscoreevents`),
+`CodexEventState` (`codexeventstates`) and `CodexUser` (`codexusers`). The cleanup
+script derives and verifies each collection name through Mongoose before it reads or deletes.
+
+It is read-only by default. Configure `MONGODB_URI` through the existing environment or ignored
+`.env`, verify the intended database name, then run a dry run:
+
+```bash
+npm run cleanup:codex -- --expected-database <verified-database-name> --allow-remote
+```
+
+The report counts exact schema-shaped matches and leaves non-matching documents for manual review.
+Its filters are: team ID and join code strings; challenge ID and answer-hash strings; submission ID,
+team ID, challenge ID and a schema-valid status; score-event ID, action and description strings;
+the exact event-state `_id` `codex`; and admin username/password-hash strings with role `admin`.
+Only those six dedicated collections are eligible. The separate `cyberhuntstates` collection and
+its `_id` `cyberhunt` document are counted for protection and never targeted.
+
+Before deletion, take and verify a current database backup and stop any legacy CODEX server that
+might still write to these collections. Re-check that the dry-run database name is the intended
+target. Deletion requires every explicit gate:
+
+```bash
+npm run cleanup:codex -- --expected-database <verified-database-name> --allow-remote --delete --confirm-delete CODEX --backup-confirmed
+```
+
+The script reports per-collection deletion results, post-delete matching counts, partial failures,
+and whether the Cyberhunt singleton count remained unchanged. It does not drop collections or
+delete documents that fail the stated CODEX criteria.
 
 ## Pages
 
@@ -27,6 +76,7 @@ npm test           # checks the email handler, live-data helpers, calendar, pop-
 | `/about` | About |
 | `/events` | All events, with time and category filters (`/events?status=past&type=workshop` works as a link) |
 | `/events/:slug` | One page per event, e.g. `/events/zinnovatio-4o` |
+| `/events/cyberhunt/*` | CYBERHUNT: DEAD INTERNET puzzle investigation and organizer console |
 | `/journey` | Timeline of past events |
 | `/team` | Team |
 | `/membership` | IEEE and IEEE CTSoc student membership information, plus an invitation to contact the chapter |
@@ -268,7 +318,7 @@ the same way after its deadline. To extend either, change the date in `events.js
 
 ## The server
 
-`server/index.js` has four routes:
+`server/index.js` serves the site APIs and the separate CYBERHUNT event API:
 
 | Route | What it does |
 | --- | --- |

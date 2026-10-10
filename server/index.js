@@ -12,11 +12,14 @@
 // ---------------------------------------------------------------------------
 import 'dotenv/config';
 import express from 'express';
+import { createServer } from 'node:http';
+import { Server as SocketServer } from 'socket.io';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createTransport, handleContact } from './contact.js';
 import { getNewsletterIssues, getUsdInr } from './feeds.js';
+import { createCyberhunt } from './cyberhunt/index.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const dist = path.resolve(__dirname, '../dist');
@@ -24,6 +27,8 @@ const port = Number(process.env.PORT) || 8787;
 const allowedOrigin = process.env.ALLOWED_ORIGIN || '';
 
 const app = express();
+const server = createServer(app);
+const io = new SocketServer(server, { cors: { origin: allowedOrigin || true, credentials: true } });
 app.disable('x-powered-by');
 // Needed to see the visitor's real address behind a hosting proxy.
 app.set('trust proxy', 1);
@@ -61,6 +66,9 @@ app.get('/api/newsletter', async (req, res) => {
   res.json(await getNewsletterIssues());
 });
 
+const cyberhunt = await createCyberhunt(io);
+app.use('/api/cyberhunt', cyberhunt.router);
+
 app.use('/api', (req, res) => {
   res.status(404).json({ ok: false, error: 'Not found' });
 });
@@ -83,7 +91,7 @@ if (existsSync(dist)) {
   });
 }
 
-app.listen(port, () => {
+server.listen(port, () => {
   const mail = createTransport() ? 'configured' : 'NOT configured (set GMAIL_USER and GMAIL_APP_PASSWORD in .env)';
   console.log(`[server] listening on http://localhost:${port}`);
   console.log(`[server] email delivery: ${mail}`);
