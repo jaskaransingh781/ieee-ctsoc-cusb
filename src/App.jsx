@@ -7,6 +7,11 @@ import Navbar from './components/Navbar';
 import LivePulse from './components/LivePulse';
 import IeeeDayWelcome from './components/IeeeDayWelcome';
 import { useEventClock, useLiveEvents } from './lib/hooks';
+import { useNow } from './lib/countdown';
+import { getFestivalTheme } from './lib/festival';
+import NavratriDecor from './components/NavratriDecor';
+import NavratriWelcome from './components/NavratriWelcome';
+import './components/NavratriDecor.css';
 import Home from './pages/Home';
 
 // Every page except Home is loaded on demand, so the first visit stays light.
@@ -31,55 +36,60 @@ function RouteLoader() {
 
 export default function App() {
   const location = useLocation();
+  const festival = getFestivalTheme(new Date(useNow(60_000)));
   // Keeps event statuses in step with the clock, and redraws the open page
   // when one changes (an event starting or finishing).
   useEventClock();
   useLiveEvents();
 
   return (
-    <>
-      <a className="skip-link" href="#main">
-        Skip to content
-      </a>
-      <AnnouncementBar />
-      <Navbar />
-      <LivePulse />
-      <IeeeDayWelcome />
-      <AnimatePresence
-        mode="wait"
-        initial={false}
-        onExitComplete={() => {
-          if (!window.location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-        }}
-      >
-        <motion.main
-          id="main"
-          className="page"
-          key={location.pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, transition: { duration: 0.14 } }}
-          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+    <div className="app-shell">
+      {festival ? <NavratriDecor /> : null}
+      <div className={`app-content${festival ? ' app-content--festive' : ''}`}>
+        <a className="skip-link" href="#main">
+          Skip to content
+        </a>
+        <AnnouncementBar />
+        <Navbar />
+        <LivePulse />
+        <IeeeDayWelcome />
+        <NavratriWelcome active={festival === 'navratri'} />
+        <AnimatePresence
+          mode="wait"
+          initial={false}
+          onExitComplete={() => {
+            if (!window.location.hash) window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+          }}
         >
-          <Suspense fallback={<RouteLoader />}>
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/events" element={<Events />} />
-              <Route path="/events/cyberhunt/*" element={<Cyberhunt />} />
-              <Route path="/events/:slug" element={<EventDetail />} />
-              <Route path="/journey" element={<Journey />} />
-              <Route path="/team" element={<Team />} />
-              <Route path="/membership" element={<Membership />} />
-              <Route path="/signup" element={<Signup />} />
-              <Route path="/contact" element={<Navigate to="/signup#contact" replace />} />
-              <Route path="/signin" element={<Navigate to="/signup#contact" replace />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Suspense>
-        </motion.main>
-      </AnimatePresence>
-      <Footer />
-    </>
+          <motion.main
+            id="main"
+            className="page"
+            key={location.pathname}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, transition: { duration: 0.14 } }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <Suspense fallback={<RouteLoader />}>
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/events" element={<Events />} />
+                <Route path="/events/cyberhunt/*" element={<Cyberhunt />} />
+                <Route path="/events/:slug" element={<EventDetail />} />
+                <Route path="/journey" element={<Journey />} />
+                <Route path="/team" element={<Team />} />
+                <Route path="/membership" element={<Membership />} />
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/contact" element={<Navigate to="/signup#contact" replace />} />
+                <Route path="/signin" element={<Navigate to="/signup#contact" replace />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
+          </motion.main>
+        </AnimatePresence>
+        <Footer />
+      </div>
+    </div>
   );
 }

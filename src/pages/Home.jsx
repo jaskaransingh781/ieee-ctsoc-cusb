@@ -4,17 +4,18 @@ import { motion } from 'framer-motion';
 import Button from '../components/Button';
 import EventCalendar from '../components/EventCalendar';
 import EventCarousel from '../components/EventCarousel';
-import Flagship from '../components/Flagship';
 import HeroField from '../components/HeroField';
 import Icon from '../components/Icon';
 import ImpactCard from '../components/ImpactCard';
 import IeeeDayTeaser from '../components/IeeeDayTeaser';
 import Newsletter from '../components/Newsletter';
+import Rangoli from '../components/Rangoli';
 import { ReachButtons } from '../components/Reach';
 import Reveal from '../components/Reveal';
 import Spotlight from '../components/Spotlight';
 import { TeamFeature, TeamMini } from '../components/TeamCard';
 import Ticker from '../components/Ticker';
+import ZinnovatioExperience from '../components/ZinnovatioExperience';
 import {
   eventTypes,
   getCurrentEvents,
@@ -27,7 +28,9 @@ import {
 import { getSocialLinks, site } from '../data/site';
 import { getFeaturedTeam, getTeamLeads, hasNamedTeam, team } from '../data/team';
 import { formatEventDate } from '../lib/format';
+import { getFestivalTheme } from '../lib/festival';
 import { useLiveEvents, usePageTitle } from '../lib/hooks';
+import { useNow } from '../lib/countdown';
 
 const ease = [0.22, 1, 0.36, 1];
 
@@ -42,15 +45,49 @@ const fade = {
 };
 
 function Hero() {
+  const festival = getFestivalTheme(new Date(useNow(60_000)));
+  const festivalGreeting = festival === 'vijayadashami' ? 'HAPPY VIJAYADASHAMI' : 'SHUBH NAVRATRI';
+
   return (
-    <section className="hero">
+    <section className={`hero${festival ? ' hero--festive' : ''}`}>
       <HeroField />
+      {festival ? (
+        <div className="hero__mandala" aria-hidden="true">
+          <svg viewBox="0 0 240 240" focusable="false">
+            <circle className="hero__mandala-ring" cx="120" cy="120" r="104" />
+            <circle className="hero__mandala-ring hero__mandala-ring--inner" cx="120" cy="120" r="82" />
+            <g className="hero__mandala-petals">
+              {Array.from({ length: 16 }, (_, index) => (
+                <path key={index} transform={`rotate(${index * 22.5} 120 120)`} d="M120 112C105 96 105 66 120 43C135 66 135 96 120 112Z" />
+              ))}
+            </g>
+            <g className="hero__mandala-spokes">
+              {Array.from({ length: 8 }, (_, index) => (
+                <path key={index} transform={`rotate(${index * 45} 120 120)`} d="M120 28V43M120 197V212" />
+              ))}
+            </g>
+            <circle className="hero__mandala-core" cx="120" cy="120" r="16" />
+            <circle className="hero__mandala-center" cx="120" cy="120" r="4" />
+          </svg>
+        </div>
+      ) : null}
       <div className="container hero__inner">
         <motion.p className="hero__badge" variants={fade} custom={0} initial="hidden" animate="shown">
           <span className="hero__badge-dot" aria-hidden="true" />
           {site.branch}
           <span className="hero__badge-state">Active</span>
         </motion.p>
+
+        {festival ? (
+          <motion.div className="hero__festival" variants={fade} custom={0.08} initial="hidden" animate="shown">
+            <Rangoli className="rangoli--greeting" />
+            <span className="hero__festival-label">A season of devotion &amp; new beginnings</span>
+            <p className="hero__festival-title">{festivalGreeting}</p>
+            <p className="hero__festival-copy">
+              Celebrating nine nights of devotion, strength, creativity and new beginnings.
+            </p>
+          </motion.div>
+        ) : null}
 
         <h1 className="display hero__title">
           {['Engineering ideas.', 'Building what’s next.'].map((text, index) => (
@@ -306,7 +343,7 @@ export default function Home() {
         <Spotlight key={event.slug} event={event} />
       ))}
       <IeeeDayTeaser />
-      <Flagship event={getFeaturedEvent()} />
+      <ZinnovatioExperience event={getFeaturedEvent()} />
       <Upcoming />
       <PreviousEvents />
       <OurCalendar />

@@ -1,0 +1,84 @@
+.rangoli {
+  display: block;
+  width: 5rem;
+  height: 5rem;
+  overflow: visible;
+  color: rgba(190, 139, 52, 0.7);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  pointer-events: none;
+}
+
+.rangoli__outer,
+.rangoli__ring,
+.rangoli__geometry,
+.rangoli__center {
+  stroke-dasharray: 1 5;
+  animation: rangoli-line-draw 3s ease-out both;
+}
+
+.rangoli__ring {
+  stroke-dasharray: 2 5;
+  animation-delay: 0.16s;
+}
+
+.rangoli__petals path {
+  fill: rgba(231, 178, 86, 0.035);
+  stroke-dasharray: 1 3;
+  transform-box: view-box;
+  transform-origin: 100px 100px;
+  animation: rangoli-petal-in 1.2s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+  animation-delay: var(--petal-delay);
+}
+
+.rangoli__geometry {
+  stroke: rgba(202, 151, 68, 0.75);
+  animation-delay: 0.34s;
+}
+
+.rangoli__dots circle {
+  fill: #e9bd64;
+  stroke: rgba(236, 113, 84, 0.55);
+  stroke-width: 0.7;
+  animation: rangoli-dot-light 2.4s ease-in-out infinite;
+  animation-delay: var(--dot-delay);
+}
+
+.rangoli__center circle:first-child {
+  fill: rgba(38, 129, 190, 0.1);
+  stroke: #d5a74f;
+}
+
+.rangoli__center path {
+  fill: rgba(210, 117, 75, 0.34);
+  stroke: #e4ba66;
+}
+
+.rangoli__center circle:last-child {
+  fill: #55b9d1;
+  stroke: #fff0c2;
+  stroke-width: 1;
+}
+
+@keyframes rangoli-line-draw {
+  from { opacity: 0; stroke-dashoffset: 84; }
+  to { opacity: 1; stroke-dashoffset: 0; }
+}
+
+@keyframes rangoli-petal-in {
+  from { opacity: 0; transform: rotate(var(--angle)) scale(0.78); }
+  to { opacity: 1; transform: rotate(var(--angle)) scale(1); }
+}
+
+@keyframes rangoli-dot-light {
+  0%, 100% { opacity: 0.42; }
+  35% { opacity: 1; filter: drop-shadow(0 0 3px #f6cb70); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rangoli *,
+  .rangoli {
+    animation: none !important;
+  }
+}

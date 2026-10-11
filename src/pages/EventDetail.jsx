@@ -57,6 +57,75 @@ function Section({ id, title, children }) {
   );
 }
 
+function ZinnovatioPrizeCard({ pool }) {
+  return (
+    <div className="zinn-prize-card-wrap">
+      <div className="zinn-prize-card__fireworks" aria-hidden="true">
+        <span className="zinn-prize-card__burst zinn-prize-card__burst--one" />
+        <span className="zinn-prize-card__burst zinn-prize-card__burst--two" />
+        <span className="zinn-prize-card__burst zinn-prize-card__burst--three" />
+        <span className="zinn-prize-card__spark zinn-prize-card__spark--one" />
+        <span className="zinn-prize-card__spark zinn-prize-card__spark--two" />
+        <span className="zinn-prize-card__spark zinn-prize-card__spark--three" />
+        <span className="zinn-prize-card__spark zinn-prize-card__spark--four" />
+      </div>
+      <section className="zinn-prize-card" aria-labelledby="zinn-prize-title">
+        <span className="zinn-prize-card__corner zinn-prize-card__corner--top" aria-hidden="true" />
+        <span className="zinn-prize-card__corner zinn-prize-card__corner--bottom" aria-hidden="true" />
+        <span className="zinn-prize-card__trophy" aria-hidden="true"><Icon name="trophy" /></span>
+        <p className="zinn-prize-card__label">TOTAL PRIZE POOL</p>
+        <h2 id="zinn-prize-title">{pool}</h2>
+        <p className="zinn-prize-card__copy">Exciting prizes and recognition for innovative solutions.</p>
+      </section>
+    </div>
+  );
+}
+
+function ZinnovatioHospitality() {
+  return (
+    <section className="zinn-hospitality" aria-labelledby="zinn-hospitality-title">
+      <div className="zinn-hospitality__heading">
+        <p className="zinn-hospitality__eyebrow">A WELCOME FOR VISITING TEAMS</p>
+        <h2 id="zinn-hospitality-title">HOSPITALITY &amp; ACCOMMODATION</h2>
+        <p className="zinn-hospitality__lead">TRAVELLING FROM ANOTHER UNIVERSITY? WE&apos;VE GOT YOUR STAY COVERED.</p>
+      </div>
+      <div className="zinn-hospitality__grid">
+        <article className="zinn-hospitality__card zinn-hospitality__card--stay">
+          <span className="zinn-hospitality__icon"><Icon name="bed" /></span>
+          <p className="zinn-hospitality__label">ACCOMMODATION · OTHER-UNIVERSITY TEAMS</p>
+          <p className="zinn-hospitality__copy">
+            Teams travelling to Chandigarh University from other universities will be provided accommodation for the night of 29 October 2026, ahead of the 36-hour Zinnovatio 4.0 hackathon.
+          </p>
+          <div className="zinn-hospitality__dates">
+            <p><Icon name="calendar" /><span><strong>CHECK-IN / STAY NIGHT</strong><b>29 OCTOBER 2026</b></span></p>
+            <p><Icon name="pin" /><span><strong>HACKATHON</strong><b>30–31 OCTOBER 2026</b></span></p>
+          </div>
+          <p className="zinn-hospitality__note">Accommodation is provided for the night of 29 October only.</p>
+        </article>
+
+        <article className="zinn-hospitality__card zinn-hospitality__card--charges">
+          <span className="zinn-hospitality__icon"><Icon name="info" /></span>
+          <p className="zinn-hospitality__label">HOSPITALITY CHARGES</p>
+          <h3>PRICE TO BE ANNOUNCED</h3>
+          <p className="zinn-hospitality__copy">
+            Accommodation pricing and further hospitality details will be updated soon. Please follow official CTSoc announcements for the latest information.
+          </p>
+        </article>
+
+        <article className="zinn-hospitality__card zinn-hospitality__card--payment" id="zinnovatio-payment">
+          <span className="zinn-hospitality__icon"><Icon name="card" /></span>
+          <p className="zinn-hospitality__label">SHORTLISTED TEAMS</p>
+          <h3>₹500 <span>PER TEAM</span></h3>
+          <p className="zinn-hospitality__status"><Icon name="clock" /> PAYMENT PROCEDURE — COMING SOON</p>
+          <p className="zinn-hospitality__copy">
+            Payment instructions for shortlisted teams will be announced soon. Selected teams should wait for the official CTSoc update before making any payment.
+          </p>
+        </article>
+      </div>
+    </section>
+  );
+}
+
 /** "Registration closes in 0d : 19h : 51m", switching to "Closed" at the deadline. */
 function ClosingTimer({ target }) {
   const left = useCountdown(target);
@@ -312,7 +381,7 @@ export default function EventDetail() {
 
   return (
     <>
-      <article className="container edetail">
+      <article className={`container edetail${event.slug === 'zinnovatio-4o' ? ' edetail--zinnovatio' : ''}`}>
         <nav aria-label="Breadcrumb" className="edetail__crumb">
           <Link to="/events" className="more-link more-link--back">
             <Icon name="back" />
@@ -320,13 +389,27 @@ export default function EventDetail() {
           </Link>
         </nav>
 
-        <header className="edetail__head">
-          <div className="edetail__chips">
-            <TypeChip event={event} />
-            <StatusChip event={event} />
-          </div>
-          <h1 className="h1">{event.title}</h1>
-        </header>
+        <div className={`edetail__masthead${event.slug === 'zinnovatio-4o' ? ' edetail__masthead--zinnovatio' : ''}`}>
+          <header className="edetail__head">
+            <div className="edetail__chips">
+              <TypeChip event={event} />
+              <StatusChip event={event} />
+            </div>
+            <h1 className="h1">{event.title}</h1>
+            {event.slug === 'zinnovatio-4o' ? (
+              <>
+                <p className="zinn-masthead__summary">A 36-hour national-level hackathon for teams building working prototypes.</p>
+                <p className="zinn-masthead__facts">
+                  <span>{formatEventDate(event)}</span>
+                  <span>{event.facts?.find((fact) => /team size/i.test(fact.label))?.value ?? '3 to 5 members'} per team</span>
+                </p>
+              </>
+            ) : null}
+          </header>
+          {event.slug === 'zinnovatio-4o' && event.prizes?.pool ? (
+            <ZinnovatioPrizeCard pool={event.prizes.pool} />
+          ) : null}
+        </div>
 
         {wide ? (
           <div className="edetail__art">
@@ -350,8 +433,15 @@ export default function EventDetail() {
             {show('about') ? (
               <section className="dcard" aria-labelledby="about-title">
                 <h2 className="dcard__title" id="about-title">
-                  {event.tagline ?? 'About this event'}
+                  {event.slug === 'zinnovatio-4o'
+                    ? 'IDEAS ARE JUST THE BEGINNING.'
+                    : event.tagline ?? 'About this event'}
                 </h2>
+                {event.slug === 'zinnovatio-4o' ? (
+                  <p className="dcard__lead">
+                    Choose a problem space. Build a working solution. Collaborate through challenges and turn your team&apos;s ideas into something tangible.
+                  </p>
+                ) : null}
                 {hasDescription ? (
                   <div className="prose">
                     {event.description.map((paragraph) => (
@@ -388,6 +478,8 @@ export default function EventDetail() {
                 )}
               </section>
             ) : null}
+
+            {event.slug === 'zinnovatio-4o' ? <ZinnovatioHospitality /> : null}
 
             {show('numbers') && event.status === 'past' && event.facts?.length ? (
               <Section id="numbers" title="In numbers">
@@ -432,7 +524,7 @@ export default function EventDetail() {
               </Section>
             ) : null}
 
-            {show('prizes') && hasPrizes ? (
+            {show('prizes') && hasPrizes && event.slug !== 'zinnovatio-4o' ? (
               <Section id="prizes" title="Prizes">
                 <ul className="prizes">
                   {event.prizes.pool ? (
@@ -458,6 +550,11 @@ export default function EventDetail() {
                     </li>
                   ))}
                 </ul>
+                {event.slug === 'zinnovatio-4o' ? (
+                  <p className="zinn-prize__support">
+                    Bring your team&apos;s ideas to the build floor and compete to turn them into practical solutions.
+                  </p>
+                ) : null}
                 {event.prizes.note ? <p className="muted esection__note">{event.prizes.note}</p> : null}
               </Section>
             ) : null}

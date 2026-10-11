@@ -6,6 +6,7 @@ import { useNow } from '../lib/countdown';
 import { formatDeadline } from '../lib/format';
 import { useLiveEvents } from '../lib/hooks';
 import { countdownParts, getPulseItems } from '../lib/pulse';
+import { getFestivalTheme } from '../lib/festival';
 import { ExternalLink } from './Button';
 import Icon from './Icon';
 import './LivePulse.css';
@@ -80,6 +81,7 @@ export default function LivePulse() {
   const location = useLocation();
   const reduce = useReducedMotion();
   const now = useNow(1000);
+  const festival = getFestivalTheme(new Date(now));
   useLiveEvents();
   const [dismissed, setDismissed] = useState(readDismissed);
   const [ready, setReady] = useState(false);
@@ -160,7 +162,7 @@ export default function LivePulse() {
         {show ? (
           <motion.aside
             key={open ? 'card' : 'pill'}
-            className={`pulse pulse--${item.kind} ${open ? '' : 'pulse--pill'}`}
+            className={`pulse pulse--${item.kind}${festival ? ' pulse--festive' : ''} ${open ? '' : 'pulse--pill'}`}
             aria-label="Happening now and coming up"
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: open ? 36 : 0, scale: open ? 0.86 : 0.8 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -224,7 +226,27 @@ export default function LivePulse() {
                 exit={{ opacity: 0, x: reduce ? 0 : -12 }}
                 transition={{ duration: 0.24, ease }}
               >
-                <p className="pulse__title">{item.title}</p>
+                {festival ? (
+                  <>
+                    <div className="pulse__festival-special">
+                      <p className="pulse__festival-kicker">Festive special</p>
+                      <p className="pulse__festival-heading">
+                        {festival === 'vijayadashami' ? 'HAPPY VIJAYADASHAMI' : 'SHUBH NAVRATRI'}
+                      </p>
+                      <p className="pulse__festival-copy">
+                        Celebrating nine nights of devotion, strength, creativity and new beginnings.
+                      </p>
+                    </div>
+                    {item.title === 'IEEE Day 2026' ? (
+                      <p className="pulse__announcement">
+                        {item.title}<span> · {text.state}</span>
+                      </p>
+                    ) : null}
+                  </>
+                ) : null}
+                {festival && item.title === 'IEEE Day 2026' ? null : (
+                  <p className="pulse__title">{item.title}</p>
+                )}
 
                 {item.kind === 'live' ? (
                   <p className="pulse__line">
@@ -287,6 +309,15 @@ export default function LivePulse() {
                 <span className="pulse__dot" aria-hidden="true" />
                 {item.kind === 'teaser' ? <span className="pulse__pill-star" aria-hidden="true">✦</span> : null}
                 <span className="pulse__pill-title">{item.kind === 'teaser' ? 'IEEE DAY 2026' : item.title}</span>
+                {festival ? (
+                  <span className="pulse__festival" aria-label={festival === 'vijayadashami' ? 'Happy Vijayadashami' : 'Shubh Navratri'}>
+                    <svg viewBox="0 0 20 16" aria-hidden="true" focusable="false">
+                      <path d="M10 1C7.5 4 9 6 10 7c1.2-1 2.5-3 0-6Z" />
+                      <path d="M4 8c1.2 4.5 3.2 6.5 6 6.5s4.8-2 6-6.5c-3 1.5-9 1.5-12 0Z" />
+                    </svg>
+                    <span>{festival === 'vijayadashami' ? 'HAPPY VIJAYADASHAMI' : 'SHUBH NAVRATRI'}</span>
+                  </span>
+                ) : null}
                 <span className="pulse__pill-state">{item.kind === 'teaser' ? 'Upcoming' : text.state}</span>
                 {item.kind === 'teaser' ? <span className="pulse__pill-date">09 OCT</span> : null}
                 {item.kind === 'live' || item.kind === 'teaser' ? null : (

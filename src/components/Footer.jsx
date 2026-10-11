@@ -3,6 +3,7 @@ import { getSocialLinks, site } from '../data/site';
 import { resolveImage } from '../lib/assets';
 import Button, { ExternalLink } from './Button';
 import Icon from './Icon';
+import Rangoli from './Rangoli';
 import './Footer.css';
 
 export default function Footer() {
@@ -18,6 +19,7 @@ export default function Footer() {
   return (
     <footer className="footer">
       <div className="footer__line" aria-hidden="true" />
+      <Rangoli className="rangoli--footer" />
       <svg className="footer__trace" viewBox="0 0 520 300" aria-hidden="true" focusable="false">
         <path d="M520 70H396l-38 38H238" />
         <path d="M520 150h-74l-32 32h-96" />

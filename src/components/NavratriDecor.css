@@ -1,0 +1,552 @@
+.navratri-decor {
+  position: fixed;
+  z-index: 0;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.app-shell {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+.app-content {
+  position: relative;
+  z-index: 1;
+}
+
+.app-content--festive .section--tint {
+  background: rgba(244, 247, 250, 0.88);
+}
+
+.app-content--festive .section-head {
+  position: relative;
+}
+
+.app-content--festive .section-head::after {
+  position: absolute;
+  bottom: -1.1rem;
+  left: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  border: 1px solid rgba(185, 135, 58, 0.3);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(208, 157, 71, 0.5) 0 1px, transparent 2px),
+    repeating-conic-gradient(from 11deg, rgba(185, 135, 58, 0.28) 0deg 3deg, transparent 3deg 45deg);
+  content: '';
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.navratri-decor__ambient {
+  position: absolute;
+  inset: -10%;
+  background:
+    radial-gradient(ellipse at 7% 18%, rgba(237, 155, 62, 0.08), transparent 29%),
+    radial-gradient(ellipse at 94% 22%, rgba(217, 79, 66, 0.075), transparent 31%),
+    radial-gradient(ellipse at 64% 86%, rgba(104, 115, 218, 0.055), transparent 34%),
+    radial-gradient(ellipse at 32% 72%, rgba(66, 173, 198, 0.05), transparent 34%);
+  animation: festival-ambient 16s ease-in-out infinite alternate;
+}
+
+.navratri-decor__firework {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: var(--size);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%);
+  animation: firework-rise var(--duration) ease-out var(--delay) infinite;
+}
+
+.navratri-decor__firework::before {
+  position: absolute;
+  inset: 16%;
+  border-radius: 50%;
+  background: radial-gradient(circle, color-mix(in srgb, var(--burst-color) 72%, white) 0, color-mix(in srgb, var(--burst-color) 42%, transparent) 31%, transparent 74%);
+  content: '';
+  filter: blur(0.65rem);
+}
+
+.navratri-decor__firework::after {
+  position: absolute;
+  inset: 7%;
+  border-radius: 50%;
+  background: repeating-conic-gradient(
+    from -4deg,
+    var(--burst-color) 0deg 1.2deg,
+    transparent 1.8deg 17deg
+  );
+  content: '';
+  filter: drop-shadow(0 0 0.35rem var(--burst-color));
+  mask-image: radial-gradient(circle, transparent 0 20%, #000 27% 62%, transparent 74%);
+  opacity: 0;
+  animation: firework-spokes var(--duration) ease-out var(--delay) infinite;
+}
+
+.navratri-decor__ray {
+  position: absolute;
+  left: calc(50% - 1px);
+  bottom: 50%;
+  width: 3px;
+  height: var(--length);
+  border-radius: 2px;
+  background: linear-gradient(to top, transparent, var(--burst-color) 26%, #fff5d5);
+  filter: drop-shadow(0 0 6px var(--burst-color));
+  opacity: 0;
+  transform: rotate(var(--angle)) scaleY(0.05);
+  transform-origin: 50% 100%;
+  animation: firework-ray var(--duration) ease-out var(--delay) infinite;
+  animation-delay: calc(var(--delay) + var(--spark-delay));
+}
+
+.navratri-decor__ember {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #fff0bb;
+  box-shadow: 0 0 7px 2px var(--burst-color);
+  opacity: 0;
+  transform: rotate(var(--angle)) translateY(calc(-1 * var(--distance))) scale(0.2);
+  animation: firework-ember var(--duration) ease-out var(--delay) infinite;
+}
+
+.navratri-decor__burst-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 50%;
+  background: #fff5d3;
+  box-shadow: 0 0 0.8rem 0.2rem var(--burst-color);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(0);
+  animation: firework-core var(--duration) ease-out var(--delay) infinite;
+}
+
+.navratri-decor__firework--1 {
+  top: 37%;
+}
+
+.navratri-decor__firework--2 {
+  top: 74%;
+}
+
+.navratri-decor__rocket {
+  position: absolute;
+  bottom: -1.5rem;
+  width: 0.28rem;
+  height: 0.75rem;
+  border-radius: 50% 50% 25% 25%;
+  background: linear-gradient(#fff4d0, var(--rocket-color));
+  box-shadow: 0 0 0.75rem 0.18rem var(--rocket-color);
+  opacity: 0;
+  animation: rocket-launch var(--duration) cubic-bezier(0.3, 0.7, 0.2, 1) var(--delay) infinite;
+}
+
+.navratri-decor__rocket::before {
+  position: absolute;
+  top: 0.45rem;
+  left: 50%;
+  width: 2px;
+  height: 5.5rem;
+  background: linear-gradient(to bottom, rgba(255, 240, 188, 0.6), rgba(239, 174, 77, 0));
+  content: '';
+  transform: translateX(-50%);
+}
+
+.navratri-decor__rocket--left {
+  left: 16%;
+}
+
+.navratri-decor__rocket--right {
+  right: 16%;
+}
+
+.navratri-decor__rocket--1 {
+  left: auto;
+  right: 9%;
+}
+
+.navratri-decor__rangoli {
+  position: absolute;
+  width: clamp(5.5rem, 9vw, 8rem);
+  color: rgba(185, 135, 58, 0.22);
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1;
+  animation: rangoli-glow 9s ease-in-out infinite alternate;
+}
+
+.navratri-decor__rangoli--left {
+  top: 48%;
+  left: -2.5rem;
+}
+
+.navratri-decor__rangoli--right {
+  right: -2.5rem;
+  top: 20%;
+  animation-delay: -4s;
+}
+
+.hero--festive::before {
+  width: min(65rem, 110vw);
+  aspect-ratio: 1.8;
+  background:
+    radial-gradient(ellipse at 20% 52%, rgba(235, 177, 78, 0.12), transparent 45%),
+    radial-gradient(ellipse at 80% 38%, rgba(218, 116, 71, 0.09), transparent 43%),
+    radial-gradient(ellipse at 50% 75%, rgba(255, 229, 182, 0.17), transparent 54%),
+    radial-gradient(ellipse, rgba(62, 145, 207, 0.075), rgba(87, 169, 220, 0.025) 42%, transparent 72%);
+  animation: hero-ambient 20s ease-in-out infinite alternate;
+}
+
+.navratri-decor__light-string {
+  position: absolute;
+  top: 7.2rem;
+  width: min(31vw, 24rem);
+  height: 2.3rem;
+  border-top: 1px solid rgba(169, 126, 56, 0.26);
+}
+
+.navratri-decor__light-string--left {
+  left: 0;
+  border-radius: 0 52% 0 0;
+  transform: rotate(1deg);
+  transform-origin: top left;
+}
+
+.navratri-decor__light-string--right {
+  right: 0;
+  border-radius: 52% 0 0;
+  transform: rotate(-1deg);
+  transform-origin: top right;
+}
+
+.navratri-decor__bulb {
+  position: absolute;
+  top: -2px;
+  left: var(--x);
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--bulb-color, #f2cb73);
+  box-shadow: 0 0 6px 2px color-mix(in srgb, var(--bulb-color, #f2cb73) 55%, transparent);
+  animation: fairy-twinkle 3.8s ease-in-out var(--delay) infinite;
+}
+
+.navratri-decor__kandil {
+  position: absolute;
+  top: 9.15rem;
+  width: 2.75rem;
+  height: 5.25rem;
+  transform-origin: 50% 0;
+  animation: kandil-sway 6.8s ease-in-out var(--delay) infinite;
+}
+
+.navratri-decor__kandil--left {
+  left: clamp(3.25rem, 11vw, 10rem);
+}
+
+.navratri-decor__kandil--right {
+  right: clamp(3.25rem, 11vw, 10rem);
+  animation-duration: 7.5s;
+}
+
+.navratri-decor__kandil--left-lower {
+  top: 45%;
+  left: 3%;
+  transform: scale(0.76);
+}
+
+.navratri-decor__kandil--right-lower {
+  top: 55%;
+  right: 3%;
+  transform: scale(0.76);
+  animation-duration: 8s;
+}
+
+.navratri-decor__kandil::after {
+  position: absolute;
+  z-index: -1;
+  top: 1.6rem;
+  left: -1.25rem;
+  width: 5.25rem;
+  height: 6rem;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(237, 170, 68, 0.2), transparent 70%);
+  content: '';
+  filter: blur(0.9rem);
+}
+
+.navratri-decor__cord {
+  position: absolute;
+  top: -3.2rem;
+  left: 50%;
+  height: 3.2rem;
+  border-left: 1px solid rgba(171, 127, 58, 0.35);
+}
+
+.navratri-decor__kandil svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.navratri-decor__kandil-cap,
+.navratri-decor__kandil-frame {
+  fill: rgba(236, 197, 112, 0.1);
+  stroke: rgba(168, 119, 45, 0.65);
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.2;
+}
+
+.navratri-decor__kandil-glass {
+  fill: rgba(249, 195, 91, 0.14);
+  stroke: rgba(220, 168, 79, 0.48);
+  stroke-width: 0.8;
+}
+
+.navratri-decor__diya {
+  position: absolute;
+  bottom: 5.5%;
+  width: clamp(3.75rem, 7vw, 5.25rem);
+  height: auto;
+  overflow: visible;
+  animation: diya-glow 4.8s ease-in-out infinite;
+}
+
+.navratri-decor__diya--left {
+  left: clamp(1rem, 5vw, 4.75rem);
+}
+
+.navratri-decor__diya--right {
+  right: clamp(1rem, 5vw, 4.75rem);
+  animation-delay: -2.4s;
+}
+
+.navratri-decor__diya-glow {
+  fill: rgba(242, 174, 67, 0.14);
+  filter: blur(4px);
+}
+
+.navratri-decor__flame {
+  fill: #f0a83f;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: diya-flicker 1.25s ease-in-out infinite alternate;
+}
+
+.navratri-decor__flame-core {
+  fill: #fff0b9;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: diya-flicker 0.9s ease-in-out -0.3s infinite alternate-reverse;
+}
+
+.navratri-decor__wick {
+  fill: none;
+  stroke: #775337;
+  stroke-linecap: round;
+  stroke-width: 1.4;
+}
+
+.navratri-decor__bowl {
+  fill: rgba(192, 108, 55, 0.18);
+  stroke: rgba(161, 99, 51, 0.75);
+  stroke-width: 1.2;
+}
+
+.navratri-decor__bowl-rim,
+.navratri-decor__bowl-detail {
+  fill: none;
+  stroke: rgba(182, 124, 55, 0.72);
+  stroke-linecap: round;
+  stroke-width: 1.2;
+}
+
+.navratri-decor__particle {
+  position: absolute;
+  top: var(--y);
+  left: var(--x);
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background: #d7a84f;
+  box-shadow: 0 0 7px 2px rgba(218, 169, 79, 0.3);
+  animation: particle-drift var(--duration) linear var(--delay) infinite;
+}
+
+.navratri-decor__particle--1 {
+  width: 2px;
+  height: 2px;
+  opacity: 0.6;
+}
+
+.navratri-decor__particle--2 {
+  width: 4px;
+  height: 4px;
+  opacity: 0.42;
+}
+
+@keyframes fairy-twinkle {
+  0%, 100% { opacity: 0.48; box-shadow: 0 0 4px 1px rgba(241, 196, 99, 0.18); }
+  50% { opacity: 0.94; box-shadow: 0 0 8px 3px rgba(241, 196, 99, 0.38); }
+}
+
+@keyframes kandil-sway {
+  0%, 100% { transform: rotate(-2deg); }
+  50% { transform: rotate(2.4deg); }
+}
+
+@keyframes diya-flicker {
+  0% { opacity: 0.78; transform: skewX(-3deg) scaleY(0.96); }
+  100% { opacity: 1; transform: skewX(2deg) scaleY(1.04); }
+}
+
+@keyframes diya-glow {
+  0%, 100% { filter: drop-shadow(0 0 5px rgba(231, 166, 71, 0.1)); }
+  50% { filter: drop-shadow(0 0 11px rgba(231, 166, 71, 0.27)); }
+}
+
+@keyframes particle-drift {
+  from { transform: translate3d(0, 1.5rem, 0); opacity: 0; }
+  15% { opacity: 0.7; }
+  85% { opacity: 0.55; }
+  to { transform: translate3d(var(--drift), -3.5rem, 0); opacity: 0; }
+}
+
+@keyframes festival-ambient {
+  from { opacity: 0.58; transform: translate3d(-1%, -0.5%, 0) scale(0.98); }
+  to { opacity: 1; transform: translate3d(1%, 0.5%, 0) scale(1.03); }
+}
+
+@keyframes firework-rise {
+  0%, 8% { opacity: 0; transform: translate(-50%, -50%) scale(0.45); }
+  18% { opacity: 1; transform: translate(-50%, -50%) scale(0.82); }
+  32% { opacity: 0.94; transform: translate(-50%, -50%) scale(1); }
+  49% { opacity: 0; transform: translate(-50%, -50%) scale(1.14); }
+  100% { opacity: 0; transform: translate(-50%, -50%) scale(1.14); }
+}
+
+@keyframes firework-ray {
+  0%, 12% { opacity: 0; transform: rotate(var(--angle)) scaleY(0.05); }
+  22% { opacity: 1; transform: rotate(var(--angle)) scaleY(1); }
+  38% { opacity: 0.85; transform: rotate(var(--angle)) scaleY(0.82); }
+  51%, 100% { opacity: 0; transform: rotate(var(--angle)) scaleY(0.48); }
+}
+
+@keyframes firework-ember {
+  0%, 17% { opacity: 0; }
+  27% { opacity: 1; transform: rotate(var(--angle)) translateY(calc(-1 * var(--distance))) scale(1); }
+  48%, 100% { opacity: 0; transform: rotate(var(--angle)) translateY(calc(-1.3 * var(--distance))) scale(0.45); }
+}
+
+@keyframes firework-core {
+  0%, 17% { opacity: 0; transform: translate(-50%, -50%) scale(0); }
+  24% { opacity: 1; transform: translate(-50%, -50%) scale(1.6); }
+  36%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.15); }
+}
+
+@keyframes firework-spokes {
+  0%, 12% { opacity: 0; transform: scale(0.24) rotate(-8deg); }
+  22% { opacity: 0.82; transform: scale(0.85) rotate(0deg); }
+  34% { opacity: 0.72; transform: scale(1) rotate(5deg); }
+  49%, 100% { opacity: 0; transform: scale(1.08) rotate(12deg); }
+}
+
+@keyframes rocket-launch {
+  0%, 8% { opacity: 0; transform: translateY(0); }
+  12% { opacity: 0.9; }
+  48% { opacity: 0.8; transform: translateY(-50vh); }
+  55%, 100% { opacity: 0; transform: translateY(-55vh); }
+}
+
+@keyframes rangoli-glow {
+  from { opacity: 0.48; transform: rotate(-8deg) scale(0.94); }
+  to { opacity: 0.9; transform: rotate(8deg) scale(1.04); }
+}
+
+@media (max-width: 900px) {
+  .navratri-decor__light-string { width: 25vw; }
+  .navratri-decor__kandil { transform: scale(0.82); }
+  .navratri-decor__kandil--left { left: 4vw; }
+  .navratri-decor__kandil--right { right: 4vw; }
+  .navratri-decor__firework { width: calc(var(--size) * 0.78); }
+  .navratri-decor__rangoli { width: 5.5rem; }
+}
+
+@media (max-width: 640px) {
+  .navratri-decor__light-string {
+    top: 6.1rem;
+    width: 23vw;
+    height: 1.5rem;
+  }
+
+  .navratri-decor__kandil {
+    top: 7.5rem;
+    width: 1.7rem;
+    height: 3.3rem;
+  }
+
+  .navratri-decor__kandil--left { left: 0.35rem; }
+  .navratri-decor__kandil--right { right: 0.35rem; }
+  .navratri-decor__kandil--left-lower { top: 40%; left: 0.1rem; }
+  .navratri-decor__kandil--right-lower { display: none; }
+  .navratri-decor__kandil::after { opacity: 0.65; }
+  .navratri-decor__diya { bottom: 1rem; width: 2.8rem; }
+  .navratri-decor__diya--left { left: 0.5rem; }
+  .navratri-decor__diya--right { right: 0.5rem; }
+  .navratri-decor__particle:nth-of-type(even) { display: none; }
+  .navratri-decor__firework { width: calc(var(--size) * 0.45); }
+  .navratri-decor__firework--2,
+  .navratri-decor__firework--3 { display: none; }
+  .navratri-decor__firework--0 { left: 17%; top: 28%; }
+  .navratri-decor__firework--1 { left: 83%; top: 44%; }
+  .navratri-decor__rocket--1,
+  .navratri-decor__rocket--2 { display: none; }
+  .navratri-decor__rocket--left { left: 8%; }
+  .navratri-decor__rocket--right { right: 8%; }
+  .navratri-decor__rangoli { width: 4.25rem; opacity: 0.5; }
+  .navratri-decor__rangoli--left { left: -2.3rem; top: 48%; }
+  .navratri-decor__rangoli--right { right: -2.3rem; top: 27%; }
+}
+
+@media (max-width: 1100px) {
+  .hero { overflow: clip; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero--festive::before,
+  .navratri-decor__ambient,
+  .navratri-decor__firework,
+  .navratri-decor__firework::after,
+  .navratri-decor__ray,
+  .navratri-decor__ember,
+  .navratri-decor__burst-core,
+  .navratri-decor__rocket,
+  .navratri-decor__rangoli,
+  .navratri-decor__bulb,
+  .navratri-decor__kandil,
+  .navratri-decor__diya,
+  .navratri-decor__flame,
+  .navratri-decor__flame-core,
+  .navratri-decor__particle {
+    animation: none;
+  }
+
+  .navratri-decor__diya { filter: drop-shadow(0 0 7px rgba(231, 166, 71, 0.2)); }
+  .navratri-decor__flame,
+  .navratri-decor__flame-core,
+  .navratri-decor__bulb { opacity: 0.8; }
+  .navratri-decor__firework::after { opacity: 0.3; transform: scale(0.85); }
+  .navratri-decor__ray { opacity: 0.5; transform: rotate(var(--angle)) scaleY(0.6); }
+  .navratri-decor__burst-core { opacity: 0.6; transform: translate(-50%, -50%) scale(0.7); }
+}

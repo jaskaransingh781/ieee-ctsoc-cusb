@@ -38,7 +38,7 @@ const EventCard = forwardRef(function EventCard({ event, wide = false, animated 
       {...motionProps}
     >
       <div className="ecard__media">
-        <EventVisual event={event} sizes={wide ? undefined : '(max-width: 700px) 100vw, 400px'} />
+        <EventVisual event={event} image={event.banner} sizes={wide ? undefined : '(max-width: 700px) 100vw, 400px'} />
       </div>
 
       <div className="ecard__body">

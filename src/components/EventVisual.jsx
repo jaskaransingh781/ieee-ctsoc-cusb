@@ -11,21 +11,22 @@ import './EventVisual.css';
  *    drawn from the event's own name and category colour. No stock or
  *    generated imagery is ever substituted.
  */
-export default function EventVisual({ event, variant = 'card', eager = false, sizes }) {
+export default function EventVisual({ event, variant = 'card', eager = false, sizes, image }) {
   const [failed, setFailed] = useState(false);
-  const src = resolveImage(event.poster);
-  const small = resolveImage(event.posterSmall);
-  const wide = event.posterShape === 'wide';
+  const src = resolveImage(image ?? event.poster);
+  const small = image ? null : resolveImage(event.posterSmall);
+  const wide = image ? true : event.posterShape === 'wide';
+  const portrait = !image && event.posterShape === 'portrait';
   const tone = event.visualTheme ?? eventTypes[event.type]?.tone ?? 'blue';
 
   if (src && !failed) {
     return (
-      <div className={`visual visual--image visual--${variant} ${wide ? 'visual--wide' : ''}`}>
+      <div className={`visual visual--image visual--${variant} ${wide ? 'visual--wide' : ''} ${portrait ? 'visual--portrait' : ''}`}>
         <img
           src={src}
           srcSet={small ? `${small} 1200w, ${src} 2400w` : undefined}
           sizes={small ? (sizes ?? '(max-width: 1240px) 100vw, 1200px') : undefined}
-          alt={event.posterAlt ?? `${event.title} poster`}
+          alt={image ? event.bannerAlt ?? `${event.title} banner` : event.posterAlt ?? `${event.title} poster`}
           loading={eager ? 'eager' : 'lazy'}
           decoding="async"
           onError={() => setFailed(true)}

@@ -13,6 +13,7 @@ import {
 } from '../lib/calendar';
 import { useNow } from '../lib/countdown';
 import Icon from './Icon';
+import Rangoli from './Rangoli';
 import './EventCalendar.css';
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
@@ -22,10 +23,24 @@ const ease = [0.22, 1, 0.36, 1];
 const monthTitle = new Intl.DateTimeFormat('en-IN', { month: 'long', year: 'numeric', timeZone: 'UTC' });
 const monthShort = new Intl.DateTimeFormat('en-IN', { month: 'short', year: 'numeric', timeZone: 'UTC' });
 const monthOnly = new Intl.DateTimeFormat('en-IN', { month: 'short', timeZone: 'UTC' });
+const dateOnly = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', timeZone: 'UTC' });
 const weekdayLong = new Intl.DateTimeFormat('en-IN', { weekday: 'long', timeZone: 'UTC' });
+const accessibleDate = new Intl.DateTimeFormat('en-IN', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
 const todayWeekday = new Intl.DateTimeFormat('en-IN', { weekday: 'long', timeZone: IST });
 const todayDate = new Intl.DateTimeFormat('en-IN', { day: 'numeric', month: 'long', timeZone: IST });
 const yearOnly = new Intl.DateTimeFormat('en-IN', { year: 'numeric', timeZone: IST });
+const scheduleTime = new Intl.DateTimeFormat('en-IN', {
+  hour: 'numeric',
+  minute: '2-digit',
+  hour12: true,
+  timeZone: IST,
+});
 const clock = new Intl.DateTimeFormat('en-GB', {
   hour: '2-digit',
   minute: '2-digit',
@@ -55,6 +70,24 @@ function whenText(entry, status, today) {
   return `in ${days} days`;
 }
 
+function scheduleText(entry, status) {
+  if (entry.kind === 'deadline') {
+    if (entry.id.endsWith('-registration')) {
+      return `Registration deadline · ${scheduleTime.format(new Date(entry.until))} IST`;
+    }
+    return status === 'past' ? 'Submission deadline passed' : 'Submission deadline';
+  }
+
+  if (entry.kind === 'window') return `Celebrations through ${dateOnly.format(asDate(entry.end))}`;
+  const event = events.find((item) => item.slug === entry.id);
+  return event?.startsAt ? `Starts ${scheduleTime.format(new Date(event.startsAt))} IST` : 'All day';
+}
+
+function barLabel(entry, status) {
+  if (entry.kind !== 'deadline' || status !== 'past') return entry.short;
+  return entry.id.endsWith('-registration') ? 'Reg. closed' : 'Closed';
+}
+
 /**
  * "Our calendar": a month grid with every dated event drawn on it.
  * Upcoming is burgundy, ongoing is green, previous is slate, and deadlines
@@ -69,16 +102,21 @@ export default function EventCalendar() {
   const thisMonth = today.slice(0, 7);
   const [month, setMonth] = useState(thisMonth);
   const [direction, setDirection] = useState(0);
+  const [selectedDay, setSelectedDay] = useState(today);
 
   const [year, monthIndex] = month.split('-').map(Number);
   const weeks = useMemo(() => monthMatrix(year, monthIndex), [year, monthIndex]);
   const agenda = monthAgenda(calendar, month);
   const hasAnything = agenda.dated.length + agenda.undated.length > 0;
+  const selectedEntries = calendar.entries.filter(
+    (entry) => entry.start <= selectedDay && entry.end >= selectedDay,
+  );
 
   const go = (next) => {
     if (next === month) return;
     setDirection(next > month ? 1 : -1);
     setMonth(next);
+    setSelectedDay(next === thisMonth ? today : `${next}-01`);
   };
 
   // The strongest thing happening on each day, to tint its cell.
@@ -97,6 +135,7 @@ export default function EventCalendar() {
     <div className="cal">
       <span className="cal__light cal__light--a" aria-hidden="true" />
       <span className="cal__light cal__light--b" aria-hidden="true" />
+      <Rangoli className="rangoli--calendar" />
 
       {/* ------------------------------------------------ The month grid */}
       <div className="cal__card cal__main">
@@ -160,16 +199,25 @@ export default function EventCalendar() {
                             'cal__day',
                             day.inMonth ? '' : 'is-outside',
                             day.iso === today ? 'is-today' : '',
+                            day.iso === selectedDay ? 'is-selected' : '',
                             column > 4 ? 'is-weekend' : '',
                             tone ? `cal__day--${tone}` : '',
                           ]
                             .filter(Boolean)
                             .join(' ')}
                         >
-                          <time dateTime={day.iso} className="cal__num">
+                          <button
+                            type="button"
+                            className="cal__num cal__select-date"
+                            aria-label={`${accessibleDate.format(asDate(day.iso))}${day.iso === today ? ', today' : ''}`}
+                            aria-pressed={day.iso === selectedDay}
+                            onClick={() => {
+                              if (day.iso.slice(0, 7) !== month) go(day.iso.slice(0, 7));
+                              setSelectedDay(day.iso);
+                            }}
+                          >
                             {day.day}
-                          </time>
-                          {day.iso === today ? <span className="visually-hidden"> (today)</span> : null}
+                          </button>
                         </div>
                       );
                     })}
@@ -192,10 +240,12 @@ export default function EventCalendar() {
                             .join(' ')}
                           style={{ gridColumn: `${bar.column + 1} / span ${bar.span}`, gridRow: bar.lane + 2 }}
                           title={bar.entry.title}
-                          aria-label={`${bar.entry.title}, ${kind === 'deadline' ? 'deadline' : statusWords[status].toLowerCase()}`}
+                            aria-label={`${bar.entry.title}, ${kind === 'deadline'
+                              ? status === 'past' ? 'deadline closed' : 'deadline'
+                              : statusWords[status].toLowerCase()}`}
                         >
-                          {status === 'ongoing' && kind === 'event' ? <span className="cal__pulse" /> : null}
-                          <span className="cal__bar-text">{bar.entry.short}</span>
+                            {status === 'ongoing' && kind === 'event' ? <span className="cal__pulse" /> : null}
+                            <span className="cal__bar-text">{barLabel(bar.entry, status)}</span>
                         </Link>
                       );
                     })}
@@ -246,6 +296,38 @@ export default function EventCalendar() {
         </div>
 
         <div className="cal__card cal__agenda">
+          <section className="cal__selected" aria-live="polite" aria-label="Selected date details">
+            <div className="cal__selected-heading">
+              <span>Selected date</span>
+              <strong>{accessibleDate.format(asDate(selectedDay))}</strong>
+            </div>
+            {selectedEntries.length ? (
+              <ul className="cal__selected-list">
+                {selectedEntries.map((entry) => {
+                  const status = entryStatus(entry, now);
+                  const tone = entry.kind === 'deadline' ? (status === 'past' ? 'past' : 'deadline') : status;
+                  return (
+                    <li key={entry.id}>
+                      <Link to={entry.to} className={`cal__selected-link cal__selected-link--${tone}`}>
+                        <span className="cal__selected-copy">
+                          <strong>{entry.title}</strong>
+                          <small>{scheduleText(entry, status)}</small>
+                        </span>
+                        <span className={`cal__tag cal__tag--${tone}`}>
+                          {entry.kind === 'deadline'
+                            ? status === 'past' ? 'Closed' : 'Deadline'
+                            : statusWords[status]}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="cal__selected-empty">No scheduled items on this date.</p>
+            )}
+          </section>
+
           <h3 className="cal__agenda-title">In {monthTitle.format(monthDate(month))}</h3>
 
           {hasAnything ? (
@@ -270,6 +352,7 @@ export default function EventCalendar() {
                           {lastDay !== entry.start
                             ? ` to ${Number(lastDay.slice(8))} ${monthOnly.format(asDate(lastDay))}`
                             : ''}
+                          {` · ${scheduleText(entry, status)}`}
                           {when ? ` · ${when}` : ''}
                         </span>
                       </span>

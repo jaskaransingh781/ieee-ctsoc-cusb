@@ -13,7 +13,7 @@
 // dateLabel: optional text shown instead of the formatted date.
 // poster  : path inside src/assets/ (e.g. 'events/my-poster.jpg'), a full
 //           https:// URL, or null for the typographic visual.
-// posterShape: 'wide' for banners (3:1). Leave out for normal posters.
+// posterShape: 'wide' for banners (3:1), 'portrait' to contain tall artwork.
 // description: paragraphs for the details page. An event with an empty
 //           description gets no "View details" link.
 //
@@ -65,6 +65,9 @@ export const statusLabels = {
 
 const ZINNOVATIO_SITE = 'https://zinnovatio.in/';
 const ZINNOVATIO_IMG = 'https://zinnovatio.in/images/story-thumbs';
+const ZINNOVATIO_HERO_POSTER = 'events/zinnovatio-4o-poster.webp';
+const ZINNOVATIO_BANNER = '/assets/zinnovatio-4.0-banner.png';
+const ZINNOVATIO_OFFICIAL_POSTER = '/assets/zinnovatio-4.0-poster.png';
 
 export const events = [
   // ----------------------------------------------------------------- FLAGSHIP
@@ -96,15 +99,17 @@ export const events = [
     },
     summaryLine: '36 hours on campus. Teams of 3 to 5. Online screening first, then the finale.',
     duration: '36 hours',
-    poster: 'events/zinnovatio-4o-banner-2400.webp',
-    posterSmall: 'events/zinnovatio-4o-banner-1200.webp',
-    posterShape: 'wide',
+    poster: ZINNOVATIO_HERO_POSTER,
+    posterSmall: ZINNOVATIO_HERO_POSTER,
+    posterShape: 'portrait',
+    banner: ZINNOVATIO_BANNER,
+    bannerAlt: 'Zinnovatio 4.0 event banner',
     // Portrait poster shown on the details page (click to enlarge).
-    detailPoster: 'events/zinnovatio-4o-poster.webp',
+    detailPoster: ZINNOVATIO_OFFICIAL_POSTER,
     detailPosterAlt:
-      'Zinnovatio 4.0 official poster: Gen-Z Hackathon, a 36-hour national level hackathon presented by the Department of CSE, Nalanda. 30 to 31 October 2026, Chandigarh University, Mohali, Punjab. Prize pool ₹1,00,000+. Teams of 3 to 5.',
+      'Official Zinnovatio 4.0 poster: a 36-hour Gen-Z hackathon at Chandigarh University on 30–31 October 2026, with a ₹1,00,000+ prize pool and six tracks.',
     posterAlt:
-      'Zinnovatio 4.0 banner: 36-hour national level hackathon, 30 to 31 October 2026, Chandigarh University, Mohali. Prize pool ₹1,00,000+. Teams of 3 to 5.',
+      'Official Zinnovatio 4.0 poster: a 36-hour Gen-Z hackathon at Chandigarh University on 30–31 October 2026, with a ₹1,00,000+ prize pool and six tracks.',
     visualTheme: 'coral',
     shortDescription:
       'A 36-hour national-level hackathon at Chandigarh University. Teams of three to five build working prototypes across six national focus areas.',
@@ -119,6 +124,15 @@ export const events = [
       { label: 'Format', value: 'Online round, then on-campus finale' },
       { label: 'Entry', value: 'Free. ₹500 per team if shortlisted' },
     ],
+    selection: {
+      status: 'coming-soon',
+      message: 'Shortlisted teams will be announced soon. Keep an eye on official CTSoc updates.',
+    },
+    shortlistedTeamFee: {
+      amount: '₹500',
+      appliesTo: 'per shortlisted team',
+      message: 'Payment instructions for shortlisted teams will be announced soon. Selected teams should wait for the official CTSoc update before making any payment.',
+    },
     deadline: { label: 'PPT / idea submission', date: '2026-10-07' },
     registrationUrl:
       'https://unstop.com/hackathons/zinnovatio-40-chandigarh-university-cu-ajitgarh-punjab-1749579',
@@ -215,7 +229,7 @@ export const events = [
       },
       {
         q: 'Is there a registration fee?',
-        a: 'Registering on Unstop is free. Teams that are shortlisted for the on-campus finale pay ₹500 per team, not per member.',
+        a: 'Registering on Unstop is free. Shortlisted teams pay ₹500 per team, not per member. Payment instructions have not been announced yet; selected teams should wait for the official CTSoc update before paying.',
       },
     ],
     // Not shown for now. Move any of these into `faqs` above to show them.
