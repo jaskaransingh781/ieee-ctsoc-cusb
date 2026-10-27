@@ -4,63 +4,94 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1.125rem;
-  min-height: 2.25rem;
-  padding: calc(0.375rem + env(safe-area-inset-top, 0px)) 1rem 0.375rem;
+  gap: clamp(0.55rem, 1.6vw, 1.25rem);
+  min-height: 2.65rem;
+  padding: max(0.45rem, env(safe-area-inset-top, 0px)) 1rem 0.45rem;
   overflow: hidden;
-  border: 0;
-  border-bottom: 1px solid var(--line);
-  background: #f5f8fb;
-  color: var(--ink-soft);
-  font-size: 0.8125rem;
+  border-bottom: 1px solid #2b2b2b;
+  background: #080808;
+  color: #fff;
+  font-size: 0.76rem;
   line-height: 1.35;
   text-align: center;
-  transition: color 0.2s, background-color 0.2s;
+  text-decoration: none;
+}
+
+.announcement::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 0.2rem;
+  background: #d10a16;
+  content: '';
 }
 
 .announcement:hover {
-  color: var(--ink);
-  background-color: #eef4f8;
+  background: #141414;
 }
 
 .announcement:focus-visible {
   z-index: 102;
-  outline: 2px solid var(--blue);
-  outline-offset: -2px;
+  outline: 3px solid #ed1c2a;
+  outline-offset: -3px;
 }
 
 .announcement__category,
 .announcement__message,
+.announcement__countdown,
 .announcement__cta {
   position: relative;
   z-index: 1;
 }
 
 .announcement__category {
-  color: var(--blue-deep);
-  font-size: 0.625rem;
-  font-weight: 760;
-  letter-spacing: 0.12em;
+  color: #ff5961;
+  font-size: 0.62rem;
+  font-weight: 780;
+  letter-spacing: 0.13em;
   white-space: nowrap;
 }
 
 .announcement__message {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  column-gap: 0.375rem;
+  gap: 0.1rem 0.5rem;
 }
 
 .announcement__extended {
-  color: var(--blue-deep);
-  font-weight: 700;
+  color: #fff;
+  font-weight: 780;
+  letter-spacing: 0.035em;
 }
 
-.announcement__deadline time {
-  color: var(--ink);
-  font-weight: 700;
+.announcement__details {
+  color: #c7c7c7;
+  font-size: 0.7rem;
+  font-weight: 620;
+  letter-spacing: 0.035em;
+}
+
+.announcement__details i {
+  margin-inline: 0.25rem;
+  color: #ed1c2a;
   font-style: normal;
+}
+
+.announcement__countdown {
+  flex: none;
+  padding: 0.22rem 0.5rem;
+  border: 1px solid rgba(209, 10, 22, 0.62);
+  border-radius: 0.35rem;
+  background: rgba(209, 10, 22, 0.13);
+  color: #fff;
+  font-size: 0.7rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 740;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
 }
 
 .announcement__cta {
@@ -68,51 +99,85 @@
   align-items: center;
   gap: 0.25rem;
   flex: none;
-  color: var(--blue);
-  font-size: 0.75rem;
-  font-weight: 680;
+  color: #ff5961;
+  font-size: 0.7rem;
+  font-weight: 720;
   white-space: nowrap;
 }
 
 .announcement__cta .icon {
   width: 0.875rem;
   height: 0.875rem;
-  transition: transform 0.2s var(--ease);
+  transition: transform 0.2s ease;
 }
 
 .announcement:hover .announcement__cta .icon {
   transform: translateX(0.1875rem);
 }
 
-@media (max-width: 640px) {
+.announcement__light {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -20%;
+  width: 9rem;
+  background: linear-gradient(90deg, transparent, rgba(209, 10, 22, 0.16), transparent);
+  pointer-events: none;
+  animation: announcement-light 8s ease-in-out infinite;
+}
+
+@keyframes announcement-light {
+  to { transform: translateX(145vw); }
+}
+
+@media (max-width: 760px) {
   .announcement {
-    gap: 0.625rem;
-    min-height: 2.75rem;
-    padding: 0.4375rem 0.75rem;
-    font-size: 0.75rem;
+    min-height: 3.15rem;
+    padding-inline: 0.75rem;
+    gap: 0.5rem;
+  }
+
+  .announcement__category {
+    display: none;
   }
 
   .announcement__message {
-    column-gap: 0.25rem;
+    flex-direction: column;
+    gap: 0.12rem;
   }
 
-  .announcement__category { display: none; }
+  .announcement__details {
+    font-size: 0.62rem;
+  }
+
+  .announcement__countdown {
+    font-size: 0.64rem;
+  }
 
   .announcement__cta {
-    font-size: 0.6875rem;
+    max-width: 5rem;
+    font-size: 0.62rem;
+    white-space: normal;
   }
 }
 
-@media (max-width: 390px) {
-  .announcement {
-    align-items: center;
-    gap: 0.375rem;
-    padding-inline: 0.5rem;
-    font-size: 0.6875rem;
+@media (max-width: 420px) {
+  .announcement__cta {
+    max-width: 4rem;
+    gap: 0.1rem;
   }
 
-  .announcement__cta {
-    gap: 0.125rem;
-    font-size: 0.625rem;
+  .announcement__details {
+    font-size: 0.56rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement__light {
+    animation: none;
+  }
+
+  .announcement__cta .icon {
+    transition: none;
   }
 }

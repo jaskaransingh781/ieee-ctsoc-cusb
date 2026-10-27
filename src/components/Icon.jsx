@@ -28,6 +28,7 @@ const paths = {
       <path d="M10.5 17.5h3" />
     </>
   ),
+  moon: <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />,
   bed: (
     <>
       <path d="M3 19v-9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v9M3 15h18M6 8V6a2 2 0 0 1 2-2h3v4M3 19v2M21 19v2" />

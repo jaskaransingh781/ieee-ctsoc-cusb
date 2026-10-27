@@ -74,7 +74,7 @@ export const events = [
   {
     id: 'zinnovatio-4o',
     slug: 'zinnovatio-4o',
-    title: 'Zinnovatio 4.O',
+    title: 'Zinnovatio 4.0',
     type: 'hackathon',
     status: 'upcoming',
     featured: true,
@@ -82,7 +82,7 @@ export const events = [
     date: '2026-10-30',
     endDate: '2026-10-31',
     startsAt: '2026-10-30T09:00:00+05:30', // check-in time on zinnovatio.in
-    endsAt: '2026-10-31T17:00:00+05:30',
+    endsAt: '2026-10-31T21:00:00+05:30',
     registrationCloses: '2026-10-07T23:59:00+05:30', // last date to register, per the official poster
     venue: 'Chandigarh University, Mohali, Punjab',
     venueShort: 'Chandigarh University',
@@ -116,22 +116,38 @@ export const events = [
     description: [
       'Zinnovatio is Chandigarh University’s national hackathon series, and the fourth edition runs on campus on 30 and 31 October 2026. Teams pick one of six focus areas, get through an online screening round, and then spend the finale building something that actually runs.',
       'The bar is a working prototype. Finalists show a live repository and a functioning demo to the jury, with mentors checking in along the way.',
-      'Zinnovatio 4.O is hosted by Chandigarh University and organised by the Department of Computer Science, Nalanda. IEEE CTSoc is a co-organiser.',
+      'Zinnovatio 4.0 is hosted by Chandigarh University and organised by the Department of Computer Science, Nalanda. IEEE CTSoc is a co-organiser.',
     ],
     facts: [
       { label: 'Duration', value: '36 hours' },
       { label: 'Team size', value: '3 to 5 members' },
       { label: 'Format', value: 'Online round, then on-campus finale' },
-      { label: 'Entry', value: 'Free. ₹500 per team if shortlisted' },
+      { label: 'Registration', value: 'Free on Unstop' },
+      { label: 'Accommodation', value: '₹500 per person (29 Oct only)' },
     ],
     selection: {
-      status: 'coming-soon',
-      message: 'Shortlisted teams will be announced soon. Keep an eye on official CTSoc updates.',
+      status: 'confirmed',
+      message: 'Your selection is confirmed and payment has been received. Welcome to Zinnovatio 4.0. Get ready to collaborate, build, and turn your ideas into working solutions.',
     },
-    shortlistedTeamFee: {
-      amount: '₹500',
-      appliesTo: 'per shortlisted team',
-      message: 'Payment instructions for shortlisted teams will be announced soon. Selected teams should wait for the official CTSoc update before making any payment.',
+    hospitality: {
+      stayNight: '29 October 2026',
+      hackathonDates: '30–31 October 2026',
+      accommodationPrice: '₹500',
+      accommodationPriceUnit: 'per person',
+      statusLabel: '29 OCTOBER ONLY',
+      eligibility: 'Accommodation is available exclusively to participants arriving on 29 October 2026. The package covers one night only.',
+      coverage: 'The ₹500 charge covers accommodation for the night of 29 October 2026 only.',
+      inclusions: [
+        'Accommodation for the night of 29 October 2026.',
+        'Three meal servings.',
+        'Two tea servings.',
+      ],
+      accommodationIncludes: 'Accommodation for the night of 29 October 2026, three meal servings, and two tea servings.',
+      accommodationNote: 'No accommodation is available before 29 October 2026. The ₹500 package covers the night of 29 October only. Additional nights are not included.',
+      foodTitle: 'FOOD DURING THE HACKATHON',
+      foodNotice: 'Food stalls will be available at the venue on 30–31 October 2026. Participants can purchase food directly from the vendors.',
+      foodNote: 'Food purchases must be paid directly to the respective vendors and are not included in the ₹500 accommodation package.',
+      paymentInstructions: 'Your selection is confirmed and payment has been received. Welcome to Zinnovatio 4.0.',
     },
     deadline: { label: 'PPT / idea submission', date: '2026-10-07' },
     registrationUrl:
@@ -220,7 +236,7 @@ export const events = [
     // Shown as tiles above the questions.
     quickFacts: [
       { label: 'Team size', value: '3 to 5' },
-      { label: 'Registration cost', value: 'Free. ₹500 per team if shortlisted' },
+      { label: 'Registration cost', value: 'Free on Unstop' },
     ],
     faqs: [
       {
@@ -228,8 +244,8 @@ export const events = [
         a: 'Zinnovatio 4.O is a national-level hackathon for students. Teams of three to five register together on Unstop.',
       },
       {
-        q: 'Is there a registration fee?',
-        a: 'Registering on Unstop is free. Shortlisted teams pay ₹500 per team, not per member. Payment instructions have not been announced yet; selected teams should wait for the official CTSoc update before paying.',
+        q: 'Is there a registration fee or accommodation fee?',
+        a: 'Registration on Unstop is free. Confirmed participants arriving on 29 October 2026 have accommodation available for ₹500 per person for the night of 29 October only, which includes accommodation for that night, three meals, and two tea servings. No accommodation is available before 29 October. During the 30–31 October hackathon, food stalls will be available where participants can purchase food directly from vendors; hackathon food purchases are separate and not included in the accommodation package.',
       },
     ],
     // Not shown for now. Move any of these into `faqs` above to show them.

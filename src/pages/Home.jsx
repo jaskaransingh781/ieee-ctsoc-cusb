@@ -157,12 +157,12 @@ function Upcoming() {
             <Link
               key={event.slug}
               to={`/events/${event.slug}`}
-              className={`home-upcoming-card ${index === 0 ? 'home-upcoming-card--next' : ''}`}
+              className={`home-upcoming-card${index === 0 ? ' home-upcoming-card--next' : ''}${event.slug === 'zinnovatio-4o' ? ' home-upcoming-card--zinnovatio' : ''}`}
             >
               <span className="home-upcoming-card__status">
                 {event.localCelebration ? 'Local chapter celebration' : index === 0 ? 'Next up' : 'Upcoming'}
               </span>
-              <h3>{event.title.replace('4.O', '4.0')}</h3>
+              <h3>{event.title}</h3>
               <p>{event.homeDate}</p>
               <p className="home-upcoming-card__venue">{event.homeVenue}</p>
               <span className="home-upcoming-card__link">Event details <Icon name="arrow" /></span>

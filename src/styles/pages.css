@@ -888,21 +888,20 @@
   height: 0.9375rem;
 }
 
-/* Zinnovatio hospitality and shortlisted-team payment information */
+/* Zinnovatio hospitality, accommodation, and confirmed participant status */
 .zinn-hospitality {
   position: relative;
   margin-top: clamp(2.5rem, 5vw, 3.75rem);
   padding: clamp(1.25rem, 2.6vw, 2rem);
-  border: 1px solid rgba(104, 160, 198, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--r-lg);
   background:
-    radial-gradient(ellipse at 0% 0%, rgba(71, 175, 220, 0.13), transparent 36%),
-    radial-gradient(ellipse at 100% 100%, rgba(213, 171, 100, 0.1), transparent 42%),
-    linear-gradient(135deg, rgba(15, 33, 53, 0.94), rgba(20, 42, 64, 0.88));
-  -webkit-backdrop-filter: blur(1rem) saturate(135%);
-  backdrop-filter: blur(1rem) saturate(135%);
-  box-shadow: 0 1rem 2.5rem -1.5rem rgba(7, 28, 47, 0.5), inset 0 1px rgba(255, 255, 255, 0.09);
-  color: #f7f5ee;
+    radial-gradient(ellipse at 90% 0%, rgba(209, 10, 22, 0.16), transparent 45%),
+    linear-gradient(145deg, #0d0d12 0%, #07070a 100%);
+  -webkit-backdrop-filter: blur(1.2rem) saturate(140%);
+  backdrop-filter: blur(1.2rem) saturate(140%);
+  box-shadow: 0 1.5rem 3rem -1.5rem rgba(0, 0, 0, 0.8), inset 0 1px rgba(255, 255, 255, 0.12);
+  color: #ffffff;
   isolation: isolate;
   overflow: hidden;
 }
@@ -911,7 +910,7 @@
   position: absolute;
   z-index: -1;
   inset: 0;
-  background: linear-gradient(115deg, transparent 32%, rgba(111, 212, 241, 0.06) 49%, transparent 66%);
+  background: linear-gradient(115deg, transparent 32%, rgba(209, 10, 22, 0.08) 49%, transparent 66%);
   background-size: 220% 100%;
   animation: zinn-hospitality-sheen 13s ease-in-out infinite alternate;
   content: '';
@@ -927,47 +926,53 @@
   margin-bottom: 1.25rem;
 }
 
-.zinn-hospitality__eyebrow,
+.zinn-hospitality__eyebrow {
+  color: #ff4d5a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  line-height: 1.5;
+}
+
 .zinn-hospitality__label {
-  color: #e4bf76;
-  font-size: 0.68rem;
-  font-weight: 740;
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 850;
   letter-spacing: 0.14em;
   line-height: 1.5;
 }
 
 .zinn-hospitality__heading h2 {
   margin-top: 0.3rem;
-  color: #fffaf0;
+  color: #ffffff;
   font-size: clamp(1.45rem, 2.8vw, 2.1rem);
-  font-weight: 740;
+  font-weight: 800;
   letter-spacing: -0.04em;
   line-height: 1.15;
 }
 
 .zinn-hospitality__lead {
   margin-top: 0.55rem;
-  color: #b9e9f2;
-  font-size: clamp(0.82rem, 1.4vw, 1rem);
-  font-weight: 720;
-  letter-spacing: 0.045em;
-  line-height: 1.45;
+  color: #c4c4d0;
+  font-size: clamp(0.85rem, 1.4vw, 1.02rem);
+  font-weight: 500;
+  line-height: 1.5;
 }
 
 .zinn-hospitality__grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.8rem;
+  gap: 0.9rem;
 }
 
 .zinn-hospitality__card {
   position: relative;
   min-width: 0;
-  padding: clamp(0.95rem, 1.6vw, 1.25rem);
-  border: 1px solid rgba(152, 197, 218, 0.2);
+  padding: clamp(1rem, 1.8vw, 1.35rem);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 1rem;
-  background: linear-gradient(145deg, rgba(235, 246, 250, 0.1), rgba(221, 232, 238, 0.045));
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.08);
+  background: #111116;
+  box-shadow: 0 0.8rem 2rem -0.5rem rgba(0, 0, 0, 0.6);
   transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
 }
 
@@ -977,8 +982,9 @@
 
 .zinn-hospitality__card:hover {
   transform: translateY(-2px);
-  border-color: rgba(219, 184, 116, 0.46);
-  background-color: rgba(223, 238, 244, 0.045);
+  border-color: rgba(209, 10, 22, 0.5);
+  background-color: #16161d;
+  box-shadow: 0 1rem 2.5rem -0.75rem rgba(0, 0, 0, 0.8), 0 0 22px -4px rgba(209, 10, 22, 0.3);
 }
 
 .zinn-hospitality__icon {
@@ -987,10 +993,10 @@
   height: 2.15rem;
   margin-bottom: 0.75rem;
   place-items: center;
-  border: 1px solid rgba(210, 176, 111, 0.36);
+  border: 1px solid rgba(209, 10, 22, 0.4);
   border-radius: 0.7rem;
-  background: rgba(209, 171, 98, 0.1);
-  color: #edc875;
+  background: rgba(209, 10, 22, 0.14);
+  color: #ff4d5a;
 }
 
 .zinn-hospitality__icon .icon {
@@ -1000,9 +1006,9 @@
 
 .zinn-hospitality__copy {
   margin-top: 0.55rem;
-  color: #d8e1e8;
-  font-size: 0.83rem;
-  line-height: 1.55;
+  color: #d2d2dc;
+  font-size: 0.88rem;
+  line-height: 1.6;
 }
 
 .zinn-hospitality__dates {
@@ -1010,7 +1016,7 @@
   gap: 0.55rem;
   margin-top: 0.9rem;
   padding-top: 0.8rem;
-  border-top: 1px solid rgba(216, 186, 126, 0.2);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .zinn-hospitality__dates > p {
@@ -1018,14 +1024,14 @@
   align-items: center;
   gap: 0.6rem;
   min-width: 0;
-  color: #a8dce8;
+  color: #c4c4d0;
 }
 
 .zinn-hospitality__dates .icon {
   width: 1rem;
   height: 1rem;
   flex: 0 0 auto;
-  color: #e4bd70;
+  color: #ff4d5a;
 }
 
 .zinn-hospitality__dates span {
@@ -1037,52 +1043,53 @@
 }
 
 .zinn-hospitality__dates strong {
-  color: #aebdca;
+  color: #888899;
   font-size: 0.62rem;
   letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .zinn-hospitality__dates b {
-  color: #fff8e9;
-  font-size: 0.78rem;
-  letter-spacing: 0.035em;
+  color: #ffffff;
+  font-size: 0.82rem;
+  letter-spacing: 0.02em;
 }
 
 .zinn-hospitality__note {
   margin-top: 0.7rem;
-  color: #e3c681;
-  font-size: 0.7rem;
+  color: #c0c0cc;
+  font-size: 0.75rem;
   line-height: 1.45;
 }
 
 .zinn-hospitality__card h3 {
   margin-top: 0.65rem;
-  color: #fff7e8;
+  color: #ffffff;
   font-size: clamp(1.2rem, 1.8vw, 1.55rem);
-  font-weight: 730;
+  font-weight: 800;
   letter-spacing: -0.025em;
   line-height: 1.2;
 }
 
 .zinn-hospitality__card--charges h3 {
-  color: #f0cb82;
+  color: #ffffff;
   font-size: clamp(1rem, 1.4vw, 1.2rem);
   letter-spacing: 0.035em;
 }
 
 .zinn-hospitality__card--payment {
-  border-color: rgba(212, 176, 108, 0.3);
-  background: linear-gradient(145deg, rgba(193, 152, 82, 0.13), rgba(222, 230, 235, 0.05));
+  border-color: rgba(209, 10, 22, 0.35);
+  background: #0d0d12;
 }
 
 .zinn-hospitality__card--payment h3 {
-  color: #ffe1a1;
+  color: #ffffff;
   font-size: 2rem;
   font-variant-numeric: tabular-nums;
 }
 
 .zinn-hospitality__card--payment h3 span {
-  color: #fff7e8;
+  color: #ff4d5a;
   font-size: 0.75rem;
   letter-spacing: 0.1em;
 }
@@ -1092,8 +1099,8 @@
   align-items: center;
   gap: 0.4rem;
   margin-top: 0.7rem;
-  color: #9ee3f2;
-  font-size: 0.65rem;
+  color: #ff858e;
+  font-size: 0.68rem;
   font-weight: 760;
   letter-spacing: 0.075em;
   line-height: 1.4;
@@ -3255,6 +3262,41 @@
   font-weight: 780;
 }
 
+.zinn-roadmap {
+  overflow: hidden;
+  padding: clamp(0.75rem, 2vw, 1.25rem);
+  border: 1px solid rgba(181, 139, 73, 0.36);
+  border-radius: var(--r-lg);
+  background: rgba(255, 253, 247, 0.9);
+  box-shadow: var(--shadow-card);
+}
+
+.zinn-roadmap__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: calc(var(--r-lg) - 0.35rem);
+}
+
+.zinn-roadmap__caption {
+  margin-top: 0.9rem;
+  color: #284f62;
+  font-size: clamp(0.78rem, 1.2vw, 0.95rem);
+  font-weight: 780;
+  line-height: 1.5;
+  text-align: center;
+  text-wrap: balance;
+}
+
+.zinn-roadmap__missing {
+  padding: clamp(2rem, 6vw, 4rem) 1rem;
+  border: 1px dashed rgba(181, 139, 73, 0.48);
+  border-radius: calc(var(--r-lg) - 0.35rem);
+  color: #664820;
+  line-height: 1.6;
+  text-align: center;
+}
+
 .edetail--zinnovatio .track::after {
   color: #71501f;
 }
@@ -3325,4 +3367,1085 @@
   .zinn-prize-card__spark {
     animation: none;
   }
+}
+
+/* Zinnovatio 4.0 poster-aligned event-page theme */
+.edetail--zinnovatio {
+  --zinn-red: #d10a16;
+  --zinn-black: #080808;
+  --zinn-white: #fff;
+  --zinn-offwhite: #f5f2ef;
+  --zinn-ink: #161616;
+  --zinn-muted: #666;
+  color: var(--zinn-ink);
+}
+
+.edetail--zinnovatio::before {
+  background:
+    radial-gradient(ellipse at 8% 10%, rgba(209, 10, 22, 0.055), transparent 28%),
+    linear-gradient(180deg, #fff 0%, var(--zinn-offwhite) 100%);
+}
+
+.edetail--zinnovatio .more-link--back {
+  color: #555;
+}
+
+.edetail--zinnovatio .more-link--back:hover,
+.edetail--zinnovatio .more-link--back:focus-visible {
+  color: var(--zinn-red);
+}
+
+.edetail__masthead--zinnovatio {
+  position: relative;
+  overflow: hidden;
+  grid-template-columns: minmax(0, 1fr) minmax(17rem, 22rem);
+  padding: clamp(1.5rem, 4vw, 3.25rem);
+  border: 1px solid #222;
+  border-radius: 1.5rem;
+  background: var(--zinn-black);
+  box-shadow: 0 1.5rem 3.5rem -2.5rem rgba(0, 0, 0, 0.7);
+  color: var(--zinn-white);
+}
+
+.edetail__masthead--zinnovatio::before {
+  position: absolute;
+  inset: auto 0 0;
+  height: 0.35rem;
+  background: linear-gradient(90deg, var(--zinn-red) 0 42%, #fff 42% 43%, transparent 43%);
+  content: '';
+}
+
+.edetail__masthead--zinnovatio .edetail__head,
+.edetail__masthead--zinnovatio .zinn-prize-card-wrap {
+  position: relative;
+}
+
+.edetail--zinnovatio .edetail__chips {
+  margin-bottom: 1rem;
+}
+
+.edetail--zinnovatio .chip {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: #202020;
+  color: #fff;
+}
+
+.edetail--zinnovatio .chip--upcoming,
+.edetail--zinnovatio .chip--live {
+  border-color: rgba(209, 10, 22, 0.7);
+  background: rgba(209, 10, 22, 0.16);
+  color: #fff;
+}
+
+.edetail--zinnovatio .chip__dot {
+  background: #ff3540;
+}
+
+.edetail--zinnovatio .edetail__head .h1 {
+  color: #fff;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.98;
+}
+
+.edetail--zinnovatio .edetail__head .h1::first-letter {
+  color: var(--zinn-red);
+}
+
+.zinn-masthead__summary {
+  max-width: 39rem;
+  margin-top: 1.15rem;
+  color: #e5e5e5;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  line-height: 1.6;
+}
+
+.zinn-masthead__facts {
+  gap: 0.65rem;
+  margin-top: 1.3rem;
+}
+
+.zinn-masthead__facts span {
+  min-height: 2.25rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: #171717;
+  color: #fff;
+  font-size: 0.84rem;
+}
+
+.zinn-prize-card-wrap {
+  max-width: 22rem;
+}
+
+.zinn-prize-card {
+  min-height: 16.25rem;
+  padding: 1.8rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 1.2rem;
+  background: linear-gradient(145deg, #1d1d1d, #080808 72%);
+  box-shadow: 0 1rem 2.5rem -1.5rem rgba(209, 10, 22, 0.62), inset 0 3px var(--zinn-red);
+}
+
+.zinn-prize-card::before {
+  display: none;
+}
+
+.zinn-prize-card::after {
+  top: auto;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, var(--zinn-red), transparent);
+  animation: none;
+}
+
+.zinn-prize-card__corner {
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.zinn-prize-card__trophy {
+  border-color: rgba(209, 10, 22, 0.72);
+  background: rgba(209, 10, 22, 0.14);
+  color: #ff3440;
+  box-shadow: none;
+}
+
+.zinn-prize-card__label {
+  color: #f5f2ef;
+}
+
+.zinn-prize-card h2 {
+  color: #fff;
+  text-shadow: none;
+  font-size: clamp(2.45rem, 4vw, 3.4rem);
+}
+
+.zinn-prize-card__copy {
+  color: #c8c8c8;
+}
+
+.zinn-prize-card__burst,
+.zinn-prize-card__spark {
+  display: none;
+}
+
+.edetail--zinnovatio .edetail__layout {
+  column-gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.edetail--zinnovatio .dcard,
+.edetail--zinnovatio .infocard,
+.edetail--zinnovatio .edetail__poster--button,
+.edetail--zinnovatio .esection__title,
+.edetail--zinnovatio .faq--cards .faq__item,
+.edetail--zinnovatio .qfacts__item {
+  border-color: #dedbd8;
+}
+
+.edetail--zinnovatio .dcard {
+  border-top: 3px solid var(--zinn-red);
+  background: #fff;
+  box-shadow: 0 0.75rem 2rem -1.5rem rgba(0, 0, 0, 0.35);
+}
+
+.edetail--zinnovatio .dcard__title {
+  max-width: 24ch;
+  color: var(--zinn-black);
+}
+
+.edetail--zinnovatio .dcard__lead {
+  color: #333;
+}
+
+.edetail--zinnovatio .dcard .prose {
+  color: #454545;
+}
+
+.edetail--zinnovatio .dcard .prose p + p {
+  border-color: #e9e6e3;
+}
+
+.edetail--zinnovatio .esection__title,
+.edetail--zinnovatio .edetail__main .gallery__title {
+  color: var(--zinn-black);
+}
+
+.edetail--zinnovatio .esection__title::after {
+  background: linear-gradient(90deg, var(--zinn-red), rgba(209, 10, 22, 0.12));
+}
+
+.edetail--zinnovatio .esection__intro,
+.edetail--zinnovatio .esection__note {
+  color: #555;
+}
+
+.edetail--zinnovatio .tracks {
+  gap: 0.75rem;
+}
+
+.edetail--zinnovatio .track {
+  border: 1px solid #e2dfdc;
+  border-radius: 0.9rem;
+  background: #fff;
+  box-shadow: 0 0.5rem 1.5rem -1.25rem rgba(0, 0, 0, 0.3);
+}
+
+.edetail--zinnovatio .track:hover {
+  border-color: rgba(209, 10, 22, 0.55);
+  background: #fff;
+  box-shadow: 0 0.8rem 1.8rem -1.25rem rgba(0, 0, 0, 0.38);
+}
+
+.edetail--zinnovatio .track__icon {
+  border: 1px solid rgba(209, 10, 22, 0.2);
+  background: #fff3f3;
+  color: var(--zinn-red);
+}
+
+.edetail--zinnovatio .track__title {
+  color: #202020;
+}
+
+.edetail--zinnovatio .track::after {
+  color: var(--zinn-red);
+}
+
+.edetail--zinnovatio .zinn-hospitality {
+  border-color: #242424;
+  background: linear-gradient(145deg, #111, #080808);
+  box-shadow: 0 1rem 2rem -1.25rem rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.edetail--zinnovatio .zinn-hospitality::before {
+  display: none;
+}
+
+.edetail--zinnovatio .zinn-hospitality__eyebrow,
+.edetail--zinnovatio .zinn-hospitality__label {
+  color: #ff5961;
+}
+
+.edetail--zinnovatio .zinn-hospitality__heading h2,
+.edetail--zinnovatio .zinn-hospitality__card h3 {
+  color: #fff;
+}
+
+.edetail--zinnovatio .zinn-hospitality__lead,
+.edetail--zinnovatio .zinn-hospitality__copy,
+.edetail--zinnovatio .zinn-hospitality__dates strong,
+.edetail--zinnovatio .zinn-hospitality__note {
+  color: #d2d2d2;
+}
+
+.edetail--zinnovatio .zinn-hospitality__card,
+.edetail--zinnovatio .zinn-hospitality__card:hover {
+  border-color: #393939;
+  background: #171717;
+  box-shadow: none;
+}
+
+.edetail--zinnovatio .zinn-hospitality__icon {
+  border-color: rgba(209, 10, 22, 0.52);
+  background: rgba(209, 10, 22, 0.13);
+  color: #ff414b;
+}
+
+.edetail--zinnovatio .zinn-hospitality__dates,
+.edetail--zinnovatio .zinn-hospitality__card--payment {
+  border-color: #3b3b3b;
+}
+
+.edetail--zinnovatio .zinn-hospitality__dates b,
+.edetail--zinnovatio .zinn-hospitality__card--payment h3,
+.edetail--zinnovatio .zinn-hospitality__status {
+  color: #fff;
+}
+
+.edetail--zinnovatio .zinn-hospitality__dates .icon,
+.edetail--zinnovatio .zinn-hospitality__status .icon {
+  color: #ff414b;
+}
+
+.edetail--zinnovatio .infocard {
+  border-top: 3px solid var(--zinn-red);
+  background: #fff;
+  box-shadow: 0 0.75rem 2rem -1.5rem rgba(0, 0, 0, 0.35);
+}
+
+.edetail--zinnovatio .infocard__title {
+  color: #111;
+}
+
+.edetail--zinnovatio .infocard__facts {
+  border-color: var(--zinn-red);
+}
+
+.edetail--zinnovatio .infocard__label {
+  color: #626262;
+}
+
+.edetail--zinnovatio .infocard__facts dd {
+  color: #202020;
+}
+
+.edetail--zinnovatio .infocard__timer,
+.edetail--zinnovatio .infocard__pending {
+  border-color: #e6e2df;
+  background: #f5f2ef;
+  color: #242424;
+}
+
+.edetail--zinnovatio .infocard__hint,
+.edetail--zinnovatio .infocard__site,
+.edetail--zinnovatio .infocard__registration,
+.edetail--zinnovatio .infocard__submit {
+  color: #555;
+}
+
+.edetail--zinnovatio .edetail__poster--button {
+  overflow: hidden;
+  border: 1px solid #dedbd8;
+  border-radius: var(--r-lg);
+  background: #fff;
+  box-shadow: 0 0.75rem 2rem -1.5rem rgba(0, 0, 0, 0.35);
+}
+
+.edetail--zinnovatio .edetail__poster--button img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.edetail--zinnovatio .edetail__poster-hint {
+  background: rgba(8, 8, 8, 0.88);
+}
+
+.edetail--zinnovatio .zinn-roadmap {
+  border: 1px solid #dedbd8;
+  border-top: 3px solid var(--zinn-red);
+  border-radius: 1rem;
+  background: #fff;
+  box-shadow: 0 0.75rem 2rem -1.5rem rgba(0, 0, 0, 0.35);
+}
+
+.edetail--zinnovatio .zinn-roadmap__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 0.6rem;
+}
+
+.edetail--zinnovatio .zinn-roadmap__caption {
+  color: var(--zinn-red);
+}
+
+.edetail--zinnovatio .zinn-roadmap__missing {
+  border: 1px dashed #aaa;
+  background: #f5f2ef;
+  color: #333;
+}
+
+.edetail--zinnovatio .zinn-roadmap__missing code {
+  color: var(--zinn-red);
+  font-size: 0.92em;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.edetail--zinnovatio #prizes .prizes__tile {
+  border-color: #292929;
+  background: linear-gradient(145deg, #171717, #080808);
+  box-shadow: 0 0.8rem 1.8rem -1.25rem rgba(0, 0, 0, 0.48);
+}
+
+.edetail--zinnovatio #prizes .prizes__icon {
+  border-color: rgba(209, 10, 22, 0.55);
+  background: rgba(209, 10, 22, 0.14);
+  color: #ff414b;
+}
+
+.edetail--zinnovatio #prizes .prizes__tile strong {
+  color: #fff;
+}
+
+.edetail--zinnovatio #prizes .prizes__label {
+  color: #d1d1d1;
+}
+
+.edetail--zinnovatio .zinn-prize__support,
+.edetail--zinnovatio #prizes .esection__note {
+  color: #555;
+}
+
+.edetail--zinnovatio #prizes .esection__note {
+  border-color: var(--zinn-red);
+}
+
+.edetail--zinnovatio .faqsearch input,
+.edetail--zinnovatio .qfacts__item,
+.edetail--zinnovatio .faq--cards .faq__item {
+  border-color: #dedbd8;
+  background: #fff;
+}
+
+.edetail--zinnovatio .faqsearch input {
+  color: #161616;
+}
+
+.edetail--zinnovatio .faqsearch input:focus {
+  border-color: var(--zinn-red);
+  box-shadow: 0 0 0 3px rgba(209, 10, 22, 0.14);
+}
+
+.edetail--zinnovatio .faqsearch .icon,
+.edetail--zinnovatio .qfacts__item dt,
+.edetail--zinnovatio .faq--cards .faq__button,
+.edetail--zinnovatio .faq--cards .faq__icon {
+  color: var(--zinn-red);
+}
+
+.edetail--zinnovatio .qfacts__item dd,
+.edetail--zinnovatio .faq--cards .faq__answer {
+  color: #444;
+}
+
+.edetail--zinnovatio .faq--cards .faq__item:hover,
+.edetail--zinnovatio .faq--cards .faq__item.is-open {
+  border-color: rgba(209, 10, 22, 0.5);
+  box-shadow: 0 0.5rem 1.5rem -1rem rgba(0, 0, 0, 0.3);
+}
+
+.edetail--zinnovatio .faq--cards .faq__button:hover,
+.edetail--zinnovatio .faq--cards .faq__item.is-open .faq__icon {
+  color: #a70711;
+}
+
+.edetail--zinnovatio .faq--cards .faq__answer {
+  border-color: #e5e1dd;
+}
+
+.edetail--zinnovatio .btn {
+  border-color: var(--zinn-red);
+  background: var(--zinn-red);
+  color: #fff;
+}
+
+.edetail--zinnovatio .btn:hover {
+  border-color: #a70711;
+  background: #a70711;
+}
+
+.edetail--zinnovatio .btn:focus-visible,
+.edetail--zinnovatio a:focus-visible,
+.edetail--zinnovatio button:focus-visible {
+  outline: 3px solid rgba(209, 10, 22, 0.58);
+  outline-offset: 3px;
+}
+
+.edetail--zinnovatio .text-link,
+.edetail--zinnovatio .edetail__links a {
+  color: #b00812;
+  text-decoration-color: rgba(176, 8, 18, 0.4);
+}
+
+.edetail--zinnovatio .text-link:hover,
+.edetail--zinnovatio .edetail__links a:hover {
+  color: #85050d;
+  text-decoration-color: currentColor;
+}
+
+.edetail--zinnovatio .edetail__source {
+  border-color: #dedbd8;
+}
+
+@media (max-width: 900px) {
+  .edetail__masthead--zinnovatio {
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 19rem);
+    gap: 1.5rem;
+  }
+
+  .edetail--zinnovatio .edetail__layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .edetail--zinnovatio .edetail__main {
+    order: 1;
+  }
+
+  .edetail--zinnovatio .edetail__aside {
+    order: 2;
+  }
+}
+
+@media (max-width: 700px) {
+  .edetail__masthead--zinnovatio {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 1.5rem;
+  }
+
+  .edetail__masthead--zinnovatio .zinn-prize-card-wrap {
+    width: min(100%, 23rem);
+    max-width: none;
+    justify-self: start;
+  }
+
+  .edetail--zinnovatio .edetail__head .h1 {
+    font-size: clamp(2.4rem, 12vw, 4rem);
+  }
+
+  .edetail--zinnovatio .zinn-hospitality__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .edetail--zinnovatio .track {
+    min-height: 5.5rem;
+    gap: 0.75rem;
+    padding-inline: 0.8rem;
+  }
+}
+
+@media (max-width: 380px) {
+  .edetail__masthead--zinnovatio {
+    padding: 1.15rem;
+  }
+
+  .edetail--zinnovatio .zinn-masthead__facts span {
+    max-width: 100%;
+    font-size: 0.78rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .edetail--zinnovatio .track,
+  .edetail--zinnovatio .zinn-hospitality__card,
+  .edetail--zinnovatio .edetail__poster--button img {
+    transition: none;
+  }
+}
+
+.edetail--zinnovatio .zinn-hospitality__grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.edetail--zinnovatio .zinn-hospitality__card--stay {
+  grid-column: 1 / -1;
+}
+
+.edetail--zinnovatio .zinn-hospitality__card--charges h3 {
+  color: #fff;
+  font-size: clamp(1.7rem, 3vw, 2.2rem);
+  letter-spacing: -0.045em;
+}
+
+.edetail--zinnovatio .zinn-hospitality__card--charges h3 span {
+  color: #ff5961;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.edetail--zinnovatio .zinn-hospitality__card--payment {
+  border-color: rgba(209, 10, 22, 0.65);
+  background: linear-gradient(145deg, #211012, #171717 72%);
+}
+
+.edetail--zinnovatio .zinn-hospitality__status {
+  width: fit-content;
+  padding: 0.35rem 0.55rem;
+  border: 1px solid rgba(255, 65, 75, 0.38);
+  border-radius: 0.4rem;
+  background: rgba(209, 10, 22, 0.12);
+  color: #ff6971;
+}
+
+.edetail--zinnovatio .zinn-hospitality__note {
+  color: #ff858b;
+}
+
+.zinn-roadmap__subtitle {
+  margin: -0.7rem 0 1.25rem;
+  color: #626262;
+  font-size: 0.98rem;
+}
+
+.edetail--zinnovatio .zinn-roadmap {
+  padding: clamp(1rem, 2.2vw, 1.65rem);
+}
+
+.zinn-roadmap__route {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.zinn-roadmap__road-edge {
+  fill: none;
+  stroke: #d10a16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 48;
+}
+
+.zinn-roadmap__road {
+  fill: none;
+  stroke: #141414;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 40;
+}
+
+.zinn-roadmap__road-centre {
+  fill: none;
+  stroke: #fff;
+  stroke-dasharray: 9 13;
+  stroke-linecap: round;
+  stroke-width: 2.5;
+  animation: zinn-road-dash 2.4s linear infinite;
+}
+
+@keyframes zinn-road-dash {
+  to { stroke-dashoffset: -44; }
+}
+
+.zinn-roadmap__marker-ring {
+  fill: #fff;
+  stroke: #d10a16;
+  stroke-width: 5;
+}
+
+.zinn-roadmap__marker-core {
+  fill: #d10a16;
+}
+
+.zinn-roadmap__number {
+  fill: #fff;
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.zinn-roadmap__marker--destination .zinn-roadmap__marker-ring {
+  stroke-width: 7;
+}
+
+.zinn-roadmap__marker--destination .zinn-roadmap__marker-core {
+  fill: #080808;
+}
+
+.zinn-roadmap__building {
+  fill: none;
+  stroke: #fff;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.4;
+}
+
+.zinn-roadmap__vehicle circle {
+  fill: #fff;
+  stroke: #d10a16;
+  stroke-width: 3;
+}
+
+.zinn-roadmap__vehicle path {
+  fill: #d10a16;
+  stroke: #d10a16;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.2;
+}
+
+.zinn-roadmap__stops {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.55rem;
+  margin-top: 0.2rem;
+  padding: 0;
+  list-style: none;
+}
+
+.zinn-roadmap__stop {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  min-height: 7rem;
+  padding: 0.7rem 0.7rem 0.6rem;
+  border-top: 2px solid #e4e0dc;
+  color: #282828;
+}
+
+.zinn-roadmap__stop-number {
+  display: grid;
+  width: 1.65rem;
+  height: 1.65rem;
+  margin-bottom: 0.55rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #d10a16;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 780;
+}
+
+.zinn-roadmap__stop-name {
+  font-size: clamp(0.72rem, 1vw, 0.86rem);
+  font-weight: 690;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.zinn-roadmap__stop--destination {
+  border-top-color: #d10a16;
+  border-radius: 0.4rem;
+  background: #111;
+  color: #fff;
+}
+
+.zinn-roadmap__stop--destination .zinn-roadmap__stop-number {
+  background: #fff;
+  color: #d10a16;
+}
+
+.zinn-roadmap__destination-tag {
+  margin-top: 0.4rem;
+  color: #ff5961;
+  font-size: 0.59rem;
+  font-weight: 780;
+  letter-spacing: 0.12em;
+}
+
+.zinn-roadmap__mobile-stops {
+  display: none;
+}
+
+.edetail--zinnovatio .zinn-roadmap__caption {
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid #e4e0dc;
+  font-size: clamp(0.74rem, 1.3vw, 0.92rem);
+}
+
+@media (max-width: 900px) {
+  .edetail--zinnovatio .zinn-hospitality__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .edetail--zinnovatio .zinn-hospitality__card--stay {
+    grid-column: auto;
+  }
+
+  .zinn-roadmap__route,
+  .zinn-roadmap__stops {
+    display: none;
+  }
+
+  .zinn-roadmap__mobile-stops {
+    position: relative;
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .zinn-roadmap__mobile-stops::before {
+    position: absolute;
+    top: 1.35rem;
+    bottom: 1.35rem;
+    left: 1.17rem;
+    width: 0.4rem;
+    border-radius: 99px;
+    background: repeating-linear-gradient(to bottom, #fff 0 0.35rem, transparent 0.35rem 0.7rem), #141414;
+    box-shadow: 0 0 0 2px #d10a16;
+    content: '';
+  }
+
+  .zinn-roadmap__mobile-stop {
+    position: relative;
+    display: grid;
+    grid-template-columns: 2.4rem minmax(0, 1fr);
+    align-items: center;
+    gap: 0.75rem;
+    min-height: 3.5rem;
+    padding: 0.55rem 0.7rem;
+    border: 1px solid #e4e0dc;
+    border-radius: 0.65rem;
+    background: #fff;
+    color: #222;
+    font-size: 0.92rem;
+    line-height: 1.35;
+  }
+
+  .zinn-roadmap__mobile-stop > span {
+    z-index: 1;
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    background: #d10a16;
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 800;
+  }
+
+  .zinn-roadmap__mobile-stop > strong {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .zinn-roadmap__mobile-stop--destination {
+    border-color: #141414;
+    background: #111;
+    color: #fff;
+  }
+
+  .zinn-roadmap__mobile-stop--destination > span {
+    background: #fff;
+    color: #d10a16;
+  }
+
+  .zinn-roadmap__mobile-stop small {
+    grid-column: 2;
+    color: #ff5961;
+    font-size: 0.62rem;
+    font-weight: 780;
+    letter-spacing: 0.12em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zinn-roadmap__road-centre {
+    animation: none;
+  }
+}
+
+/* Zinnovatio 4.O Hospitality, Confirmation, and Roadmap Enhancements */
+.zinn-hospitality__card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.zinn-hospitality__stay-badge {
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: #d10a16;
+  color: #fff;
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.zinn-hospitality__price {
+  color: #fff !important;
+  font-size: clamp(1.8rem, 2.5vw, 2.4rem) !important;
+  font-weight: 800;
+  margin: 0.35rem 0 0.6rem !important;
+}
+
+.zinn-hospitality__price span {
+  color: #ff5961;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  display: inline-block;
+  margin-left: 0.4rem;
+}
+
+.zinn-hospitality__policy {
+  display: grid;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  color: #d0dde6;
+  line-height: 1.5;
+}
+
+.zinn-hospitality__policy strong {
+  color: #fff;
+}
+
+.zinn-hospitality__inclusions {
+  margin-top: 0.85rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.7rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zinn-hospitality__inclusions-title {
+  color: #ff6b75;
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+}
+
+.zinn-hospitality__inclusions ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.zinn-hospitality__inclusions li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  color: #f0f4f8;
+}
+
+.zinn-hospitality__inclusions li strong {
+  color: #fff;
+}
+
+.zinn-hospitality__inclusions li .icon {
+  color: #ff3344;
+  flex-shrink: 0;
+}
+
+.zinn-hospitality__restriction {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.85rem;
+  padding: 0.75rem 0.95rem;
+  border-radius: 0.75rem;
+  background: rgba(209, 10, 22, 0.12);
+  border: 1px solid rgba(209, 10, 22, 0.38);
+  color: #ffd2d5;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.zinn-hospitality__restriction-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #ff4d5a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.zinn-hospitality__restriction-tag strong {
+  color: #ff6b75;
+}
+
+.zinn-hospitality__restriction p {
+  margin: 0;
+  color: #ffe0e2;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.zinn-hospitality__food-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 0.6rem;
+  background: rgba(209, 10, 22, 0.08);
+  border-left: 3px solid #d10a16;
+  color: #ffb8bd;
+  font-size: 0.8rem;
+  line-height: 1.45;
+}
+
+.zinn-hospitality__food-alert .icon {
+  color: #ff3344;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.zinn-hospitality__confirmation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(209, 10, 22, 0.3), rgba(209, 10, 22, 0.1));
+  border: 1px solid #d10a16;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+}
+
+.zinn-hospitality__confirmation-badge .icon {
+  color: #ff4d5a;
+}
+
+.zinn-hospitality__confirmed-heading {
+  color: #fff !important;
+  font-size: clamp(1.8rem, 2.5vw, 2.2rem) !important;
+  font-weight: 850;
+  letter-spacing: -0.03em;
+  margin: 0.3rem 0 !important;
+}
+
+.zinn-hospitality__confirmed-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.zinn-hospitality__confirmed-meta dt {
+  color: #88a;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.zinn-hospitality__confirmed-meta dd {
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin-top: 0.15rem;
+}
+
+.zinn-hospitality__confirmed-meta dd .icon {
+  color: #ff3344;
+}
+
+/* Roadmap Text Wrapping & Polish */
+.zinn-roadmap__stop-name {
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+  white-space: normal !important;
+  font-size: clamp(0.72rem, 0.95vw, 0.84rem) !important;
+  line-height: 1.35 !important;
+}
+
+.zinn-roadmap__stop-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+
+.zinn-roadmap__caption {
+  color: #d10a16 !important;
+  font-weight: 750 !important;
+  letter-spacing: 0.12em !important;
+  text-align: center;
 }

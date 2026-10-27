@@ -5,6 +5,7 @@ import Footer from './components/Footer';
 import AnnouncementBar from './components/AnnouncementBar';
 import Navbar from './components/Navbar';
 import LivePulse from './components/LivePulse';
+import ZinnovatioWelcome from './components/ZinnovatioWelcome';
 import IeeeDayWelcome from './components/IeeeDayWelcome';
 import { useEventClock, useLiveEvents } from './lib/hooks';
 import { useNow } from './lib/countdown';
@@ -52,6 +53,7 @@ export default function App() {
         <AnnouncementBar />
         <Navbar />
         <LivePulse />
+        <ZinnovatioWelcome />
         <IeeeDayWelcome />
         <NavratriWelcome active={festival === 'navratri'} />
         <AnimatePresence

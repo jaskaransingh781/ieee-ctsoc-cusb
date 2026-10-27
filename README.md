@@ -114,6 +114,10 @@ src/assets/team/       portraits             ->  image:  'team/full-name.jpg'
 src/assets/gallery/    event photographs     ->  src:    'gallery/day-one.jpg'
 ```
 
+The Zinnovatio 4.0 travel map belongs at
+`src/assets/events/zinnovatio-4o-roadmap.webp`; add the supplied map image there before building
+for production.
+
 A full `https://` URL also works. The Zinnovatio photographs are currently loaded from
 zinnovatio.in; for a production deploy, download them into `src/assets/gallery/` and switch the
 paths in `gallery.js` and `events.js`. If a remote image fails to load, the site falls back to the

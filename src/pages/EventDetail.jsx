@@ -81,48 +81,163 @@ function ZinnovatioPrizeCard({ pool }) {
   );
 }
 
-function ZinnovatioHospitality() {
+function ZinnovatioHospitality({ event }) {
+  const hospitality = event.hospitality;
+
   return (
     <section className="zinn-hospitality" aria-labelledby="zinn-hospitality-title">
       <div className="zinn-hospitality__heading">
         <p className="zinn-hospitality__eyebrow">A WELCOME FOR VISITING TEAMS</p>
         <h2 id="zinn-hospitality-title">HOSPITALITY &amp; ACCOMMODATION</h2>
-        <p className="zinn-hospitality__lead">TRAVELLING FROM ANOTHER UNIVERSITY? WE&apos;VE GOT YOUR STAY COVERED.</p>
+        <p className="zinn-hospitality__lead">Travelling from another university? Everything you need for a smooth arrival and stay.</p>
       </div>
+
       <div className="zinn-hospitality__grid">
         <article className="zinn-hospitality__card zinn-hospitality__card--stay">
-          <span className="zinn-hospitality__icon"><Icon name="bed" /></span>
-          <p className="zinn-hospitality__label">ACCOMMODATION · OTHER-UNIVERSITY TEAMS</p>
-          <p className="zinn-hospitality__copy">
-            Teams travelling to Chandigarh University from other universities will be provided accommodation for the night of 29 October 2026, ahead of the 36-hour Zinnovatio 4.0 hackathon.
-          </p>
-          <div className="zinn-hospitality__dates">
-            <p><Icon name="calendar" /><span><strong>CHECK-IN / STAY NIGHT</strong><b>29 OCTOBER 2026</b></span></p>
-            <p><Icon name="pin" /><span><strong>HACKATHON</strong><b>30–31 OCTOBER 2026</b></span></p>
+          <div className="zinn-hospitality__card-top">
+            <span className="zinn-hospitality__icon"><Icon name="bed" /></span>
+            <span className="zinn-hospitality__stay-badge">29 OCTOBER ONLY</span>
           </div>
-          <p className="zinn-hospitality__note">Accommodation is provided for the night of 29 October only.</p>
+          <p className="zinn-hospitality__label">HOSPITALITY &amp; ACCOMMODATION</p>
+          <h3 className="zinn-hospitality__price">₹500 <span>PER PERSON</span></h3>
+          
+          <p className="zinn-hospitality__copy">
+            Accommodation is available exclusively to participants arriving on <strong>29 October 2026</strong>. The package covers one night only.
+          </p>
+
+          <div className="zinn-hospitality__inclusions">
+            <p className="zinn-hospitality__inclusions-title">PACKAGE INCLUDES</p>
+            <ul>
+              <li><Icon name="check" size={15} /> <span>Accommodation for the night of 29 October 2026.</span></li>
+              <li><Icon name="check" size={15} /> <span>Three meal servings.</span></li>
+              <li><Icon name="check" size={15} /> <span>Two tea servings.</span></li>
+            </ul>
+          </div>
+
+          <div className="zinn-hospitality__restriction">
+            <div className="zinn-hospitality__restriction-tag">
+              <Icon name="alert" size={15} />
+              <strong>IMPORTANT ARRIVAL RESTRICTION</strong>
+            </div>
+            <p>No accommodation is available before 29 October 2026. The ₹500 package covers the night of 29 October only. Additional nights are not included.</p>
+          </div>
         </article>
 
-        <article className="zinn-hospitality__card zinn-hospitality__card--charges">
-          <span className="zinn-hospitality__icon"><Icon name="info" /></span>
-          <p className="zinn-hospitality__label">HOSPITALITY CHARGES</p>
-          <h3>PRICE TO BE ANNOUNCED</h3>
+        <article className="zinn-hospitality__card zinn-hospitality__card--food">
+          <span className="zinn-hospitality__icon"><Icon name="spark" /></span>
+          <p className="zinn-hospitality__label">FOOD DURING THE HACKATHON</p>
           <p className="zinn-hospitality__copy">
-            Accommodation pricing and further hospitality details will be updated soon. Please follow official CTSoc announcements for the latest information.
+            Food stalls will be available at the venue on <strong>30–31 October 2026</strong>. Participants can purchase food directly from the vendors.
           </p>
+          <div className="zinn-hospitality__food-alert">
+            <Icon name="info" size={15} />
+            <span>Food purchases must be paid directly to the respective vendors and are not included in the ₹500 accommodation package.</span>
+          </div>
         </article>
 
         <article className="zinn-hospitality__card zinn-hospitality__card--payment" id="zinnovatio-payment">
-          <span className="zinn-hospitality__icon"><Icon name="card" /></span>
-          <p className="zinn-hospitality__label">SHORTLISTED TEAMS</p>
-          <h3>₹500 <span>PER TEAM</span></h3>
-          <p className="zinn-hospitality__status"><Icon name="clock" /> PAYMENT PROCEDURE — COMING SOON</p>
+          <div className="zinn-hospitality__confirmation-badge">
+            <Icon name="check" size={14} />
+            <span>PARTICIPATION CONFIRMED</span>
+          </div>
+          <h3 className="zinn-hospitality__confirmed-heading">YOU&apos;RE IN.</h3>
           <p className="zinn-hospitality__copy">
-            Payment instructions for shortlisted teams will be announced soon. Selected teams should wait for the official CTSoc update before making any payment.
+            Your selection is confirmed and payment has been received. Welcome to Zinnovatio 4.0. Get ready to collaborate, build, and turn your ideas into working solutions.
           </p>
+          <dl className="zinn-hospitality__confirmed-meta">
+            <div>
+              <dt>Selection</dt>
+              <dd><Icon name="check" size={13} /> Completed.</dd>
+            </div>
+            <div>
+              <dt>Payment</dt>
+              <dd><Icon name="check" size={13} /> Completed.</dd>
+            </div>
+            <div>
+              <dt>Event</dt>
+              <dd>30–31 October 2026</dd>
+            </div>
+          </dl>
         </article>
       </div>
     </section>
+  );
+}
+
+const roadmapStops = [
+  { id: '01', label: '01 — Railway Station, Chandigarh', shortName: 'Railway Station, Chandigarh' },
+  { id: '02', label: '02 — SAS Nagar', shortName: 'SAS Nagar' },
+  { id: '03', label: '03 — Balongi', shortName: 'Balongi' },
+  { id: '04', label: '04 — Kharar Bus Stand', shortName: 'Kharar Bus Stand' },
+  { id: '05', label: '05 — Ludhiana–Chandigarh National Highway', shortName: 'Ludhiana–Chandigarh National Highway' },
+  { id: 'DEST', label: 'DESTINATION — Chandigarh University', shortName: 'Chandigarh University', isDestination: true },
+];
+
+function ZinnovatioRoadmap() {
+  return (
+    <Section id="getting-here" title="HOW TO REACH CHANDIGARH UNIVERSITY">
+      <p className="zinn-roadmap__subtitle">Your route to Zinnovatio 4.O starts here.</p>
+      <figure className="zinn-roadmap">
+        <svg className="zinn-roadmap__route" viewBox="0 0 1000 250" role="img" aria-labelledby="zinn-route-title zinn-route-desc">
+          <title id="zinn-route-title">Schematic route to Chandigarh University</title>
+          <desc id="zinn-route-desc">A winding route with six stops, from Railway Station, Chandigarh to Chandigarh University, via SAS Nagar, Balongi, Kharar Bus Stand, and Ludhiana–Chandigarh National Highway.</desc>
+          <path id="zinn-route-path" className="zinn-roadmap__road-edge" d="M82 154 C155 154 156 80 250 80 S345 154 418 154 S511 80 584 80 S678 154 750 154 S843 80 918 80" />
+          <path className="zinn-roadmap__road" d="M82 154 C155 154 156 80 250 80 S345 154 418 154 S511 80 584 80 S678 154 750 154 S843 80 918 80" />
+          <path className="zinn-roadmap__road-centre" d="M82 154 C155 154 156 80 250 80 S345 154 418 154 S511 80 584 80 S678 154 750 154 S843 80 918 80" />
+          <g className="zinn-roadmap__vehicle" aria-hidden="true">
+            <circle r="12" />
+            <path d="M-6 2v-5l3-4h6l3 4v5h-12Zm2-5h8M-3 5h1m5 0h1" />
+            <animateMotion dur="18s" repeatCount="indefinite" rotate="auto">
+              <mpath href="#zinn-route-path" />
+            </animateMotion>
+          </g>
+          {[
+            [82, 154], [250, 80], [418, 154], [584, 80], [750, 154], [918, 80],
+          ].map(([cx, cy], index) => {
+            const stop = roadmapStops[index];
+            return (
+              <g className={`zinn-roadmap__marker${stop.isDestination ? ' zinn-roadmap__marker--destination' : ''}`} key={stop.id} transform={`translate(${cx} ${cy})`}>
+                <circle className="zinn-roadmap__marker-ring" r={stop.isDestination ? 27 : 22} />
+                <circle className="zinn-roadmap__marker-core" r={stop.isDestination ? 20 : 16} />
+                {stop.isDestination ? (
+                  <path className="zinn-roadmap__building" d="M-11 9V-2L0-10 11-2V9H4V2H-4V9h-7Zm-3 3h28" />
+                ) : (
+                  <text className="zinn-roadmap__number" textAnchor="middle" dominantBaseline="central" y="1">{index + 1}</text>
+                )}
+              </g>
+            );
+          })}
+        </svg>
+
+        <ol className="zinn-roadmap__stops">
+          {roadmapStops.map((stop, index) => (
+            <li className={stop.isDestination ? 'zinn-roadmap__stop zinn-roadmap__stop--destination' : 'zinn-roadmap__stop'} key={stop.id}>
+              <span className="zinn-roadmap__stop-number">{stop.isDestination ? <Icon name="pin" /> : stop.id}</span>
+              <div className="zinn-roadmap__stop-content">
+                <span className="zinn-roadmap__stop-name">{stop.shortName}</span>
+                {stop.isDestination ? <span className="zinn-roadmap__destination-tag">DESTINATION</span> : null}
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <ol className="zinn-roadmap__mobile-stops">
+          {roadmapStops.map((stop, index) => (
+            <li className={stop.isDestination ? 'zinn-roadmap__mobile-stop zinn-roadmap__mobile-stop--destination' : 'zinn-roadmap__mobile-stop'} key={stop.id}>
+              <span aria-hidden="true">{stop.isDestination ? <Icon name="pin" /> : stop.id}</span>
+              <div className="zinn-roadmap__mobile-stop-info">
+                <strong>{stop.label}</strong>
+                {stop.isDestination ? <small>OFFICIAL VENUE</small> : null}
+              </div>
+            </li>
+          ))}
+        </ol>
+
+        <figcaption className="zinn-roadmap__caption">
+          MODE OF TRANSPORT: LOCAL BUSES / TAXIS / BIKES / AUTO
+        </figcaption>
+      </figure>
+    </Section>
   );
 }
 
@@ -479,7 +594,8 @@ export default function EventDetail() {
               </section>
             ) : null}
 
-            {event.slug === 'zinnovatio-4o' ? <ZinnovatioHospitality /> : null}
+            {event.slug === 'zinnovatio-4o' ? <ZinnovatioHospitality event={event} /> : null}
+            {event.slug === 'zinnovatio-4o' ? <ZinnovatioRoadmap /> : null}
 
             {show('numbers') && event.status === 'past' && event.facts?.length ? (
               <Section id="numbers" title="In numbers">

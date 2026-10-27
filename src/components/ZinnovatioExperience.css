@@ -840,16 +840,20 @@
 .zexp__digit {
   display: grid;
   width: 100%;
-  min-height: clamp(2.5rem, 3vw, 3rem);
+  min-height: clamp(2.85rem, 3.4vw, 3.75rem);
   place-items: center;
-  border: 1px solid rgba(173, 133, 69, 0.28);
-  border-radius: 0.65rem;
-  background: linear-gradient(145deg, rgba(255, 254, 248, 0.96), rgba(240, 223, 199, 0.86));
-  color: #22344b;
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.92);
-  font-size: clamp(1.35rem, 2.5vw, 2rem);
+  border: 1px solid rgba(255, 50, 70, 0.4);
+  border-radius: 0.85rem;
+  background: linear-gradient(160deg, #c0001f 0%, #870014 100%);
+  color: #ffffff;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+    0 0.35rem 1rem rgba(139, 0, 20, 0.5);
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
   font-variant-numeric: tabular-nums;
-  font-weight: 730;
+  font-weight: 800;
+  letter-spacing: -0.02em;
   animation: zexp-digit-roll 260ms ease-out;
 }
 
@@ -859,10 +863,11 @@
 }
 
 .zexp__unit-label {
-  color: #75644d;
-  font-size: 0.56rem;
-  font-weight: 670;
-  letter-spacing: 0.1em;
+  color: #ffb8bd;
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .zexp__phase-note {
@@ -1232,4 +1237,811 @@
 
 .zexp__fee .zexp__registration strong {
   color: #852f29;
+}
+
+/* Homepage Zinnovatio feature: poster-aligned red, black and white treatment. */
+.zexp-section {
+  position: relative;
+  isolation: isolate;
+  background: linear-gradient(180deg, #0a0a0e 0%, #060608 100%);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.zexp__intro {
+  margin-bottom: 1.4rem;
+}
+
+.zexp__eyebrow,
+.zexp__overline {
+  color: #ff3b47;
+  font-size: 0.72rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.zexp__intro .h2 {
+  color: #ffffff;
+}
+
+.zexp__intro .muted {
+  color: #9e9eb0;
+}
+
+.zexp__hero {
+  border-color: #252525;
+  background: #080808;
+  box-shadow: 0 1.5rem 3rem -2rem rgba(0, 0, 0, 0.58);
+  color: #fff;
+}
+
+.zexp__hero::before,
+.zexp__hero-grid,
+.zexp__glow,
+.zexp__border-lights {
+  display: none;
+}
+
+.zexp__kicker,
+.zexp__date,
+.zexp__subhead,
+.zexp__visual-caption {
+  color: #ff5961;
+}
+
+.zexp__kicker span {
+  background: #d10a16;
+  box-shadow: 0 0 0.7rem rgba(209, 10, 22, 0.6);
+}
+
+.zexp__date span {
+  color: #c7c7c7;
+}
+
+.zexp__headline,
+.zexp__visual-experience h4,
+.zexp__facts strong {
+  color: #fff;
+}
+
+.zexp__headline span {
+  color: #ff303b;
+  text-shadow: none;
+}
+
+.zexp__description,
+.zexp__visual-experience > p {
+  color: #c8c8c8;
+}
+
+.zexp__cta {
+  border-color: #d10a16;
+  background: #d10a16;
+  color: #fff;
+  box-shadow: none;
+}
+
+.zexp__cta:hover {
+  background: #a70711;
+  box-shadow: 0 0.6rem 1.4rem rgba(209, 10, 22, 0.25);
+}
+
+.zexp__build-link {
+  border-color: #4a4a4a;
+  background: #141414;
+  color: #f5f2ef;
+  box-shadow: none;
+}
+
+.zexp__build-link:hover {
+  border-color: #d10a16;
+  background: #1d1d1d;
+  color: #fff;
+}
+
+.zexp__build-link span {
+  color: #ff5961;
+}
+
+.zexp__visual {
+  border-color: #333;
+  background: #101010;
+  box-shadow: 0 0.8rem 1.8rem rgba(0, 0, 0, 0.28);
+}
+
+.zexp__visual::before,
+.zexp__visual::after {
+  border-color: rgba(209, 10, 22, 0.78);
+}
+
+.zexp__visual-label {
+  color: #bcbcbc;
+}
+
+.zexp__visual-journey {
+  color: #fff;
+}
+
+.zexp__visual-journey::before {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.zexp__visual-journey::after {
+  background: linear-gradient(90deg, transparent, #d10a16 48%, #fff 50%, #d10a16 52%, transparent);
+}
+
+.zexp__visual-journey span {
+  background: #171717;
+}
+
+.zexp__visual-experience {
+  border-color: #363636;
+}
+
+.zexp__visual .zexp__highlights li {
+  border-color: #353535;
+  background: #171717;
+  color: #eee;
+}
+
+.zexp__visual .zexp__highlights .icon,
+.zexp__visual .zexp__highlights li:nth-child(even) .icon {
+  color: #ff5961;
+}
+
+.zexp__visual .zexp__highlights li::before {
+  background: #d10a16;
+  box-shadow: none;
+}
+
+.zexp__visual .zexp__highlights li:hover {
+  border-color: rgba(209, 10, 22, 0.7);
+  background: #1e1e1e;
+}
+
+.zexp__visual img,
+.zexp__visual-fallback {
+  border-color: #333;
+  box-shadow: none;
+}
+
+.zexp__visual-fallback {
+  background: linear-gradient(145deg, #1c1c1c, #080808);
+}
+
+.zexp__visual-fallback span {
+  color: #ff5961;
+}
+
+.zexp__facts {
+  border-color: #363636;
+}
+
+.zexp__facts div {
+  border-color: #363636;
+}
+
+.zexp__facts span,
+.zexp__unit-label {
+  color: #b9b9b9;
+}
+
+.zexp__countdown,
+.zexp__confirmation,
+.zexp__fee {
+  border-color: #333;
+  background: #111;
+  box-shadow: none;
+  color: #fff;
+}
+
+.zexp__countdown::before,
+.zexp__fee::after {
+  background: linear-gradient(90deg, transparent, #d10a16, transparent);
+}
+
+.zexp__countdown h3,
+.zexp__section-heading h3,
+.zexp__confirmation h3 {
+  color: #fff;
+}
+
+.zexp__phase-note,
+.zexp__fineprint,
+.zexp__panel > p:not(.zexp__overline, .zexp__coming) {
+  color: #c5c5c5;
+}
+
+/* Red digit tiles show through in the dark theme context. */
+.zexp__digit {
+  color: #f6f0ea;
+}
+
+.zexp__section-heading h3 {
+  color: #ffffff;
+  font-size: clamp(1.8rem, 3.2vw, 2.5rem);
+  font-weight: 850;
+  letter-spacing: -0.03em;
+}
+
+.zexp__section-heading > p:last-child {
+  color: #b0b0bc;
+}
+
+/* Redesigned 3-Phase Build Journey */
+.zexp__build-lead {
+  margin-top: 0.5rem;
+  color: #c0c0c8;
+  font-size: clamp(0.92rem, 1.3vw, 1.05rem);
+  line-height: 1.6;
+  max-width: 64ch;
+}
+
+.zexp__journey {
+  position: relative;
+  margin-top: 3.5rem;
+}
+
+/* Connecting line running through the visual center of milestone markers, behind the markers */
+.zexp__journey-track {
+  position: absolute;
+  top: 0;
+  left: 16.66%;
+  right: 16.66%;
+  height: 3px;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.zexp__journey-line {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #d10a16 0%, #ff4d5a 50%, #d10a16 100%);
+  border-radius: 99px;
+  box-shadow: 0 0 12px rgba(209, 10, 22, 0.6);
+}
+
+.zexp__journey-beam {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.95) 50%, transparent);
+  animation: zexp-journey-beam 4s ease-in-out infinite;
+}
+
+@keyframes zexp-journey-beam {
+  0% { transform: translateX(-100%); }
+  50%, 100% { transform: translateX(100%); }
+}
+
+.zexp__journey-phases {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.zexp__phase-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.zexp__phase-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: 1.35rem;
+  background: #111116;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0 1.35rem 1.6rem;
+  transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
+  position: relative;
+  box-shadow: 0 1rem 2rem -1rem rgba(0, 0, 0, 0.5);
+}
+
+.zexp__phase-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(209, 10, 22, 0.5);
+  box-shadow: 0 1.25rem 2.5rem -1rem rgba(0, 0, 0, 0.8), 0 0 24px -6px rgba(209, 10, 22, 0.35);
+}
+
+.zexp__phase-marker-slot {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -1.75rem;
+  margin-bottom: 1.35rem;
+  z-index: 2;
+  position: relative;
+}
+
+.zexp__phase-marker {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 50%;
+  background: #0c0c10;
+  border: 2.5px solid #d10a16;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 20px rgba(209, 10, 22, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  color: #fff;
+  position: relative;
+  transition: transform 200ms ease;
+}
+
+.zexp__phase-card:hover .zexp__phase-marker {
+  transform: scale(1.08);
+  border-color: #ff3344;
+  box-shadow: 0 0 28px rgba(255, 51, 68, 0.65);
+}
+
+.zexp__phase-number {
+  font-size: 0.82rem;
+  font-weight: 850;
+  font-family: monospace;
+  color: #ff4d5a;
+  line-height: 1;
+}
+
+.zexp__phase-icon {
+  color: #ffffff;
+  margin-top: 2px;
+}
+
+.zexp__phase-card--overnight {
+  border-color: rgba(209, 10, 22, 0.55);
+  background: linear-gradient(160deg, #18070b 0%, #110508 100%);
+  box-shadow: 0 0.8rem 2.5rem -1rem rgba(209, 10, 22, 0.35);
+}
+
+.zexp__phase-card--overnight .zexp__phase-marker {
+  border-color: #ff3344;
+  box-shadow: 0 0 26px rgba(255, 51, 68, 0.65);
+}
+
+.zexp__phase-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.85rem;
+}
+
+.zexp__phase-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  background: rgba(209, 10, 22, 0.16);
+  border: 1px solid rgba(209, 10, 22, 0.38);
+  color: #ff858e;
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.zexp__phase-tag .icon {
+  color: #ff4d5a;
+}
+
+.zexp__phase-heading {
+  color: #ffffff;
+  font-size: clamp(1.2rem, 1.8vw, 1.45rem);
+  font-weight: 850;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  margin: 0;
+}
+
+.zexp__phase-summary {
+  color: #d2d2dc;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-top: 0.75rem;
+}
+
+@media (max-width: 860px) {
+  .zexp__journey {
+    margin-top: 2rem;
+  }
+
+  .zexp__journey-track {
+    top: 2rem;
+    bottom: 2rem;
+    left: 2.15rem;
+    right: auto;
+    width: 3px;
+    height: auto;
+  }
+
+  .zexp__journey-phases {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .zexp__phase-card {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .zexp__phase-marker-slot {
+    margin: 0;
+    flex-shrink: 0;
+  }
+
+  .zexp__phase-marker {
+    width: 3.25rem;
+    height: 3.25rem;
+  }
+
+  .zexp__phase-body {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .zexp__phase-card {
+    flex-direction: column;
+    padding-top: 0;
+  }
+
+  .zexp__phase-marker-slot {
+    margin-top: -1.5rem;
+    margin-bottom: 1rem;
+    justify-content: flex-start;
+  }
+
+  .zexp__journey-track {
+    left: 1.6rem;
+  }
+}
+
+/* Confirmed Participants Card */
+.zexp__confirmation {
+  position: relative;
+  border-color: #292929;
+  background: #0d0d0d;
+}
+
+.zexp__confirmation-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  margin-bottom: 0.85rem;
+}
+
+.zexp__confirmation-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(209, 10, 22, 0.25), rgba(209, 10, 22, 0.08));
+  border: 1px solid #d10a16;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  position: relative;
+  overflow: hidden;
+}
+
+.zexp__confirmation-badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  transform: skewX(-20deg);
+  animation: zexp-badge-sweep 3.5s ease-in-out infinite;
+}
+
+@keyframes zexp-badge-sweep {
+  0%, 60% { left: -100%; }
+  100% { left: 200%; }
+}
+
+.zexp__confirmation-check {
+  color: #ff4d5a;
+  font-weight: 900;
+  font-size: 0.85rem;
+}
+
+.zexp__confirmation-pulse {
+  width: 0.65rem;
+  height: 0.65rem;
+  border-radius: 50%;
+  background: #d10a16;
+  box-shadow: 0 0 0 0 rgba(209, 10, 22, 0.7);
+  animation: zexp-pulse-ring 2.4s infinite;
+}
+
+@keyframes zexp-pulse-ring {
+  0% { box-shadow: 0 0 0 0 rgba(209, 10, 22, 0.7); }
+  70% { box-shadow: 0 0 0 8px rgba(209, 10, 22, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(209, 10, 22, 0); }
+}
+
+.zexp__confirmation-heading {
+  color: #fff;
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem);
+  font-weight: 850;
+  letter-spacing: -0.04em;
+  margin-top: 0.3rem;
+  line-height: 1;
+}
+
+.zexp__confirmation-copy {
+  color: #c8c8c8;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-top: 0.65rem;
+}
+
+.zexp__confirmation-meta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 480px) {
+  .zexp__confirmation-meta {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+  }
+}
+
+.zexp__confirmation-meta-item dt {
+  color: #888;
+  font-size: 0.64rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.zexp__confirmation-meta-item dd {
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  margin: 0.2rem 0 0;
+}
+
+.zexp__confirmation-meta-item dd .icon {
+  color: #ff3344;
+}
+
+/* Fee & Accommodation Panel */
+.zexp__fee-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.zexp__fee .zexp__overline {
+  color: #ffffff;
+  font-size: 0.74rem;
+  font-weight: 850;
+  letter-spacing: 0.14em;
+}
+
+.zexp__stay-pill {
+  display: inline-block;
+  padding: 0.28rem 0.75rem;
+  border-radius: 999px;
+  background: #d10a16;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 850;
+  letter-spacing: 0.08em;
+}
+
+.zexp__fee-price {
+  color: #ffffff !important;
+  font-size: clamp(2.2rem, 3.8vw, 3.2rem) !important;
+  font-weight: 850;
+  margin-top: 0.4rem;
+}
+
+.zexp__fee-price span {
+  display: inline-block;
+  margin-left: 0.45rem;
+  color: #ff4d5a;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.zexp__fee-summary {
+  margin-top: 0.75rem;
+  color: #dcdce4;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.zexp__fee-summary strong {
+  color: #fff;
+}
+
+.zexp__inclusions {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.zexp__inclusions-title {
+  color: #ff6b75;
+  font-size: 0.65rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+  margin: 0 0 0.5rem;
+}
+
+.zexp__inclusions-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.zexp__inclusions-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #e8e8e8;
+  font-size: 0.83rem;
+  line-height: 1.4;
+}
+
+.zexp__inclusions-list li strong {
+  color: #fff;
+}
+
+.zexp__inclusions-list li .icon {
+  color: #ff3344;
+  flex-shrink: 0;
+}
+
+.zexp__fee-restriction {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.95rem;
+  padding: 0.8rem 1rem;
+  border-radius: 0.75rem;
+  background: rgba(209, 10, 22, 0.14);
+  border: 1px solid rgba(255, 60, 75, 0.45);
+  color: #ffd2d5;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.zexp__fee-restriction-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #ff4d5a;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+}
+
+.zexp__fee-restriction-tag strong {
+  color: #ff6b75;
+}
+
+.zexp__fee-restriction p {
+  margin: 0;
+  color: #ffe6e8;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+/* Distinct Food Notice Section */
+.zexp__food-notice {
+  margin-top: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #111116;
+  border-radius: 1.25rem;
+  padding: clamp(1.1rem, 2vw, 1.45rem);
+  box-shadow: 0 0.8rem 2rem -0.5rem rgba(0, 0, 0, 0.6);
+}
+
+.zexp__food-notice-header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.zexp__food-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e0e0e0;
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.1em;
+}
+
+.zexp__food-badge .icon {
+  color: #ff4d5a;
+}
+
+.zexp__food-title {
+  color: #fff;
+  font-size: clamp(1.05rem, 1.6vw, 1.3rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.zexp__food-content p {
+  color: #c5c5c5;
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.zexp__food-content strong {
+  color: #fff;
+}
+
+.zexp__food-alert {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+  padding: 0.55rem 0.85rem;
+  border-radius: 0.55rem;
+  background: rgba(209, 10, 22, 0.08);
+  border-left: 3px solid #d10a16;
+  color: #ffb8bd;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+
+.zexp__food-alert .icon {
+  color: #ff3344;
+  flex-shrink: 0;
+}
+
+.zexp__cta:focus-visible,
+.zexp__build-link:focus-visible {
+  outline: 3px solid #ff5961;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .zexp__hero,
+  .zexp__cta,
+  .zexp__build-link,
+  .zexp__visual-journey::after {
+    animation: none !important;
+    transition: none !important;
+  }
 }

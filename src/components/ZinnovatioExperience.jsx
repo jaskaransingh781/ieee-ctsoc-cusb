@@ -4,7 +4,6 @@ import { resolveImage } from '../lib/assets';
 import { useNow } from '../lib/countdown';
 import Button from './Button';
 import Icon from './Icon';
-import Rangoli from './Rangoli';
 import Reveal from './Reveal';
 import './ZinnovatioExperience.css';
 
@@ -15,16 +14,32 @@ const clockUnits = [
   ['minutes', 'MINUTES'],
   ['seconds', 'SECONDS'],
 ];
-const stages = [
-  ['01', 'THE IDEA', 'Explore the problem and shape a solution.'],
-  ['02', 'THE CODE SPRINT', 'Turn ideas into functioning code.'],
-  ['03', 'BUILD & PROTOTYPE', 'Develop, test and improve the working solution.'],
-  ['04', 'DEBUG & ITERATE', 'Resolve issues and refine the implementation.'],
-  ['05', 'OVERNIGHT BUILD', 'Collaborate, experiment and keep building through the night.'],
-  ['06', 'DEMO & PRESENT', 'Prepare the solution for evaluation and showcase.'],
-  ['07', 'FINAL EVALUATION', 'Present the work for judging and recognition.'],
+
+const phases = [
+  {
+    number: '01',
+    name: 'IDEATE',
+    summary: 'Define the challenge, shape your idea, and establish a clear solution.',
+    icon: 'spark',
+    tag: 'CONCEPT & STRATEGY',
+  },
+  {
+    number: '02',
+    name: 'BUILD',
+    summary: 'Design, develop, test, and refine a working prototype with your team.',
+    icon: 'cpu',
+    tag: '36-HOUR OVERNIGHT SPRINT',
+    isOvernight: true,
+  },
+  {
+    number: '03',
+    name: 'PRESENT',
+    summary: 'Polish your solution, demonstrate your prototype, and present your work to the jury.',
+    icon: 'trophy',
+    tag: 'DEMO & JURY EVALUATION',
+  },
 ];
-const stageThemes = ['idea', 'code', 'build', 'debug', 'overnight', 'demo', 'evaluation'];
+
 const experienceHighlights = [
   ['cpu', 'CODING SPRINTS'],
   ['nodes', 'TEAM CHALLENGES'],
@@ -32,13 +47,6 @@ const experienceHighlights = [
   ['clock', 'OVERNIGHT EXPERIENCE'],
   ['spark', 'MUSIC & CELEBRATION'],
 ];
-
-const registrationDate = new Intl.DateTimeFormat('en-IN', {
-  day: 'numeric',
-  month: 'long',
-  year: 'numeric',
-  timeZone: IST,
-});
 
 function remainingTime(milliseconds) {
   const left = Math.max(0, milliseconds);
@@ -107,7 +115,7 @@ function Countdown({ event, now }) {
           {completed ? <p className="zexp__phase-note">This edition has concluded. Explore the event details and archive.</p> : null}
           <p className="zexp__fineprint">
             {startTimeLabel
-              ? `Countdown to the configured event/check-in start at ${startTimeLabel} IST.`
+              ? `Countdown to the configured event start at ${startTimeLabel} IST on 30 October 2026.`
               : 'Date-based countdown to the start of 30 October in IST.'}
           </p>
         </div>
@@ -126,43 +134,108 @@ function Countdown({ event, now }) {
   );
 }
 
-function SelectionPanel({ event }) {
-  const status = event.selection?.status ?? 'coming-soon';
-  const comingSoon = status === 'coming-soon';
-  const label = comingSoon ? 'COMING SOON' : status.replaceAll('-', ' ').toUpperCase();
-
+function ConfirmationPanel() {
   return (
-    <section className="zexp__panel zexp__shortlist" aria-labelledby="zexp-shortlist-title">
-      <div className="zexp__scan" aria-hidden="true" />
-      <p className="zexp__overline">SELECTION RESULTS</p>
-      <h3 id="zexp-shortlist-title">{comingSoon ? <>THE SHORTLIST<br />IS COMING</> : 'SELECTION UPDATE'}</h3>
-      <p className="zexp__coming">{label}</p>
-      <p>{event.selection?.message ?? 'Shortlisted teams will be announced soon. Keep an eye on official CTSoc updates.'}</p>
-      <div className="zexp__redacted" aria-hidden="true">
-        <span />
-        <span />
-        <span />
+    <section className="zexp__panel zexp__confirmation" aria-labelledby="zexp-confirmation-title">
+      <div className="zexp__confirmation-header">
+        <div className="zexp__confirmation-badge">
+          <span className="zexp__confirmation-check" aria-hidden="true">✓</span>
+          <span>PARTICIPATION CONFIRMED</span>
+        </div>
+        <div className="zexp__confirmation-pulse" aria-hidden="true" />
+      </div>
+
+      <p className="zexp__overline">PARTICIPATION STATUS</p>
+      <h3 id="zexp-confirmation-title" className="zexp__confirmation-heading">YOU&apos;RE IN.</h3>
+      <p className="zexp__confirmation-copy">
+        Your selection is confirmed and payment has been received. Welcome to Zinnovatio 4.0. Get ready to collaborate, build, and turn your ideas into working solutions.
+      </p>
+
+      <dl className="zexp__confirmation-meta">
+        <div className="zexp__confirmation-meta-item">
+          <dt>Selection</dt>
+          <dd><Icon name="check" size={14} /> Completed.</dd>
+        </div>
+        <div className="zexp__confirmation-meta-item">
+          <dt>Payment</dt>
+          <dd><Icon name="check" size={14} /> Completed.</dd>
+        </div>
+        <div className="zexp__confirmation-meta-item">
+          <dt>Event</dt>
+          <dd>30–31 October 2026</dd>
+        </div>
+      </dl>
+    </section>
+  );
+}
+
+function AccommodationPanel({ event }) {
+  return (
+    <section className="zexp__panel zexp__fee" aria-labelledby="zexp-fee-title">
+      <div className="zexp__fee-header">
+        <p className="zexp__overline">HOSPITALITY &amp; ACCOMMODATION</p>
+        <span className="zexp__stay-pill">29 OCTOBER ONLY</span>
+      </div>
+
+      <h3 id="zexp-fee-title" className="zexp__fee-price">
+        ₹500 <span>PER PERSON</span>
+      </h3>
+
+      <p className="zexp__fee-summary">
+        Accommodation is available exclusively to participants arriving on <strong>29 October 2026</strong>. The package covers one night only.
+      </p>
+
+      <div className="zexp__inclusions">
+        <p className="zexp__inclusions-title">PACKAGE INCLUDES</p>
+        <ul className="zexp__inclusions-list">
+          <li>
+            <Icon name="check" size={16} />
+            <span>Accommodation for the night of <strong>29 October 2026</strong>.</span>
+          </li>
+          <li>
+            <Icon name="check" size={16} />
+            <span>Three meal servings.</span>
+          </li>
+          <li>
+            <Icon name="check" size={16} />
+            <span>Two tea servings.</span>
+          </li>
+        </ul>
+      </div>
+
+      <div className="zexp__fee-restriction" role="note">
+        <div className="zexp__fee-restriction-tag">
+          <Icon name="alert" size={15} />
+          <strong>IMPORTANT ARRIVAL RESTRICTION</strong>
+        </div>
+        <p>
+          No accommodation is available before 29 October 2026. The ₹500 package covers the night of 29 October only. Additional nights are not included.
+        </p>
       </div>
     </section>
   );
 }
 
-function FeePanel({ event, now }) {
-  const registration = getRegistrationState(event, now);
-
+function FoodNoticePanel() {
   return (
-    <section className="zexp__panel zexp__fee" aria-labelledby="zexp-fee-title">
-      <p className="zexp__overline">SHORTLISTED TEAMS</p>
-      <h3 id="zexp-fee-title">{event.shortlistedTeamFee?.amount ?? '₹500'} <span>{event.shortlistedTeamFee?.appliesTo ?? 'PER SHORTLISTED TEAM'}</span></h3>
-      <p>{event.shortlistedTeamFee?.message ?? 'Participation fee applies only to selected/shortlisted teams. Payment instructions will be shared with the selected teams.'}</p>
-      <div className={`zexp__registration zexp__registration--${registration}`}>
-        <span>REGISTRATION</span>
-        <strong>{registration === 'closed' ? 'CLOSED' : registration.toUpperCase()}</strong>
-        {event.registrationCloses ? (
-          <small>Deadline: {registrationDate.format(new Date(event.registrationCloses))}</small>
-        ) : null}
+    <aside className="zexp__panel zexp__food-notice" aria-labelledby="zexp-food-title">
+      <div className="zexp__food-notice-header">
+        <div className="zexp__food-badge">
+          <Icon name="info" size={15} />
+          <span>VENUE DINING</span>
+        </div>
+        <h4 id="zexp-food-title" className="zexp__food-title">FOOD DURING THE HACKATHON</h4>
       </div>
-    </section>
+      <div className="zexp__food-content">
+        <p>
+          Food stalls will be available at the venue on <strong>30–31 October 2026</strong>. Participants can purchase food directly from the vendors.
+        </p>
+        <div className="zexp__food-alert">
+          <Icon name="spark" size={15} />
+          <span>Food purchases must be paid directly to the respective vendors and are not included in the ₹500 accommodation package.</span>
+        </div>
+      </div>
+    </aside>
   );
 }
 
@@ -191,23 +264,21 @@ export default function ZinnovatioExperience({ event }) {
             <rect className="zexp__border-point zexp__border-point--second" x="1" y="1" width="998" height="698" rx="34" pathLength="100" />
           </svg>
           <div className="zexp__hero-grid" aria-hidden="true" />
-          <div className="zexp__glow zexp__glow--blue" aria-hidden="true" />
-          <div className="zexp__glow zexp__glow--violet" aria-hidden="true" />
-          <Rangoli className="rangoli--showcase" />
+          <div className="zexp__glow zexp__glow--red" aria-hidden="true" />
           <div className="zexp__hero-copy">
             <p className="zexp__kicker"><span /> NATIONAL-LEVEL HACKATHON</p>
             <p className="zexp__date">30—31 <span>OCTOBER 2026</span></p>
-            <h3 className="zexp__headline">36 HOURS.<br />ONE NIGHT.<br /><span>BUILD WHAT&apos;S NEXT.</span></h3>
-            <p className="zexp__subhead">A NIGHT OF JOY. CODE. CREATE. ENJOY.</p>
+            <h3 className="zexp__headline">THE WAIT IS OVER.<br /><span>ZINNOVATIO 4.0 ARRIVES THIS WEEKEND.</span></h3>
+            <p className="zexp__subhead">36 hours. Limitless possibilities. One unforgettable build.</p>
             <p className="zexp__description">
-              36 hours of coding, creativity, collaboration, rapid prototyping and an unforgettable hackathon experience.
+              Two days. One relentless build. Endless possibilities. Get ready to turn ideas into working solutions.
             </p>
             <div className="zexp__actions">
               <Button to={`/events/${event.slug}`} icon="arrow" className="zexp__cta">
                 Explore the event
               </Button>
               <a className="zexp__build-link" href="#zexp-build">
-                EXPLORE THE 36-HOUR BUILD <span aria-hidden="true">↓</span>
+                EXPLORE THE 3-PHASE JOURNEY <span aria-hidden="true">↓</span>
               </a>
             </div>
           </div>
@@ -222,7 +293,7 @@ export default function ZinnovatioExperience({ event }) {
               </div>
             )}
             <div className="zexp__visual-journey" aria-hidden="true">
-              {['IDEA', 'CODE', 'BUILD', 'DEMO'].map((step) => <span key={step}>{step}</span>)}
+              {['IDEATE', 'BUILD', 'PROTOTYPE', 'PRESENT'].map((step) => <span key={step}>{step}</span>)}
             </div>
             <div className="zexp__visual-experience">
               <h4>36 HOURS OF BUILDING. ONE UNFORGETTABLE EXPERIENCE.</h4>
@@ -247,33 +318,66 @@ export default function ZinnovatioExperience({ event }) {
 
         <section className="zexp__build" id="zexp-build" aria-labelledby="zexp-build-title">
           <div className="zexp__section-heading">
-            <p className="zexp__eyebrow">IDEA TO WORKING PROTOTYPE</p>
-            <h3 id="zexp-build-title">THE 36-HOUR BUILD</h3>
-            <p>Seven stages of the build journey. This is an experience overview, not a timed event agenda.</p>
+            <p className="zexp__eyebrow">THE 36-HOUR BUILD</p>
+            <h3 id="zexp-build-title">A 3-PHASE JOURNEY</h3>
+            <p className="zexp__build-lead">
+              A relentless 36-hour sprint from initial concept to live prototype. Mentors, review checkpoints, and technical support run continuously throughout the hackathon.
+            </p>
           </div>
-          <ol className="zexp__timeline">
-            {stages.map(([number, title, description], index) => (
-              reduceMotion ? (
-                <li key={number} className={`zexp__stage zexp__stage--${stageThemes[index]}`} style={{ '--stage-index': index }}>
-                  <span className="zexp__stage-number">{number}</span>
-                  <h4>{title}</h4>
-                  <p>{description}</p>
-                </li>
-              ) : (
-                <Reveal as="li" key={number} delay={index * 0.045} className={`zexp__stage zexp__stage--${stageThemes[index]}`} style={{ '--stage-index': index }}>
-                  <span className="zexp__stage-number">{number}</span>
-                  <h4>{title}</h4>
-                  <p>{description}</p>
-                </Reveal>
-              )
-            ))}
-          </ol>
+
+          <div className="zexp__journey">
+            {/* The desktop connecting line: runs precisely through the visual center of milestone markers, behind the markers */}
+            <div className="zexp__journey-track" aria-hidden="true">
+              <div className="zexp__journey-line" />
+              <div className="zexp__journey-beam" />
+            </div>
+
+            <ol className="zexp__journey-phases">
+              {phases.map((phase, index) => {
+                const phaseContent = (
+                  <div className={`zexp__phase-card ${phase.isOvernight ? 'zexp__phase-card--overnight' : ''}`}>
+                    <div className="zexp__phase-marker-slot">
+                      <div className="zexp__phase-marker">
+                        <span className="zexp__phase-number">{phase.number}</span>
+                        <span className="zexp__phase-icon" aria-hidden="true">
+                          <Icon name={phase.icon} size={18} />
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="zexp__phase-body">
+                      <div className="zexp__phase-top">
+                        <span className="zexp__phase-tag">
+                          {phase.isOvernight ? <Icon name="moon" size={12} /> : null}
+                          {phase.tag}
+                        </span>
+                      </div>
+                      <h4 className="zexp__phase-heading">{phase.number} — {phase.name}</h4>
+                      <p className="zexp__phase-summary">{phase.summary}</p>
+                    </div>
+                  </div>
+                );
+
+                return reduceMotion ? (
+                  <li key={phase.number} className="zexp__phase-item">
+                    {phaseContent}
+                  </li>
+                ) : (
+                  <Reveal as="li" key={phase.number} delay={index * 0.08} className="zexp__phase-item">
+                    {phaseContent}
+                  </Reveal>
+                );
+              })}
+            </ol>
+          </div>
         </section>
 
         <div className="zexp__status-grid">
-          <SelectionPanel event={event} />
-          <FeePanel event={event} now={now} />
+          <ConfirmationPanel />
+          <AccommodationPanel event={event} />
         </div>
+
+        <FoodNoticePanel />
       </div>
     </section>
   );
